@@ -14,8 +14,11 @@ units:
   # 2 or 3 thumb keys per side.
   thumb_keys_per_side: 3
 
+  # Negative values rotate each half inward (mirrored on the right).
+  inward_rotation: -10
+
   total_matrix_splay: 6
-  half_separation: 110
+  half_separation: 120
 
 points:
   mirror: 0
@@ -23,6 +26,7 @@ points:
     left_matrix:
       anchor:
         shift: [-half_separation, 0]
+      rotate: inward_rotation
       key:
         padding: ky
         spread: kx
@@ -80,7 +84,7 @@ points:
     left_thumbs:
       anchor:
         ref: left_matrix_pointer_bottom
-        shift: [4, -22]
+        shift: [0, -ky]
       key:
         padding: ky
         spread: kx
@@ -93,14 +97,12 @@ points:
             mirror.column_net: C13
         middle:
           key:
-            shift: [2.4, -1.8]
-            splay: -13
+            shift: [, -2]
             column_net: C6
             mirror.column_net: C14
         reachy:
           key:
-            shift: [5.1, -3.2]
-            splay: -13
+            shift: [, -4]
             column_net: C7
             mirror.column_net: C15
             # Optional 3rd thumb key.
