@@ -40,6 +40,22 @@
   3. case/mechanical,
   4. firmware/pinmap.
 
+## Ergogen Verification Protocol
+Use this protocol after any change to `ergogen/config.yaml`.
+
+1. Run `make build` and ensure generation succeeds.
+2. Confirm generated outputs are present in `outlines/` and `pcbs/`.
+3. Check `git status --short` to review all changed generated artifacts.
+4. For geometry or thumb-cluster changes, validate both modes:
+   - `thumb_keys_per_side: 2` then `make build`
+   - `thumb_keys_per_side: 3` then `make build`
+5. Perform a KiCad visual check for each mode:
+   - key count and footprint presence
+   - no footprint overlaps
+   - acceptable MCU/reset placement
+   - monoblock bridge outline continuity
+6. If either mode fails generation or visual checks, do not merge.
+
 ## Decision Log (Current)
 - Wireless keyboard: yes.
 - Form factor: monoblock.
