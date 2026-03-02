@@ -15,7 +15,7 @@ units:
   thumb_keys_per_side: 3
 
   total_matrix_splay: 6
-  half_separation: 90
+  half_separation: 110
 
 points:
   mirror: 0
