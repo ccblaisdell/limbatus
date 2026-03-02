@@ -20,6 +20,8 @@ units:
   total_matrix_splay: 6
   half_separation: 120
 
+  board_padding: 14
+
 points:
   mirror: 0
   zones:
@@ -110,6 +112,41 @@ points:
       rows:
         cluster:
 
+    left_bounds:
+      anchor:
+        ref: left_matrix_pointer_bottom
+        shift: [0, -ky]
+      key:
+        tags: [bounds]
+      columns:
+        reachy_extent:
+          key:
+            shift: [2kx, -4]
+
+    rect_top_left:
+      anchor:
+        aggregate:
+          method: intersect
+          parts:
+            - ref: left_matrix_pinky_bottom
+              shift: [-kx, 0]
+            - ref: left_matrix_ring_top
+              rotate: 90
+      key:
+        tags: [bounds]
+
+    rect_bottom_left:
+      anchor:
+        aggregate:
+          method: intersect
+          parts:
+            - ref: rect_top_left
+            - ref: left_bounds_reachy_extent
+              shift: [0, -3cpy]
+              rotate: 90 + total_matrix_splay
+      key:
+        tags: [bounds]
+
     mcu_xiao:
       key.tags: [mcu]
       anchor:
@@ -122,32 +159,29 @@ points:
         shift: [0, -13]
 
 outlines:
-  _switches:
+  _demo:
     - what: rectangle
       where: [key]
-      size: [14, 14]
+      size: [kx, ky]
 
-  _keywell:
-    - what: rectangle
-      where: [key]
-      size: [2cpx, 2cpy]
-
-  _bridge:
+  _outer_rect:
     - what: polygon
+      expand: board_padding
+      joints: pointy
+      fillet: 2
       points:
-        - ref: left_matrix_inner_top
-          shift: [cpx, cpy]
-        - ref: mirror_left_matrix_inner_top
-          shift: [-cpx, cpy]
-        - ref: mirror_left_matrix_inner_bottom
-          shift: [-cpx, -cpy]
-        - ref: left_matrix_inner_bottom
-          shift: [cpx, -cpy]
+        - ref: rect_top_left
+        - ref: mirror_rect_top_left
+        - ref: mirror_rect_bottom_left
+        - ref: rect_bottom_left
 
   board:
-    - name: _keywell
-    - operation: add
-      name: _bridge
+    - name: _outer_rect
+
+  debug:
+    - name: board
+    - operation: stack
+      name: _demo
 
 pcbs:
   limbatus:
