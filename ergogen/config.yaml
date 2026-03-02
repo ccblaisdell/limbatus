@@ -1,0 +1,291 @@
+meta:
+  engine: 4.1.0
+
+units:
+  kx: cx
+  ky: cy
+
+  $default_width: cx
+  $default_height: cy
+
+  cpx: 1 + kx / 2
+  cpy: 1 + ky / 2
+
+  # 2 or 3 thumb keys per side.
+  thumb_keys_per_side: 3
+
+  total_matrix_splay: 6
+  half_separation: 90
+
+points:
+  zones:
+    left_matrix:
+      anchor:
+        shift: [-half_separation, 0]
+      key:
+        padding: ky
+        spread: kx
+        tags: [key, left]
+      columns:
+        pinky:
+          key.column_net: C0
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        ring:
+          key:
+            splay: -total_matrix_splay / 2
+            spread: kx + 0.5
+            stagger: ky - 2
+            column_net: C1
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        middle:
+          key:
+            splay: -total_matrix_splay / 2
+            spread: kx + 0.5
+            stagger: 3
+            column_net: C2
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        pointer:
+          key:
+            stagger: -6
+            column_net: C3
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        inner:
+          key:
+            stagger: -2
+            column_net: C4
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+
+    left_thumbs:
+      anchor:
+        ref: left_matrix_pointer_bottom
+        shift: [4, -22]
+      key:
+        padding: ky
+        spread: kx
+        tags: [key, left, thumb]
+        row_net: R3
+      columns:
+        tucky:
+          key.column_net: C5
+        middle:
+          key:
+            shift: [2.4, -1.8]
+            splay: -13
+            column_net: C6
+        reachy:
+          key:
+            shift: [5.1, -3.2]
+            splay: -13
+            column_net: C7
+            # Optional 3rd thumb key.
+            skip: thumb_keys_per_side < 3
+      rows:
+        cluster:
+
+    right_matrix:
+      anchor:
+        shift: [half_separation, 0]
+      key:
+        padding: ky
+        spread: kx
+        tags: [key, right]
+      columns:
+        inner:
+          key:
+            stagger: -2
+            column_net: C8
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        pointer:
+          key:
+            stagger: -6
+            column_net: C9
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        middle:
+          key:
+            splay: total_matrix_splay / 2
+            spread: kx + 0.5
+            stagger: 3
+            column_net: C10
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        ring:
+          key:
+            splay: total_matrix_splay / 2
+            spread: kx + 0.5
+            stagger: ky - 2
+            column_net: C11
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+        pinky:
+          key.column_net: C12
+          rows:
+            bottom.row_net: R2
+            home.row_net: R1
+            top.row_net: R0
+
+    right_thumbs:
+      anchor:
+        ref: right_matrix_pointer_bottom
+        shift: [-4, -22]
+      key:
+        padding: ky
+        spread: kx
+        tags: [key, right, thumb]
+        row_net: R3
+      columns:
+        tucky:
+          key.column_net: C13
+        middle:
+          key:
+            shift: [-2.4, -1.8]
+            splay: 13
+            column_net: C14
+        reachy:
+          key:
+            shift: [-5.1, -3.2]
+            splay: 13
+            column_net: C15
+            skip: thumb_keys_per_side < 3
+      rows:
+        cluster:
+
+    mcu_xiao:
+      key.tags: [mcu]
+      anchor:
+        aggregate:
+          method: average
+          parts:
+            - ref: left_matrix_inner_top
+            - ref: right_matrix_inner_top
+        shift: [0, 18]
+
+    reset_switch:
+      key.tags: [reset]
+      anchor:
+        ref: mcu_xiao
+        shift: [0, -13]
+
+outlines:
+  _switches:
+    - what: rectangle
+      where: [key]
+      size: [14, 14]
+
+  _keywell:
+    - what: rectangle
+      where: [key]
+      size: [2cpx, 2cpy]
+
+  _bridge:
+    - what: polygon
+      points:
+        - ref: left_matrix_inner_top
+          shift: [cpx, cpy]
+        - ref: right_matrix_inner_top
+          shift: [-cpx, cpy]
+        - ref: right_matrix_inner_bottom
+          shift: [-cpx, -cpy]
+        - ref: left_matrix_inner_bottom
+          shift: [cpx, -cpy]
+
+  board:
+    - name: _keywell
+    - operation: add
+      name: _bridge
+
+pcbs:
+  limbatus:
+    template: kicad8
+    outlines:
+      main:
+        outline: board
+    footprints:
+      switches:
+        what: ceoloide/switch_choc_v1_v2
+        where: [key]
+        params:
+          reversible: false
+          choc_v2_support: false
+          include_corner_marks: true
+          include_keycap: true
+          include_centerhole_net: true
+          keycap_height: ky
+          keycap_width: kx
+
+          # Matrix wiring scaffold.
+          from: "{{column_net}}"
+          to: "SW_{{name}}"
+
+      diodes:
+        what: ceoloide/diode_tht_sod123
+        where: [key]
+        adjust:
+          shift: [0, -5]
+        params:
+          from: "SW_{{name}}"
+          to: "{{row_net}}"
+
+      xiao_ble:
+        # If this footprint path changes in your ceoloide copy,
+        # update the `what:` value accordingly.
+        what: ceoloide/backlog/virginia2244/seeed_xiao
+        where: mcu_xiao
+        params:
+          reversible: false
+
+      reset:
+        what: ceoloide/reset_switch_smd_side
+        where: reset_switch
+        params:
+          reversible: false
+          from: GND
+          to: RST
+
+      mounting_hole_tl:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: left_matrix_pinky_top
+          shift: [-3, 3]
+
+      mounting_hole_tr:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: right_matrix_pinky_top
+          shift: [3, 3]
+
+      mounting_hole_bl:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: left_thumbs_tucky_cluster
+          shift: [-3, -3]
+
+      mounting_hole_br:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: right_thumbs_tucky_cluster
+          shift: [3, -3]

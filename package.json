@@ -1,0 +1,11 @@
+{
+  "name": "limbatus",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:ergogen",
+    "build:ergogen": "ergogen ./ergogen/ --output ./ --clear"
+  },
+  "dependencies": {
+    "ergogen": "^4.1.0"
+  }
+}
