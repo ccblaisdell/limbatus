@@ -93,7 +93,7 @@ points:
             splay: -13
             column_net: C7
             # Optional 3rd thumb key.
-            skip: thumb_keys_per_side < 3
+            skip: false
       rows:
         cluster:
 
@@ -170,7 +170,7 @@ points:
             shift: [-5.1, -3.2]
             splay: 13
             column_net: C15
-            skip: thumb_keys_per_side < 3
+            skip: false
       rows:
         cluster:
 
@@ -226,23 +226,19 @@ pcbs:
         outline: board
     footprints:
       switches:
-        what: ceoloide/switch_choc_v1_v2
+        what: choc
         where: [key]
         params:
-          reversible: false
-          choc_v2_support: false
-          include_corner_marks: true
-          include_keycap: true
-          include_centerhole_net: true
-          keycap_height: ky
-          keycap_width: kx
+          reverse: false
+          hotswap: true
+          keycaps: true
 
           # Matrix wiring scaffold.
           from: "{{column_net}}"
           to: "SW_{{name}}"
 
       diodes:
-        what: ceoloide/diode_tht_sod123
+        what: diode
         where: [key]
         adjust:
           shift: [0, -5]
@@ -251,41 +247,17 @@ pcbs:
           to: "{{row_net}}"
 
       xiao_ble:
-        # If this footprint path changes in your ceoloide copy,
-        # update the `what:` value accordingly.
-        what: ceoloide/backlog/virginia2244/seeed_xiao
+        # Placeholder MCU footprint for scaffold validation.
+        # Replace with a XIAO BLE nRF52840 footprint before PCB finalization.
+        what: promicro
         where: mcu_xiao
         params:
-          reversible: false
+          orientation: down
 
       reset:
-        what: ceoloide/reset_switch_smd_side
+        what: button
         where: reset_switch
         params:
-          reversible: false
+          side: F
           from: GND
           to: RST
-
-      mounting_hole_tl:
-        what: ceoloide/mounting_hole_npth
-        where:
-          ref: left_matrix_pinky_top
-          shift: [-3, 3]
-
-      mounting_hole_tr:
-        what: ceoloide/mounting_hole_npth
-        where:
-          ref: right_matrix_pinky_top
-          shift: [3, 3]
-
-      mounting_hole_bl:
-        what: ceoloide/mounting_hole_npth
-        where:
-          ref: left_thumbs_tucky_cluster
-          shift: [-3, -3]
-
-      mounting_hole_br:
-        what: ceoloide/mounting_hole_npth
-        where:
-          ref: right_thumbs_tucky_cluster
-          shift: [3, -3]
