@@ -21,6 +21,8 @@ units:
   half_separation: 120
 
   board_padding: 14
+  xiao_length: 21
+  xiao_width: 17.5
 
 points:
   mirror: 0
@@ -150,13 +152,21 @@ points:
     mcu_xiao:
       key.tags: [mcu]
       anchor:
-        shift: [0, 18]
+        - affect: x
+        - ref: rect_top_left
+          shift: [0, board_padding - xiao_length / 2]
+          affect: y
 
 outlines:
   _demo:
     - what: rectangle
       where: [key]
       size: [kx, ky]
+
+  _xiao_debug:
+    - what: rectangle
+      where: mcu_xiao
+      size: [xiao_width, xiao_length]
 
   _outer_rect:
     - what: polygon
@@ -176,6 +186,8 @@ outlines:
     - name: board
     - operation: stack
       name: _demo
+    - operation: stack
+      name: _xiao_debug
 
 pcbs:
   limbatus:
