@@ -5,10 +5,8 @@
 - Goal: wireless ergonomic keyboard derived from Dimetrodon geometry.
 - Form factor: monoblock.
 
-## MCU Options
-- Primary target: Seeed Studio XIAO BLE nRF52840 (wireless-first).
-- Also available: Seeed Studio XIAO RP2040 (fallback/alternate).
-- Default assumption for this repo: BLE nRF52840 unless explicitly changed.
+## MCU
+- Target MCU: Seeed Studio XIAO BLE nRF52840.
 
 ## Core Design Constraints
 - Keep Dimetrodon-like columnar stagger and splay.
@@ -63,9 +61,9 @@ Use this protocol after any change to `ergogen/config.yaml`.
 - Battery connector: direct solder pads (no JST).
 - Power switch: omitted.
 - Reset switch: omitted; rely on the onboard XIAO reset button.
-- MCU preference order: XIAO BLE nRF52840, then XIAO RP2040.
+- MCU target: XIAO BLE nRF52840.
 
 ## Agent Expectations
 - Call out tradeoffs when changing thumb count, geometry, matrix dimensions, or MCU.
 - Validate both 34-key and 36-key config modes when supported.
-- Surface firmware implications early (BLE nRF52840 vs RP2040 differences).
+- Surface firmware and power implications early for BLE nRF52840.

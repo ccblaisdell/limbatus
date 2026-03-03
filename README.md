@@ -37,7 +37,7 @@ Run this whenever you change `ergogen/config.yaml`.
    - no obvious overlap/regression in thumb cluster or center bridge
 
 ## Notes
-- Target MCU is XIAO BLE nRF52840 (XIAO RP2040 is an alternate option).
+- Target MCU is XIAO BLE nRF52840.
 - No power switch footprint.
 - No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
 - No external reset switch footprint; rely on the onboard XIAO reset button.
