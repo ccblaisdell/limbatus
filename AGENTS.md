@@ -62,7 +62,7 @@ Use this protocol after any change to `ergogen/config.yaml`.
 - Key count: undecided between 34 and 36; config should support both.
 - Battery connector: direct solder pads (no JST).
 - Power switch: omitted.
-- Reset switch: include if practical need remains after XIAO placement.
+- Reset switch: omitted; rely on the onboard XIAO reset button.
 - MCU preference order: XIAO BLE nRF52840, then XIAO RP2040.
 
 ## Agent Expectations

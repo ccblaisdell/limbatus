@@ -33,11 +33,11 @@ Run this whenever you change `ergogen/config.yaml`.
 6. In KiCad, open the generated board and confirm:
    - no missing footprints
    - expected key count (34 or 36)
-   - MCU/reset footprint placement still valid
+   - MCU footprint placement still valid
    - no obvious overlap/regression in thumb cluster or center bridge
 
 ## Notes
 - Target MCU is XIAO BLE nRF52840 (XIAO RP2040 is an alternate option).
 - No power switch footprint.
 - No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
-- Reset switch footprint is included.
+- No external reset switch footprint; rely on the onboard XIAO reset button.

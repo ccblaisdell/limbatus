@@ -152,12 +152,6 @@ points:
       anchor:
         shift: [0, 18]
 
-    reset_switch:
-      key.tags: [reset]
-      anchor:
-        ref: mcu_xiao
-        shift: [0, -13]
-
 outlines:
   _demo:
     - what: rectangle
@@ -218,11 +212,3 @@ pcbs:
         where: mcu_xiao
         params:
           orientation: down
-
-      reset:
-        what: button
-        where: reset_switch
-        params:
-          side: F
-          from: GND
-          to: RST
