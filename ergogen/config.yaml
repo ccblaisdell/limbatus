@@ -197,12 +197,17 @@ pcbs:
         outline: board
     footprints:
       switches:
-        what: choc
+        what: ceoloide/switch_choc_v1_v2
         where: [key]
         params:
-          reverse: false
+          choc_v2_support: false
+          reversible: false
           hotswap: true
-          keycaps: true
+          include_corner_marks: true
+          include_keycap: true
+          include_centerhole_net: true
+          keycap_height: ky
+          keycap_width: kx
 
           # Matrix wiring scaffold.
           from: "{{column_net}}"
