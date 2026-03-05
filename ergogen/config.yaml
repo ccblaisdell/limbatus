@@ -101,12 +101,12 @@ points:
             mirror.column_net: C13
         middle:
           key:
-            shift: [, -2]
+            shift: [0, -2]
             column_net: C6
             mirror.column_net: C14
         reachy:
           key:
-            shift: [, -4]
+            shift: [0, -4]
             column_net: C7
             mirror.column_net: C15
             # Optional 3rd thumb key.
