@@ -6,6 +6,36 @@ on:
   pull_request:
 
 jobs:
+  reproducibility:
+    name: Reproducibility (default config)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate with Ergogen
+        run: make build
+
+      - name: Verify expected outputs exist
+        run: |
+          test -f outlines/board.dxf
+          test -f pcbs/limbatus.kicad_pcb
+
+      - name: Fail if generated outputs changed
+        run: |
+          git diff --exit-code -- outlines pcbs
+
   generate:
     name: Generate (${{ matrix.mode_label }})
     runs-on: ubuntu-latest
