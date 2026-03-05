@@ -41,3 +41,12 @@ Run this whenever you change `ergogen/config.yaml`.
 - No power switch footprint.
 - No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
 - No external reset switch footprint; rely on the onboard XIAO reset button.
+
+## TODO
+- Add images to readme
+- Choose which diodes to use
+- Add power switch (or button)
+- Connect nets and route the keyboard
+- Determine battery size and location
+- Add 3d models for parts where possible
+- Generate case
