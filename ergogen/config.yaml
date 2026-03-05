@@ -225,7 +225,5 @@ pcbs:
       xiao_ble:
         # Placeholder MCU footprint for scaffold validation.
         # Replace with a XIAO BLE nRF52840 footprint before PCB finalization.
-        what: promicro
+        what: ImStuBTW/xiao-ble
         where: mcu_xiao
-        params:
-          orientation: down
