@@ -36,6 +36,46 @@ jobs:
         run: |
           git diff --exit-code -- outlines pcbs
 
+  kibot:
+    name: KiBot (default config)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate with Ergogen
+        run: make build
+
+      - name: Run Kibot to generate images and gerbers
+        uses: ./.github/actions/kibot
+        with:
+          boards: limbatus
+          config: default
+
+      - name: Verify KiBot outputs exist
+        run: |
+          test -d gerbers
+          test -d images
+
+      - name: Publish KiBot output
+        uses: actions/upload-artifact@v4
+        with:
+          name: kibot-default
+          path: |
+            gerbers
+            images
+
   generate:
     name: Generate (${{ matrix.mode_label }})
     runs-on: ubuntu-latest
