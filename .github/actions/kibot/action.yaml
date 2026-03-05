@@ -17,5 +17,7 @@ runs:
       for board in ${{ inputs.boards }};
       do
         echo "Processing $board";
+        # KiBot image uses KiCad 8 parser, which does not accept this newer token.
+        sed -i '/(embedded_fonts no)/d' $GITHUB_WORKSPACE/pcbs/${board}.kicad_pcb
         kibot -b $GITHUB_WORKSPACE/pcbs/${board}.kicad_pcb -c $GITHUB_WORKSPACE/kibot/${{ inputs.config }}.kibot.yaml
       done
