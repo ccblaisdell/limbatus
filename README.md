@@ -9,6 +9,13 @@ Wireless monoblock ergonomic keyboard derived from Dimetrodon.
   - `2` => 34-key target
 - Matrix + diode wiring is scaffolded and needs final pin-budget review for XIAO BLE nRF52840.
 
+## Latest PCB Images
+- Top view: https://ccblaisdell.github.io/limbatus/limbatus-top.png
+- Bottom view: https://ccblaisdell.github.io/limbatus/limbatus-bottom.png
+
+[![Limbatus top view](https://ccblaisdell.github.io/limbatus/limbatus-top.png)](https://ccblaisdell.github.io/limbatus/limbatus-top.png)
+[![Limbatus bottom view](https://ccblaisdell.github.io/limbatus/limbatus-bottom.png)](https://ccblaisdell.github.io/limbatus/limbatus-bottom.png)
+
 ## Build
 1. Install dependencies:
    - `npm install`
@@ -43,7 +50,6 @@ Run this whenever you change `ergogen/config.yaml`.
 - No external reset switch footprint; rely on the onboard XIAO reset button.
 
 ## TODO
-- Add images to readme
 - Choose which diodes to use
 - Add power switch (or button)
 - Connect nets and route the keyboard
