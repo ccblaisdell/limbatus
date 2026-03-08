@@ -86,7 +86,7 @@ jobs:
         uses: ./.github/actions/kibot
         with:
           boards: limbatus_autorouted
-          config: boards
+          config: default
 
       - name: Verify KiBot outputs exist
         run: |
