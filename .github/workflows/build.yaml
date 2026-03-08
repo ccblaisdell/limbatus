@@ -67,10 +67,34 @@ jobs:
           boards: limbatus
           config: default
 
+      - name: Export DSN file for freerouting
+        uses: ./.github/actions/export-dsn
+        with:
+          boards: limbatus
+
+      - name: Autoroute PCB
+        uses: ./.github/actions/autoroute
+        with:
+          boards: limbatus
+
+      - name: Import SES
+        uses: ./.github/actions/import-ses
+        with:
+          boards: limbatus
+
+      - name: Run Kibot on autorouted board
+        uses: ./.github/actions/kibot
+        with:
+          boards: limbatus_autorouted
+          config: boards
+
       - name: Verify KiBot outputs exist
         run: |
           test -d gerbers
           test -d images
+          test -f pcbs/limbatus.dsn
+          test -f pcbs/limbatus.ses
+          test -f pcbs/limbatus_autorouted.kicad_pcb
 
       - name: Publish KiBot output
         uses: actions/upload-artifact@v4
@@ -79,6 +103,9 @@ jobs:
           path: |
             gerbers
             images
+            pcbs/limbatus.dsn
+            pcbs/limbatus.ses
+            pcbs/limbatus_autorouted.kicad_pcb
 
       - name: Setup Pages
         if: github.ref == 'refs/heads/main'

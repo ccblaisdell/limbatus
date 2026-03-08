@@ -59,4 +59,3 @@ Run this whenever you change `ergogen/config.yaml`.
 - Determine battery size and location
 - Add 3d models for parts where possible
 - Generate case
-- Autorouting
