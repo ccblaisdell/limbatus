@@ -43,16 +43,20 @@ Run this whenever you change `ergogen/config.yaml`.
    - MCU footprint placement still valid
    - no obvious overlap/regression in thumb cluster or center bridge
 
+## Keyboard References
+- https://github.com/ceoloide/corney-island for its GitHub Actions and workflows.
+- https://github.com/ccblaisdell/dimetrodon for your previous keyboard iteration.
+
 ## Notes
 - Target MCU is XIAO BLE nRF52840.
-- No power switch footprint.
+- Includes the same power switch footprint used in `dimetrodon` (`ceoloide/power_switch_smd_side`).
 - No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
 - No external reset switch footprint; rely on the onboard XIAO reset button.
 
 ## TODO
 - Choose which diodes to use
-- Add power switch (or button)
 - Connect nets and route the keyboard
 - Determine battery size and location
 - Add 3d models for parts where possible
 - Generate case
+- Autorouting
