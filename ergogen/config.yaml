@@ -15,10 +15,10 @@ units:
   thumb_keys_per_side: 3
 
   # Negative values rotate each half inward (mirrored on the right).
-  inward_rotation: -10
+  inward_rotation: -12
 
   total_matrix_splay: 6
-  half_separation: 120
+  half_separation: 105
 
   board_padding: 14
   xiao_length: 21
