@@ -23,6 +23,8 @@ units:
   board_padding: 14
   xiao_length: 21
   xiao_width: 17.5
+  power_switch_width: 6.7
+  power_switch_length: 2.6
 
 points:
   mirror: 0
@@ -157,6 +159,14 @@ points:
           shift: [0, board_padding - xiao_length / 2]
           affect: y
 
+    power_switch:
+      key:
+        tags: [power_switch]
+        asym: source
+      anchor:
+        ref: rect_top_left
+        shift: [9, -power_switch_length / 2 - 0.5]
+
 outlines:
   _demo:
     - what: rectangle
@@ -227,3 +237,13 @@ pcbs:
         # Replace with a XIAO BLE nRF52840 footprint before PCB finalization.
         what: ImStuBTW/xiao-ble
         where: mcu_xiao
+
+      power_switch:
+        what: ceoloide/power_switch_smd_side
+        where: power_switch
+        adjust:
+          rotate: 90
+        params:
+          reversible: true
+          from: Braw
+          to: RAW
