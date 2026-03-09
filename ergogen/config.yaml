@@ -25,6 +25,10 @@ units:
   xiao_width: 17.5
   power_switch_width: 6.7
   power_switch_length: 2.6
+  battery_width: 32
+  battery_length: 20
+  battery_thickness: 5.5
+  battery_to_mcu_gap: 2
 
 points:
   mirror: 0
@@ -167,6 +171,14 @@ points:
         ref: rect_top_left
         shift: [9, -power_switch_length / 2 - 0.5]
 
+    battery_pack:
+      key:
+        tags: [battery]
+        asym: source
+      anchor:
+        ref: mcu_xiao
+        shift: [0, xiao_length / 2 + battery_length / 2 + battery_to_mcu_gap]
+
 outlines:
   _demo:
     - what: rectangle
@@ -177,6 +189,11 @@ outlines:
     - what: rectangle
       where: mcu_xiao
       size: [xiao_width, xiao_length]
+
+  _battery_debug:
+    - what: rectangle
+      where: battery_pack
+      size: [battery_width, battery_length]
 
   _outer_rect:
     - what: polygon
@@ -198,6 +215,8 @@ outlines:
       name: _demo
     - operation: stack
       name: _xiao_debug
+    - operation: stack
+      name: _battery_debug
 
 pcbs:
   limbatus:
