@@ -23,12 +23,13 @@ units:
   board_padding: 14
   xiao_length: 21
   xiao_width: 17.5
+  xiao_left_clearance: 0
   power_switch_width: 6.7
   power_switch_length: 2.6
-  battery_width: 32
+  battery_width: 60
   battery_length: 20
   battery_thickness: 5.5
-  battery_to_mcu_gap: 2
+  battery_top_clearance: 2
 
 points:
   mirror: 0
@@ -158,10 +159,8 @@ points:
     mcu_xiao:
       key.tags: [mcu]
       anchor:
-        - affect: x
-        - ref: rect_top_left
-          shift: [0, board_padding - xiao_length / 2]
-          affect: y
+        ref: rect_top_left
+        shift: [xiao_left_clearance, board_padding - xiao_length / 2]
 
     power_switch:
       key:
@@ -176,8 +175,10 @@ points:
         tags: [battery]
         asym: source
       anchor:
-        ref: mcu_xiao
-        shift: [0, xiao_length / 2 + battery_length / 2 + battery_to_mcu_gap]
+        - affect: x
+        - ref: rect_top_left
+          shift: [0, board_padding - battery_length / 2 - battery_top_clearance]
+          affect: y
 
 outlines:
   _demo:
