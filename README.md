@@ -54,7 +54,7 @@ Run this whenever you change `ergogen/config.yaml`.
 - No external reset switch footprint; rely on the onboard XIAO reset button.
 
 ## TODO
-- Choose which diodes to use
 - Connect nets and route the keyboard
 - Add 3d models for parts where possible
 - Generate case
+- Figure out diode positioning

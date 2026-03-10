@@ -264,7 +264,7 @@ pcbs:
           to: "SW_{{name}}"
 
       diodes:
-        what: diode
+        what: ceoloide/diode_tht_sod123
         where: [key]
         adjust:
           shift: [0, -5]
