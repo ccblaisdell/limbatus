@@ -32,6 +32,7 @@
 - Keep Ergogen configuration as source of truth.
 - Treat generated outlines/PCB/case artifacts as reproducible outputs.
 - Do not manually edit generated files unless explicitly documented.
+- The current case-generation spec lives in `case/PLAN.md`; case work should follow that plan unless it is explicitly superseded.
 - Prefer small, focused commits for:
   1. geometry/layout,
   2. electrical/netlist,

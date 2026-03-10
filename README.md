@@ -52,9 +52,10 @@ Run this whenever you change `ergogen/config.yaml`.
 - Includes the same power switch footprint used in `dimetrodon` (`ceoloide/power_switch_smd_side`).
 - No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
 - No external reset switch footprint; rely on the onboard XIAO reset button.
+- The current code-generated case approach is documented in `case/PLAN.md` and is intended to use Ergogen DXFs plus an OpenSCAD/FreeCAD export flow.
 
 ## TODO
 - Connect nets and route the keyboard
 - Add 3d models for parts where possible
-- Generate case
+- Implement the code-generated case plan in `case/PLAN.md`
 - Figure out diode positioning
