@@ -20,12 +20,18 @@ units:
   total_matrix_splay: 6
   half_separation: 105
 
-  board_padding: 14
+  board_padding_top: 10
+  board_padding_horizontal: 10
+  board_padding_bottom: 0
+
   xiao_length: 21
   xiao_width: 17.5
-  xiao_left_clearance: 0
+  xiao_left_clearance: 4
+
+  power_switch_right_clearance: -4
   power_switch_width: 6.7
   power_switch_length: 2.6
+  
   battery_width: 60
   battery_length: 20
   battery_thickness: 5.5
@@ -121,54 +127,62 @@ points:
       rows:
         cluster:
 
-    left_bounds:
-      anchor:
-        ref: left_matrix_pointer_bottom
-        shift: [0, -ky]
-      key:
-        tags: [bounds]
-      columns:
-        reachy_extent:
-          key:
-            shift: [2kx, -4]
-
     rect_top_left:
+      mirror: {}
       anchor:
+        shift: [-board_padding_horizontal, board_padding_top]
         aggregate:
           method: intersect
           parts:
             - ref: left_matrix_pinky_bottom
               shift: [-kx, 0]
+              rotate: total_matrix_splay
             - ref: left_matrix_ring_top
-              rotate: 90
+              shift: [0, ky / 2]
+              rotate: 90 + total_matrix_splay / 2 - inward_rotation / 2
       key:
         tags: [bounds]
 
+    rect_top_right:
+      anchor:
+        ref: mirror_rect_top_left
+      key:
+        tags: [bounds]
+        asym: source
+
     rect_bottom_left:
+      mirror: {}
       anchor:
         aggregate:
           method: intersect
           parts:
             - ref: rect_top_left
-            - ref: left_bounds_reachy_extent
-              shift: [0, -3cpy]
-              rotate: 90 + total_matrix_splay
+            - ref: left_thumbs_reachy_cluster
+              shift: [6ky, 0]
+              rotate: 90 - inward_rotation
       key:
         tags: [bounds]
+
+    rect_bottom_right:
+      anchor:
+        ref: mirror_rect_bottom_left
+      key:
+        tags: [bounds]
+        asym: source
 
     mcu_xiao:
       key.tags: [mcu]
       anchor:
         ref: rect_top_left
-        shift: [xiao_left_clearance, board_padding - xiao_length / 2]
+        shift: [xiao_left_clearance + xiao_width / 2, -xiao_length / 2]
 
     power_switch:
       key:
         tags: [power_switch]
         asym: source
       anchor:
-        ref: rect_top_left
-        shift: [9, -power_switch_length / 2 - 0.5]
+        ref: rect_top_right
+        shift: [power_switch_right_clearance - power_switch_width / 2, -power_switch_length / 2]
 
     battery_pack:
       key:
@@ -177,7 +191,7 @@ points:
       anchor:
         - affect: x
         - ref: rect_top_left
-          shift: [0, board_padding - battery_length / 2 - battery_top_clearance]
+          shift: [0, board_padding_horizontal - battery_length - battery_top_clearance]
           affect: y
 
 outlines:
@@ -196,15 +210,19 @@ outlines:
       where: battery_pack
       size: [battery_width, battery_length]
 
+  _power_switch_debug:
+    - what: rectangle
+      where: power_switch
+      size: [power_switch_width, power_switch_length]
+
   _outer_rect:
     - what: polygon
-      expand: board_padding
       joints: pointy
       fillet: 2
       points:
         - ref: rect_top_left
-        - ref: mirror_rect_top_left
-        - ref: mirror_rect_bottom_left
+        - ref: rect_top_right
+        - ref: rect_bottom_right
         - ref: rect_bottom_left
 
   board:
@@ -218,6 +236,8 @@ outlines:
       name: _xiao_debug
     - operation: stack
       name: _battery_debug
+    - operation: stack
+      name: _power_switch_debug
 
 pcbs:
   limbatus:
@@ -253,8 +273,6 @@ pcbs:
           to: "{{row_net}}"
 
       xiao_ble:
-        # Placeholder MCU footprint for scaffold validation.
-        # Replace with a XIAO BLE nRF52840 footprint before PCB finalization.
         what: ImStuBTW/xiao-ble
         where: mcu_xiao
 
@@ -264,6 +282,6 @@ pcbs:
         adjust:
           rotate: 90
         params:
-          reversible: true
+          reversible: false
           from: Braw
           to: RAW
