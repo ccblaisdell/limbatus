@@ -60,4 +60,3 @@ Run this whenever you change `ergogen/config.yaml`.
 - Connect nets and route the keyboard
 - Add 3d models for parts where possible
 - Implement the code-generated case plan in `case/PLAN.md`
-- Figure out diode positioning

@@ -14,6 +14,7 @@ The case will be a rectangular top view with a wedge side profile, split into a 
 - Extend `ergogen/config.yaml` with named case-driving outlines for:
   - outer board/case perimeter
   - switch opening pattern / plate geometry
+  - diode clearance envelope if top-side diode placement requires local extra case depth or relief
   - battery cavity footprint
   - XIAO cavity footprint
   - power-switch cavity footprint
@@ -36,6 +37,7 @@ The case will be a rectangular top view with a wedge side profile, split into a 
 - Top shell behavior:
   - switch-plate-style top openings sized for switch retention
   - keycap clearance windows above the switch pattern
+  - local clearance or relief for top-side diodes if the final PCB keeps them on the switch side
   - internal cavities for XIAO, battery, and power switch
   - rear openings for USB and power switch actuation/access
 - Bottom tray behavior:
