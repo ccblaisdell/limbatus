@@ -57,6 +57,5 @@ Run this whenever you change `ergogen/config.yaml`.
 - The current code-generated case approach is documented in `case/PLAN.md` and is intended to use Ergogen DXFs plus an OpenSCAD/FreeCAD export flow.
 
 ## TODO
-- Connect nets and route the keyboard
 - Add 3d models for parts where possible
 - Implement the code-generated case plan in `case/PLAN.md`

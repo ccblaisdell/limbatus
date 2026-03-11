@@ -294,7 +294,7 @@ pcbs:
         what: ceoloide/diode_tht_sod123
         where: [key]
         adjust:
-          shift: [0, 8]
+          shift: [0, -8.5]
         params:
           side: F
           from: "SW_{{name}}"
