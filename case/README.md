@@ -7,7 +7,13 @@ Build a code-generated case pipeline that uses Ergogen as the geometry source of
 - a two-part printable case as STL
 - STEP exports via a scripted FreeCAD conversion step
 
-The case will be a rectangular top view with a wedge side profile, split into a `top shell` and `bottom tray`. The top shell will act as a switch plate with top openings for switches/keycaps. The interior will include cavities for the XIAO, battery, and power switch, with rear openings for USB and the power switch. The bottom tray will include underside cutouts for the XIAO and hotswap hardware.
+The case will be a rectangular top view with a wedge side profile, split into a `top shell` and `bottom tray`. The top shell will act as a switch plate with top openings for switches/keycaps. The interior will include cavities for the XIAO, battery, and power switch, with rear openings for USB and switch access. The bottom tray will include underside cutouts for the XIAO and hotswap hardware.
+
+## Review Notes
+- Keep this aligned with repo policy: there is a dedicated power switch footprint, there is no JST battery connector, and reset access is via the onboard XIAO button unless the PCB later proves that inadequate.
+- Ergogen must remain the source of truth for 2D geometry. Case inputs should be derived DXFs, not hand-maintained sketches.
+- The plan needs to support both 34-key and 36-key modes. Any case-driving outlines tied to switch pattern or exterior perimeter need validation in both modes.
+- The current plan is viable, but implementation should start with a minimal pipeline that proves geometry export and shell generation before adding STEP conversion and more detailed internal features.
 
 ## Implementation Changes
 ### Geometry source
@@ -39,7 +45,7 @@ The case will be a rectangular top view with a wedge side profile, split into a 
   - keycap clearance windows above the switch pattern
   - local clearance or relief for top-side diodes if the final PCB keeps them on the switch side
   - internal cavities for XIAO, battery, and power switch
-  - rear openings for USB and power switch actuation/access
+  - rear openings for USB access and power-switch actuation/access
 - Bottom tray behavior:
   - mating lip or alignment geometry against the top shell
   - underside cutouts for XIAO protrusion and hotswap/socket clearance
@@ -71,6 +77,18 @@ The case will be a rectangular top view with a wedge side profile, split into a 
   - screw size / insert size / boss diameter
 - Do not infer these from KiCad. They should be repo-controlled parameters in code/config so the case stays printable and tunable.
 
+## Implementation Order
+1. Define the minimal set of Ergogen outlines needed for a first-pass shell: exterior perimeter, switch plate openings, USB opening reference, XIAO clearance, battery clearance, and power-switch clearance/access.
+2. Add a case source tree with parameterized OpenSCAD that can generate `top_shell` and `bottom_tray` from those DXFs.
+3. Wire a reproducible build target that emits STL artifacts.
+4. Add STEP export through FreeCAD only after STL geometry is stable.
+5. Expand internal clearances, bosses, and underside reliefs once the shell split and fit strategy are validated.
+
+## Open Questions Before Full Implementation
+- Whether the battery cavity should target one exact cell footprint first or support a small range through parameters.
+- Whether top-side diode relief is still needed after the PCB footprint/layout is finalized.
+- Whether the underside XIAO relief belongs only in the bottom tray or should also influence shell split height.
+
 ## Test Plan
 - Geometry generation:
   - `make build` still succeeds and emits all required DXFs
@@ -98,3 +116,4 @@ The case will be a rectangular top view with a wedge side profile, split into a 
 - Export targets: STL and STEP are both required by default.
 - Front lip: extends `10 mm` beyond the PCB after taper, as requested.
 - “Tall enough to cover the XIAO and battery” means rear wedge height is driven by the current tallest installed component plus configurable clearance, not hardcoded to today’s dimensions.
+- A dedicated case feature is reserved for the power switch footprint and its external access.

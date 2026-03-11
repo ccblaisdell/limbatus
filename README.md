@@ -51,11 +51,11 @@ Run this whenever you change `ergogen/config.yaml`.
 ## Notes
 - Target MCU is XIAO BLE nRF52840.
 - Matrix pin map target: `P0..P5` for columns, `P6..P10` plus `NFC1` for rows.
-- Includes the same power switch footprint used in `dimetrodon` (`ceoloide/power_switch_smd_side`).
+- Includes a dedicated power switch footprint.
 - No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
 - No external reset switch footprint; rely on the onboard XIAO reset button.
-- The current code-generated case approach is documented in `case/PLAN.md` and is intended to use Ergogen DXFs plus an OpenSCAD/FreeCAD export flow.
+- The current code-generated case approach is documented in `case/README.md` and is intended to use Ergogen DXFs plus an OpenSCAD/FreeCAD export flow.
 
 ## TODO
 - Add 3d models for parts where possible
-- Implement the code-generated case plan in `case/PLAN.md`
+- Implement the code-generated case plan in `case/README.md`

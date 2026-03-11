@@ -18,7 +18,7 @@
 ## Power and Battery Requirements
 - Wireless-first design assumptions:
   - Include battery support.
-  - No dedicated power switch footprint.
+  - Include a dedicated power switch footprint.
   - No JST battery connector footprint.
   - Battery connection is direct-solder pads on the PCB.
   - Include reset switch footprint if needed beyond XIAO onboard reset access.
@@ -32,7 +32,7 @@
 - Keep Ergogen configuration as source of truth.
 - Treat generated outlines/PCB/case artifacts as reproducible outputs.
 - Do not manually edit generated files unless explicitly documented.
-- The current case-generation spec lives in `case/PLAN.md`; case work should follow that plan unless it is explicitly superseded.
+- The current case-generation spec lives in `case/README.md`; case work should follow that plan unless it is explicitly superseded.
 - Local reference repo: `~/dev/corney-island` (clone of `ceoloide/corney-island`) is available and useful for GitHub workflows, Ergogen patterns, and case-generation ideas.
 - Prefer small, focused commits for:
   1. geometry/layout,
@@ -64,7 +64,7 @@ Use this protocol after any change to `ergogen/config.yaml`.
 - Matrix pin allocation: `P0..P5` columns, `P6..P10` and `NFC1` rows.
 - Firmware implication: disable NFC and use `NFC1` as GPIO for the sixth matrix row.
 - Battery connector: direct solder pads (no JST).
-- Power switch: omitted.
+- Power switch: dedicated footprint included.
 - Reset switch: omitted; rely on the onboard XIAO reset button.
 - MCU target: XIAO BLE nRF52840.
 
