@@ -33,6 +33,7 @@
 - Treat generated outlines/PCB/case artifacts as reproducible outputs.
 - Do not manually edit generated files unless explicitly documented.
 - The current case-generation spec lives in `case/PLAN.md`; case work should follow that plan unless it is explicitly superseded.
+- Local reference repo: `~/dev/corney-island` (clone of `ceoloide/corney-island`) is available and useful for GitHub workflows, Ergogen patterns, and case-generation ideas.
 - Prefer small, focused commits for:
   1. geometry/layout,
   2. electrical/netlist,
