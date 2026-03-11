@@ -52,51 +52,76 @@ points:
         pinky:
           key:
             column_net: C0
-            mirror.column_net: C12
           rows:
-            bottom.row_net: R2
-            home.row_net: R1
-            top.row_net: R0
+            bottom:
+              row_net: R2
+              mirror.row_net: R5
+            home:
+              row_net: R1
+              mirror.row_net: R4
+            top:
+              row_net: R0
+              mirror.row_net: R3
         ring:
           key:
             splay: -total_matrix_splay / 2
             spread: kx + 0.5
             stagger: ky - 2
             column_net: C1
-            mirror.column_net: C11
           rows:
-            bottom.row_net: R2
-            home.row_net: R1
-            top.row_net: R0
+            bottom:
+              row_net: R2
+              mirror.row_net: R5
+            home:
+              row_net: R1
+              mirror.row_net: R4
+            top:
+              row_net: R0
+              mirror.row_net: R3
         middle:
           key:
             splay: -total_matrix_splay / 2
             spread: kx + 0.5
             stagger: 3
             column_net: C2
-            mirror.column_net: C10
           rows:
-            bottom.row_net: R2
-            home.row_net: R1
-            top.row_net: R0
+            bottom:
+              row_net: R2
+              mirror.row_net: R5
+            home:
+              row_net: R1
+              mirror.row_net: R4
+            top:
+              row_net: R0
+              mirror.row_net: R3
         pointer:
           key:
             stagger: -6
             column_net: C3
-            mirror.column_net: C9
           rows:
-            bottom.row_net: R2
-            home.row_net: R1
-            top.row_net: R0
+            bottom:
+              row_net: R2
+              mirror.row_net: R5
+            home:
+              row_net: R1
+              mirror.row_net: R4
+            top:
+              row_net: R0
+              mirror.row_net: R3
         inner:
           key:
             stagger: -2
             column_net: C4
-            mirror.column_net: C8
           rows:
-            bottom.row_net: R2
-            home.row_net: R1
-            top.row_net: R0
+            bottom:
+              row_net: R2
+              mirror.row_net: R5
+            home:
+              row_net: R1
+              mirror.row_net: R4
+            top:
+              row_net: R0
+              mirror.row_net: R3
 
     left_thumbs:
       anchor:
@@ -106,22 +131,24 @@ points:
         padding: ky
         spread: kx
         tags: [key, left, thumb]
-        row_net: R3
       columns:
         tucky:
           key:
             column_net: C5
-            mirror.column_net: C13
+            row_net: R0
+            mirror.row_net: R3
         middle:
           key:
             shift: [0, -2]
-            column_net: C6
-            mirror.column_net: C14
+            column_net: C5
+            row_net: R1
+            mirror.row_net: R4
         reachy:
           key:
             shift: [0, -4]
-            column_net: C7
-            mirror.column_net: C15
+            column_net: C5
+            row_net: R2
+            mirror.row_net: R5
             # Optional 3rd thumb key.
             skip: false
       rows:
@@ -275,6 +302,19 @@ pcbs:
       xiao_ble:
         what: ImStuBTW/xiao-ble
         where: mcu_xiao
+        params:
+          P0: C0
+          P1: C1
+          P2: C2
+          P3: C3
+          P4: C4
+          P5: C5
+          P6: R0
+          P7: R1
+          P8: R2
+          P9: R3
+          P10: R4
+          NFC1: R5
 
       power_switch:
         what: ceoloide/power_switch_smd_side

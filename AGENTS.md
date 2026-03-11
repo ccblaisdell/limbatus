@@ -60,6 +60,9 @@ Use this protocol after any change to `ergogen/config.yaml`.
 - Wireless keyboard: yes.
 - Form factor: monoblock.
 - Key count: undecided between 34 and 36; config should support both.
+- Matrix target: logical `6 x 6` matrix on XIAO BLE.
+- Matrix pin allocation: `P0..P5` columns, `P6..P10` and `NFC1` rows.
+- Firmware implication: disable NFC and use `NFC1` as GPIO for the sixth matrix row.
 - Battery connector: direct solder pads (no JST).
 - Power switch: omitted.
 - Reset switch: omitted; rely on the onboard XIAO reset button.

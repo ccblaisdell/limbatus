@@ -7,7 +7,8 @@ Wireless monoblock ergonomic keyboard derived from Dimetrodon.
 - `thumb_keys_per_side` parameter exists in `ergogen/config.yaml`.
   - `3` => 36-key target
   - `2` => 34-key target
-- Matrix + diode wiring is scaffolded and needs final pin-budget review for XIAO BLE nRF52840.
+- Matrix is now organized as a XIAO BLE-compatible logical `6 x 6` scan.
+- `NFC1` is reserved for matrix use and must be configured as GPIO in firmware.
 
 ## Latest PCB Images
 - Top view: https://ccblaisdell.github.io/limbatus/limbatus-top.png
@@ -49,6 +50,7 @@ Run this whenever you change `ergogen/config.yaml`.
 
 ## Notes
 - Target MCU is XIAO BLE nRF52840.
+- Matrix pin map target: `P0..P5` for columns, `P6..P10` plus `NFC1` for rows.
 - Includes the same power switch footprint used in `dimetrodon` (`ceoloide/power_switch_smd_side`).
 - No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
 - No external reset switch footprint; rely on the onboard XIAO reset button.
