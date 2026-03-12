@@ -31,11 +31,18 @@ units:
   power_switch_right_clearance: -4
   power_switch_width: 6.7
   power_switch_length: 2.6
-  
+
   battery_width: 60
   battery_length: 20
   battery_thickness: 5.5
   battery_top_clearance: 2
+
+  case_switch_opening: 13.8
+  case_component_clearance: 1
+  case_usb_opening_width: 10
+  case_usb_opening_depth: 4
+  case_power_switch_opening_width: 8.5
+  case_power_switch_opening_depth: 4
 
 points:
   mirror: 0
@@ -242,6 +249,54 @@ outlines:
       where: power_switch
       size: [power_switch_width, power_switch_length]
 
+  case_switch_plate:
+    - what: rectangle
+      where: [key]
+      size: [case_switch_opening, case_switch_opening]
+
+  case_xiao_cavity:
+    - what: rectangle
+      where: mcu_xiao
+      size:
+        [
+          xiao_width + case_component_clearance * 2,
+          xiao_length + case_component_clearance * 2,
+        ]
+
+  case_battery_cavity:
+    - what: rectangle
+      where: battery_pack
+      size:
+        [
+          battery_width + case_component_clearance * 2,
+          battery_length + case_component_clearance * 2,
+        ]
+
+  case_power_switch_cavity:
+    - what: rectangle
+      where: power_switch
+      size:
+        [
+          power_switch_width + case_component_clearance * 2,
+          power_switch_length + case_component_clearance * 2,
+        ]
+
+  case_usb_opening:
+    - what: rectangle
+      where: mcu_xiao
+      adjust:
+        shift: [0, xiao_length / 2 - case_usb_opening_depth / 2]
+      size: [case_usb_opening_width, case_usb_opening_depth]
+
+  case_power_switch_opening:
+    - what: rectangle
+      where: power_switch
+      adjust:
+        shift:
+          [0, power_switch_length / 2 - case_power_switch_opening_depth / 2]
+      size:
+        [case_power_switch_opening_width, case_power_switch_opening_depth]
+
   _outer_rect:
     - what: polygon
       joints: pointy
@@ -254,6 +309,9 @@ outlines:
 
   board:
     - name: _outer_rect
+
+  case_perimeter:
+    - name: board
 
   debug:
     - name: board

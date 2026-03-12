@@ -59,3 +59,4 @@ Run this whenever you change `ergogen/config.yaml`.
 ## TODO
 - Add 3d models for parts where possible
 - Implement the code-generated case plan in `case/README.md`
+- Design a second case with embedded apple magic trackpad
