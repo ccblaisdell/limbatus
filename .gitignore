@@ -2,3 +2,4 @@ node_modules/
 *.kicad_prl
 pcbs/*.kicad_pcb
 outlines/*.dxf
+stl/
