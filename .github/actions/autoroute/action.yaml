@@ -21,7 +21,7 @@ runs:
         fi
         if [ -e pcbs/${board}.dsn ]; then
           echo "Autoroute PCB";
-          AUTOROUTE_ARGS="-de pcbs/${board}.dsn -do pcbs/${board}.ses -mp 25 -mt 1 -dct 0 --gui.enabled=false --profile.email=marco.massarelli@gmail.com"
+          AUTOROUTE_ARGS="-de pcbs/${board}.dsn -do pcbs/${board}.ses -mp 25 -mt 1 -dct 0 --gui.enabled=false --profile.email=ccblaisdell@gmail.com"
           if [ -e ./freerouting/freerouting.rules ]; then
             echo "Using custom freerouting rules";
             AUTOROUTE_ARGS="$AUTOROUTE_ARGS -dr ./freerouting/freerouting.rules --user-data-path ./freerouting"
