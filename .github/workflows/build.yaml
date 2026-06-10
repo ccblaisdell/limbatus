@@ -65,7 +65,7 @@ jobs:
         uses: ./.github/actions/kibot
         with:
           boards: limbatus
-          config: default
+          config: boards
 
       - name: Export DSN file for freerouting
         uses: ./.github/actions/export-dsn
@@ -86,7 +86,7 @@ jobs:
         uses: ./.github/actions/kibot
         with:
           boards: limbatus_autorouted
-          config: default
+          config: boards
 
       - name: Verify KiBot outputs exist
         run: |
