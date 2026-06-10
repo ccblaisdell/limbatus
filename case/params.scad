@@ -2,19 +2,24 @@
 // Ergogen-derived component values are mirrors of ergogen/config.yaml.
 
 // Shell thickness
-wall_thickness      = 2.5;
-floor_thickness     = 1.5;
-top_plate_thickness = 3.5;
+wall_thickness  = 2.5;
+floor_thickness = 1.5;
 
-// Wedge heights (rear = XIAO/battery side, front = thumb cluster side)
-rear_height  = 14.0;
-front_height =  6.0;
+// PCB thickness
+pcb_thickness = 1.6;
+
+// Wall heights (rear = XIAO/battery side, front = thumb cluster side)
+// Rear hides switch bodies (5.0mm) and XIAO (pcb_thickness + 4.5 = 6.1mm above PCB surface).
+// Front is floor_thickness only — switches fully exposed.
+rear_height  = 7.0;
+front_height = 1.5;  // = floor_thickness
 
 // Front lip overhang beyond PCB perimeter
 front_overhang = 10.0;
 
 // Shell split height (bottom tray top / top shell bottom interface)
-split_height = floor_thickness + 6.5;  // ~PCB + hotswap clearance; tune after fit check
+// 1.5mm floor + ~2.5mm clearance for hotswap socket pins (~2mm below PCB)
+split_height = 4.0;
 
 // PCB retaining ledge
 ledge_width  = 1.5;

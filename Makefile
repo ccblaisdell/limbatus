@@ -1,4 +1,4 @@
-.PHONY: build ergogen case case-top case-bottom stl-dir
+.PHONY: build ergogen case case-top case-bottom stl-dir view-case
 
 OPENSCAD := openscad
 CASE_DIR := case
@@ -23,3 +23,6 @@ case-bottom: stl-dir
 	$(OPENSCAD) -D 'part="bottom_tray"' \
 	    -o $(STL_DIR)/bottom_tray.stl \
 	    $(CASE_DIR)/case.scad
+
+view-case:
+	open /Applications/OpenSCAD-2021.01.app --args $(abspath $(CASE_DIR)/case.scad)
