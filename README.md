@@ -52,7 +52,7 @@ Run this whenever you change `ergogen/config.yaml`.
 - Target MCU is XIAO BLE nRF52840.
 - Matrix pin map target: `P0..P5` for columns, `P6..P10` plus `NFC1` for rows.
 - Includes a dedicated power switch footprint.
-- No JST footprint; battery is intended for direct-solder pads (not yet added in the scaffold).
+- No JST footprint; battery uses two direct-solder SMD pads (`local/battery_pads_solder`).
 - No external reset switch footprint; rely on the onboard XIAO reset button.
 - The current code-generated case approach is documented in `case/README.md` and is intended to use Ergogen DXFs plus an OpenSCAD/FreeCAD export flow.
 

@@ -384,3 +384,14 @@ pcbs:
           reversible: false
           from: Braw
           to: RAW
+
+      battery_pads:
+        what: local/battery_pads_solder
+        where: battery_pack
+        adjust:
+          shift: [battery_width / 2 - 5, 0]
+          rotate: 90
+        params:
+          side: F
+          BAT_P: Braw
+          BAT_N: GND
