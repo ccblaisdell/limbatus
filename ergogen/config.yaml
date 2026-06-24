@@ -12,7 +12,7 @@ units:
   cpy: 1 + ky / 2
 
   # 2 or 3 thumb keys per side.
-  thumb_keys_per_side: 3
+  thumb_keys_per_side: 2
 
   # Negative values rotate each half inward (mirrored on the right).
   inward_rotation: -12
@@ -157,7 +157,7 @@ points:
             row_net: R2
             mirror.row_net: R5
             # Optional 3rd thumb key.
-            skip: false
+            skip: true
       rows:
         cluster:
 
