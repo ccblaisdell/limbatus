@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(which openscad:*)",
-      "Bash(make case:*)"
+      "Bash(make case:*)",
+      "Bash(make build *)"
     ]
   }
 }

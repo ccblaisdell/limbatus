@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install OpenSCAD
+        run: sudo apt-get update && sudo apt-get install -y openscad
+
       - name: Generate with Ergogen
         run: make build
 
@@ -31,6 +34,8 @@ jobs:
         run: |
           test -f outlines/board.dxf
           test -f pcbs/limbatus.kicad_pcb
+          test -f stl/top_shell.stl
+          test -f stl/bottom_tray.stl
 
       - name: Fail if generated outputs changed
         run: |
@@ -57,6 +62,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install OpenSCAD
+        run: sudo apt-get update && sudo apt-get install -y openscad
 
       - name: Generate with Ergogen
         run: make build
@@ -153,6 +161,9 @@ jobs:
           perl -0pi -e 's/thumb_keys_per_side:\s*\d+/thumb_keys_per_side: ${{ matrix.thumb_keys_per_side }}/' ergogen/config.yaml
           perl -0pi -e 's/\bskip:\s*(true|false)/skip: ${{ matrix.reachy_skip }}/g' ergogen/config.yaml
 
+      - name: Install OpenSCAD
+        run: sudo apt-get update && sudo apt-get install -y openscad
+
       - name: Generate with Ergogen
         run: make build
 
@@ -160,6 +171,8 @@ jobs:
         run: |
           test -f outlines/board.dxf
           test -f pcbs/limbatus.kicad_pcb
+          test -f stl/top_shell.stl
+          test -f stl/bottom_tray.stl
 
       - name: Show generated changes
         run: git status --short
@@ -171,6 +184,7 @@ jobs:
           path: |
             outlines
             pcbs
+            stl
 
   deploy-pages:
     name: Deploy Pages
