@@ -3,3 +3,4 @@ node_modules/
 pcbs/*.kicad_pcb
 outlines/*.dxf
 stl/
+.claude/worktrees/
