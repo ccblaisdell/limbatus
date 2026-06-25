@@ -27,10 +27,17 @@ units:
   xiao_length: 21
   xiao_width: 17.5
   xiao_left_clearance: 4
+  # Optional extra inset of the MCU from the top board edge. Currently 0: the
+  # local/xiao_ble footprint already clears the edge once its in-board cut
+  # slots are removed. Knob kept symmetric with power_switch_top_clearance.
+  xiao_top_clearance: 0
 
   power_switch_right_clearance: -4
   power_switch_width: 6.7
   power_switch_length: 2.6
+  # Inset the power switch from the top board edge so its pads keep >=0.2mm
+  # copper-to-edge clearance (KiBot DRC threshold); 0.5 yields ~0.275mm.
+  power_switch_top_clearance: 0.5
 
   battery_width: 60
   battery_length: 20
@@ -208,7 +215,11 @@ points:
       key.tags: [mcu]
       anchor:
         ref: rect_top_left
-        shift: [xiao_left_clearance + xiao_width / 2, -xiao_length / 2]
+        shift:
+          [
+            xiao_left_clearance + xiao_width / 2,
+            -xiao_length / 2 - xiao_top_clearance,
+          ]
 
     power_switch:
       key:
@@ -216,7 +227,11 @@ points:
         asym: source
       anchor:
         ref: rect_top_right
-        shift: [power_switch_right_clearance - power_switch_width / 2, -power_switch_length / 2]
+        shift:
+          [
+            power_switch_right_clearance - power_switch_width / 2,
+            -power_switch_length / 2 - power_switch_top_clearance,
+          ]
 
     battery_pack:
       key:
@@ -359,7 +374,7 @@ pcbs:
           to: "{{row_net}}"
 
       xiao_ble:
-        what: ImStuBTW/xiao-ble
+        what: local/xiao_ble
         where: mcu_xiao
         params:
           P0: C0
