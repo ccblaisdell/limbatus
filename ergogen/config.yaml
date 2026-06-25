@@ -369,7 +369,10 @@ pcbs:
         what: ceoloide/diode_tht_sod123
         where: [key]
         adjust:
-          shift: [0, -8.5]
+          # Sit the diode in the gap between this switch's hotswap socket
+          # (~y -5.95) and the keycap of the switch below (top at -8.5),
+          # rather than straddling the switch below.
+          shift: [0, -7.5]
         params:
           side: F
           from: "SW_{{name}}"
