@@ -140,7 +140,9 @@ points:
     left_thumbs:
       anchor:
         ref: left_matrix_pointer_bottom
-        shift: [0, -ky]
+        # Offset the cluster ~half a key toward board center so the thumbs are
+        # not column-aligned with the matrix keys directly above them.
+        shift: [kx / 2, -ky]
       key:
         padding: ky
         spread: kx
