@@ -1,5 +1,6 @@
 include <params.scad>
 include <lib/utils.scad>
+include <lib/snap.scad>
 
 // DXF paths (relative to this file)
 DXF_PERIMETER   = "../outlines/case_perimeter.dxf";
@@ -46,5 +47,8 @@ module bottom_tray() {
             linear_extrude(height = insert_depth + EPSILON)
                 offset(delta = INSERT_OFFSET)
                     import(DXF_MOUNT, convexity = 4);
+
+        // Front snap-fit groove in the inner wall (receives the top-shell bead).
+        front_snap_groove() import(DXF_PERIMETER, convexity = 4);
     }
 }

@@ -1,6 +1,7 @@
 include <params.scad>
 include <lib/wedge.scad>
 include <lib/utils.scad>
+include <lib/snap.scad>
 
 // DXF paths (relative to this file)
 DXF_PERIMETER     = "../outlines/case_perimeter.dxf";
@@ -18,6 +19,7 @@ PERIMETER_Y_FRONT = -21.89;
 PERIMETER_Y_REAR  =  88.36;
 
 module top_shell() {
+    union() {
     difference() {
         // Outer wedge body
         intersection() {
@@ -46,5 +48,9 @@ module top_shell() {
             linear_extrude(height = boss_protrusion + EPSILON)
                 offset(delta = BOSS_CLEAR_OFFSET)
                     import(DXF_MOUNT, convexity = 4);
+    }
+
+        // Front snap-fit skirt + bead (drops below the split plane into the tray)
+        front_snap_skirt() import(DXF_PERIMETER, convexity = 4);
     }
 }

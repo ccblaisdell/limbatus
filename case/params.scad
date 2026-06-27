@@ -54,4 +54,19 @@ boss_protrusion = 3.5;              // boss height above the split plane
 boss_top_z      = split_height + boss_protrusion;
 boss_clearance  = 0.5;              // radial gap for the boss in the top shell
 
+// Front snap-fit lip
+// The thin wedge front (~1.5mm) is too shallow for screws, so the two shells
+// clip together along the front edge instead. A continuous flexing skirt on the
+// top shell drops below the split plane into the tray; a bead on the skirt's
+// outer face snaps into a groove cut in the tray's inner wall. Geometry follows
+// outlines/case_perimeter.dxf, masked to the front band (DXF +y <= snap_front_y).
+// These values are a first pass — tune the bead/gap against a test print.
+snap_front_y         = 18;    // run the snap from the front edge up to this DXF y
+snap_skirt_thickness = 1.2;   // flexing skirt wall thickness
+snap_skirt_depth     = 2.3;   // skirt drop below the split plane (tip stays above floor)
+snap_gap             = 0.2;   // clearance between skirt and tray inner wall
+snap_bead_size       = 0.4;   // bead protrusion / groove depth (interference = size - gap)
+snap_bead_height     = 0.8;   // bead/groove vertical size
+snap_bead_inset      = 0.7;   // bead center height above the skirt tip
+
 $fn = 64;
