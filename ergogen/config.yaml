@@ -51,6 +51,11 @@ units:
   case_power_switch_opening_width: 8.5
   case_power_switch_opening_depth: 4
 
+  # Mounting holes: the case boss passes up through the PCB, so the hole
+  # clears the boss (case boss_diameter 6.5mm + tolerance). Holes are kept in
+  # the rear/side margins where the wedge case is tall enough to host a boss.
+  mounting_hole_diameter: 7.0
+
 points:
   mirror: 0
   zones:
@@ -245,6 +250,33 @@ points:
           shift: [0, board_padding_horizontal - battery_length - battery_top_clearance]
           affect: y
 
+    # Case-mounting holes. Only the three left-side holes are declared; the
+    # global mirror (points.mirror) creates the right-side counterparts.
+    # Positions are in the rear/side margins (y <= -17, clear of all keys,
+    # diodes, MCU, battery, power switch) where the wedge case has enough
+    # height to host a boss. spread/padding 0 so each column is placed purely
+    # by its explicit shift.
+    mounting:
+      anchor:
+        shift: [0, 0]
+      key:
+        tags: [mount]
+        spread: 0
+        padding: 0
+      columns:
+        # ergogen +y is the rear (KiCad -y); these land at the MCU/battery end.
+        top:
+          key:
+            shift: [-58, 81]
+        side_upper:
+          key:
+            shift: [-117, 50]
+        side_lower:
+          key:
+            shift: [-117, 25]
+      rows:
+        only:
+
 outlines:
   _demo:
     - what: rectangle
@@ -330,6 +362,15 @@ outlines:
   case_perimeter:
     - name: board
 
+  # Through-PCB mounting holes for the case bosses. Diameter clears the boss
+  # that rises through the board. The case derives boss/insert/screw features
+  # from this same outline (offsets), keeping ergogen the single source of
+  # truth for the XY positions.
+  case_mounting_holes:
+    - what: circle
+      where: mount
+      radius: mounting_hole_diameter / 2
+
   debug:
     - name: board
     - operation: stack
@@ -340,6 +381,8 @@ outlines:
       name: _battery_debug
     - operation: stack
       name: _power_switch_debug
+    - operation: stack
+      name: case_mounting_holes
 
 pcbs:
   limbatus:
@@ -415,3 +458,10 @@ pcbs:
           side: F
           BAT_P: Braw
           BAT_N: GND
+
+      mounting_holes:
+        what: ceoloide/mounting_hole_npth
+        where: mount
+        params:
+          hole_size: mounting_hole_diameter
+          hole_drill: mounting_hole_diameter

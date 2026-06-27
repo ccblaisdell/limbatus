@@ -42,4 +42,16 @@ boss_diameter            = insert_diameter + 2.0;
 boss_height              = insert_depth + 1.0;
 screw_clearance_diameter = screw_diameter + 0.4;
 
+// Mounting bosses
+// XY positions come from outlines/case_mounting_holes.dxf (single source of
+// truth = ergogen). That DXF is circles of pcb_mounting_hole_diameter, which
+// the case offsets to derive boss / insert / clearance diameters.
+pcb_mounting_hole_diameter = 7.0;   // mirror of ergogen mounting_hole_diameter
+// The tray is too shallow for an M3 insert, so the boss rises from the tray
+// floor, up through the PCB clearance hole, and protrudes above the split
+// plane into the (open-top) top shell, where the insert and screw live.
+boss_protrusion = 3.5;              // boss height above the split plane
+boss_top_z      = split_height + boss_protrusion;
+boss_clearance  = 0.5;              // radial gap for the boss in the top shell
+
 $fn = 64;
