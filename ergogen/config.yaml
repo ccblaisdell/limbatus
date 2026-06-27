@@ -155,6 +155,10 @@ points:
       columns:
         tucky:
           key:
+            # Drop the outer thumb key down onto the same plane as the inner
+            # (middle) thumb key so it no longer rides up into the pointer/inner
+            # matrix columns. Lands ~1u to middle's side, no overlap.
+            shift: [0, -8]
             column_net: C5
             row_net: R0
             mirror.row_net: R3
