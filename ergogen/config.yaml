@@ -39,9 +39,11 @@ units:
   # copper-to-edge clearance (KiBot DRC threshold); 0.5 yields ~0.275mm.
   power_switch_top_clearance: 0.5
 
-  battery_width: 80
-  battery_length: 20
-  battery_thickness: 5.5
+  # Potential battery:
+  # https://www.aliexpress.us/item/3256811651980837.html?spm=a2g0o.productlist.main.1.874bCamZCamZnD&algo_pvid=184459c6-e4ee-462b-abdb-a83167f5777b&algo_exp_id=184459c6-e4ee-462b-abdb-a83167f5777b-0&pdp_ext_f=%7B%22order%22%3A%2220%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21USD%215.92%214.12%21%21%2140.10%2127.90%21%4021033d1217827593902686380efa2d%2112000056743681156%21sea%21US%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A42c0f6c4%3Bm03_new_user%3A-29895%3BpisId%3A5000000208023469&curPageLogUid=MCxXjDzTmaEi&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005011838295589%7C_p_origin_prod%3A
+  battery_width: 95
+  battery_length: 25
+  battery_thickness: 4.0
   battery_top_clearance: 2
 
   # Through-PCB cutout under the battery body so the cell sits ~1 board
@@ -49,7 +51,7 @@ units:
   # footprint; the east (pad) side keeps a wider inset so the solder pads stay
   # on solid copper.
   battery_cutout_inset: 3
-  battery_cutout_east_inset: 17
+  battery_cutout_east_inset: 0
 
   case_switch_opening: 13.8
   case_component_clearance: 1
