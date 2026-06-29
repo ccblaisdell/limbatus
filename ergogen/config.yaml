@@ -47,7 +47,10 @@ units:
   battery_width: 80
   battery_length: 20
   battery_thickness: 4.0
-  battery_top_clearance: 2
+  # Distance from the board top edge to the cell. Set >= wall_thickness (2.5)
+  # so the drop-in pocket starts at/inside the case wall and leaves a solid
+  # north board strip rather than undercutting the wall.
+  battery_top_clearance: 3
 
   # Drop-in battery pocket.
   # The cutout is the FULL cell footprint plus a small clearance, so the cell
