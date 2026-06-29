@@ -39,10 +39,17 @@ units:
   # copper-to-edge clearance (KiBot DRC threshold); 0.5 yields ~0.275mm.
   power_switch_top_clearance: 0.5
 
-  battery_width: 60
+  battery_width: 80
   battery_length: 20
   battery_thickness: 5.5
   battery_top_clearance: 2
+
+  # Through-PCB cutout under the battery body so the cell sits ~1 board
+  # thickness lower (a little more height clearance). Inset inside the battery
+  # footprint; the east (pad) side keeps a wider inset so the solder pads stay
+  # on solid copper.
+  battery_cutout_inset: 3
+  battery_cutout_east_inset: 17
 
   case_switch_opening: 13.8
   case_component_clearance: 1
@@ -360,11 +367,26 @@ outlines:
         - ref: rect_bottom_right
         - ref: rect_bottom_left
 
+  # Battery rest cutout (PCB only — the case perimeter stays solid so the
+  # battery rests on the tray). West-biased so it clears the east solder pads.
+  _battery_cutout:
+    - what: rectangle
+      where: battery_pack
+      adjust:
+        shift: [(battery_cutout_inset - battery_cutout_east_inset) / 2, 0]
+      size:
+        [
+          battery_width - battery_cutout_inset - battery_cutout_east_inset,
+          battery_length - 2 * battery_cutout_inset,
+        ]
+
   board:
     - name: _outer_rect
+    - operation: subtract
+      name: _battery_cutout
 
   case_perimeter:
-    - name: board
+    - name: _outer_rect
 
   # Through-PCB mounting holes for the case bosses. Diameter clears the boss
   # that rises through the board. The case derives boss/insert/screw features
