@@ -384,6 +384,9 @@ outlines:
   _battery_cutout:
     - what: rectangle
       where: battery_pack
+      # Slightly rounded inside corners (eases the cell drop-in; LiPo pouches
+      # have rounded corners) and avoids sharp internal stress risers.
+      corner: 1.5
       size:
         [
           battery_width + 2 * battery_pocket_clearance,
