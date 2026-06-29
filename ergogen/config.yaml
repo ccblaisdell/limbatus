@@ -49,11 +49,15 @@ units:
   battery_thickness: 4.0
   battery_top_clearance: 2
 
-  # Through-PCB cutout (pocket) under the battery so the cell sits ~1 board
-  # thickness lower. Centered on the battery and inset uniformly inside the
-  # footprint. The solder pads sit just east of the pocket (battery_pad_gap),
-  # so both the pocket and the pads track battery_width automatically.
-  battery_cutout_inset: 3
+  # Drop-in battery pocket.
+  # The cutout is the FULL cell footprint plus a small clearance, so the cell
+  # drops THROUGH the PCB and rests on the bottom-tray floor ~1 board thickness
+  # lower (a bit more height clearance, and the cell can be a touch taller).
+  # The pocket is centered on the battery; the solder pads sit on solid copper
+  # just east of it (battery_pad_gap). Pocket and pads both track
+  # battery_width/length, so swapping to a different cell size needs no other
+  # edits. battery_pocket_clearance = gap between the cell and the pocket walls.
+  battery_pocket_clearance: 0.5
   battery_pad_gap: 4
 
   case_switch_opening: 13.8
@@ -379,8 +383,8 @@ outlines:
       where: battery_pack
       size:
         [
-          battery_width - 2 * battery_cutout_inset,
-          battery_length - 2 * battery_cutout_inset,
+          battery_width + 2 * battery_pocket_clearance,
+          battery_length + 2 * battery_pocket_clearance,
         ]
 
   board:
@@ -481,8 +485,8 @@ pcbs:
         what: local/battery_pads_solder
         where: battery_pack
         adjust:
-          # Just east of the (centered) pocket; tracks battery_width.
-          shift: [battery_width / 2 - battery_cutout_inset + battery_pad_gap, 0]
+          # On solid copper just east of the drop-in pocket; tracks battery_width.
+          shift: [battery_width / 2 + battery_pocket_clearance + battery_pad_gap, 0]
           rotate: 90
         params:
           side: F

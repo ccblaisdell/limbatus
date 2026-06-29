@@ -16,7 +16,7 @@ for **one** keyboard.
 | D1–D34 | 34 | 1N4148W switch diode | SOD-123, **SMD**, front side (`ceoloide/diode_tht_sod123`) | One per key. Cathode toward the row net. |
 | — (per switch) | 34 | Kailh Choc hotswap socket | Choc v1 hotswap, SMD (`ceoloide/switch_choc_v1_v2`) | Soldered to the PCB; switches drop in. |
 | PWR1 | 1 | Alps SSSS811101 slide switch | SMD side-operated (`ceoloide/power_switch_smd_side`) | On/off. Shorter than the hotswap sockets, mounted on the same side. (e.g. Typeractive / LCSC) |
-| BAT1 | 1 | LiPo cell, direct-solder | 2 solder pads (`local/battery_pads_solder`) | ~80 × 20 × 5.5 mm cell. **No JST connector** — wires solder directly to BAT pads (`Braw` = +, `GND` = −). PCB has a rest cutout under the cell. |
+| BAT1 | 1 | LiPo cell, direct-solder | 2 solder pads (`local/battery_pads_solder`) | ~80 × 20 × 4 mm cell (footprint must stay ≤ ~82 × 23 mm). **No JST connector** — leads solder directly to BAT pads (`Braw` = +, `GND` = −). The cell drops into a **PCB pocket** (full-footprint cutout) and rests on the bottom-tray floor, sitting ~1 board thickness lower; pads are on solid copper just east of the pocket. |
 
 ## Switches & keycaps (hand-fitted, not on netlist)
 
