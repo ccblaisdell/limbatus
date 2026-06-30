@@ -3,7 +3,9 @@
     "allow": [
       "Bash(which openscad:*)",
       "Bash(make case:*)",
-      "Bash(make build *)"
+      "Bash(make build *)",
+      "Read(//Users/ccblaisdell/dev/corney-island/ergogen/footprints/**)",
+      "Bash(find / -name \"*text*\" -path \"*footprint*\")"
     ]
   }
 }
