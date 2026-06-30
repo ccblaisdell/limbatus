@@ -499,6 +499,21 @@ pcbs:
           BAT_P: Braw
           BAT_N: GND
 
+      battery_label:
+        what: ceoloide/utility_text
+        where: battery_pack
+        adjust:
+          # Just south of the drop-in pocket, on solid copper and clear of the
+          # east solder pads. Tracks battery_length so it follows the pocket.
+          shift: [0, -(battery_length / 2 + 3)]
+        params:
+          side: F
+          layer: SilkS
+          height: 1.2
+          width: 1.2
+          # Matches battery_width x battery_length x battery_thickness above.
+          text: "80 x 20 x 4mm"
+
       mounting_holes:
         what: ceoloide/mounting_hole_npth
         where: mount
