@@ -273,8 +273,11 @@ points:
           shift: [0, board_padding_horizontal - battery_length - battery_top_clearance]
           affect: y
 
-    # Case-mounting holes. Only the three left-side holes are declared; the
-    # global mirror (points.mirror) creates the right-side counterparts.
+    # Case-mounting holes. Three left-side holes are declared; the global
+    # mirror (points.mirror) creates the right-side counterparts. A seventh
+    # hole sits on the center line (x = 0) to tie the two shell halves
+    # together in the middle; it is asym:source so the x=0 mirror does not
+    # stamp a coincident duplicate.
     # Positions are in the rear/side margins (y <= -17, clear of all keys,
     # diodes, MCU, battery, power switch) where the wedge case has enough
     # height to host a boss. spread/padding 0 so each column is placed purely
@@ -297,6 +300,14 @@ points:
         side_lower:
           key:
             shift: [-117, 25]
+        # Center-line hole between the two halves. Sits in the open pocket
+        # south of the battery cavity (y >= ~64) and north of the rear inner
+        # keys, where the wedge is tall enough (~5.3mm) to host the boss.
+        # asym:source so the x=0 global mirror keeps it single, not doubled.
+        center:
+          key:
+            shift: [0, 55]
+            asym: source
       rows:
         only:
 
