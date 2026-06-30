@@ -300,13 +300,14 @@ points:
         side_lower:
           key:
             shift: [-117, 25]
-        # Center-line hole between the two halves. Sits in the open pocket
-        # south of the battery cavity (y >= ~64) and north of the rear inner
-        # keys, where the wedge is tall enough (~5.3mm) to host the boss.
-        # asym:source so the x=0 global mirror keeps it single, not doubled.
+        # Center-line hole between the two halves. Shares the y of the
+        # side_lower holes (y=25) so all three lowest bosses sit on one line.
+        # x=0 lands in the wide central gap between the inner key columns,
+        # well clear of any switch. asym:source so the x=0 global mirror keeps
+        # it single, not doubled.
         center:
           key:
-            shift: [0, 55]
+            shift: [0, 25]
             asym: source
       rows:
         only:
