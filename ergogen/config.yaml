@@ -26,11 +26,16 @@ units:
 
   xiao_length: 21
   xiao_width: 17.5
-  xiao_left_clearance: 4
-  # Optional extra inset of the MCU from the top board edge. Currently 0: the
-  # local/xiao_ble footprint already clears the edge once its in-board cut
-  # slots are removed. Knob kept symmetric with power_switch_top_clearance.
-  xiao_top_clearance: 0
+  # USB exits the LEFT board edge (XIAO rotated 90deg, see points.mcu_xiao).
+  # 0 keeps the connector flush with the left edge so the plug can breach the
+  # case wall via case_usb_opening -- the pad-free USB end clears the edge fine,
+  # exactly as the rear edge did before the rotation.
+  xiao_left_clearance: 0
+  # After the 90deg rotation the rear board edge hosts a castellated pad row
+  # (previously the pad-free short end faced it). Inset the MCU from the rear
+  # edge so those pads keep >=0.2mm copper-to-edge (KiBot DRC); 2mm yields
+  # ~1.75mm. Knob kept symmetric with power_switch_top_clearance.
+  xiao_top_clearance: 2
 
   power_switch_right_clearance: -4
   power_switch_width: 6.7
@@ -242,13 +247,20 @@ points:
         asym: source
 
     mcu_xiao:
-      key.tags: [mcu]
+      key:
+        tags: [mcu]
+        # Rotate the XIAO 90deg CCW so the USB connector exits the LEFT board
+        # edge instead of the rear. This lets the board sit on a laptop and be
+        # used while plugged in without the cable fouling the screen hinge.
+        # Rotating the POINT (not just the footprint) keeps the cavity and
+        # USB-opening outlines, which both reference mcu_xiao, in sync.
+        rotate: 90
       anchor:
         ref: rect_top_left
         shift:
           [
-            xiao_left_clearance + xiao_width / 2,
-            -xiao_length / 2 - xiao_top_clearance,
+            xiao_left_clearance + xiao_length / 2,
+            -xiao_width / 2 - xiao_top_clearance,
           ]
 
     power_switch:
