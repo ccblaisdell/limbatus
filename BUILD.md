@@ -49,7 +49,11 @@ with [`BOM.md`](BOM.md) for the parts list.
 
 > _TODO: expand._ 1× Alps SSSS811101 side-operated slide switch
 > (`power_switch_smd_side`), `Braw` → `RAW`. Shorter than the hotswap sockets, same
-> side of the board.
+> (front) side of the board. It sits in the **top-left margin, just east of the
+> XIAO**, actuator facing the top edge — grouped with the XIAO and battery pads so
+> the battery→switch→XIAO power nets stay short and clear of the key matrix. It is
+> in series in the battery **positive** line: battery + (`Braw`) → switch → `RAW` →
+> XIAO BAT+ (see step 4).
 
 ## 4. XIAO BLE MCU (through-hole)
 
@@ -87,13 +91,25 @@ The XIAO ships with two 7-pin header strips in the box — that's all you need.
   the lowest possible profile, but headers are easier to get flat and to rework —
   keep the headers.
 
+### BAT+/BAT− carry the battery feed — connect them
+
+The board delivers battery power **through the XIAO's own BAT+/BAT− pads** so the
+onboard charger/PMIC manages the LiPo (charging over USB-C, battery run otherwise).
+The path is: battery direct-solder pads (step 5) → power switch → **XIAO BAT+**
+(`RAW` net), and battery − → **XIAO BAT−** (`GND`). So these two inner pads **must be
+connected**, not left open.
+
+On the physical XIAO BLE, BAT+/BAT− are on the **module underside**. Solder a short
+jumper from each of the module's BAT pads to the matching board through-hole
+(`BAT_POS`/`BAT_NEG`) — easiest to do **before** final seating, while you can still
+reach the underside. Observe polarity; a reversed BAT connection can damage the cell
+and the XIAO.
+
 ### Leave these pads unpopulated
 
-The footprint also exposes through-holes for **SWD, RST, BAT+/BAT−, and NFC**. None
-need to be populated:
+The footprint also exposes through-holes for **SWD, RST, and NFC**. None need to be
+populated:
 
-- **BAT+/BAT−** — the battery uses the dedicated direct-solder pads (step 5), not the
-  XIAO's BAT pads.
 - **SWD / RST** — debug only; reset and reflashing are handled by the onboard button +
   UF2 bootloader.
 - **NFC1** — already carried through the main pin array as the 6th matrix row (R5);
@@ -102,7 +118,10 @@ need to be populated:
 ## 5. Battery (direct-solder pads)
 
 > _TODO: expand._ LiPo cell, **no JST connector**. Leads solder directly to the BAT
-> pads: **`Braw` = + , `GND` = −** — observe polarity. The cell drops into the PCB
+> pads: **`Braw` = + , `GND` = −** — observe polarity. The two direct-solder pads sit
+> on solid copper **just west of the pocket** (grouped toward the XIAO/switch corner).
+> From there, + runs through the power switch to the XIAO BAT+ pad and − ties to the
+> ground plane, so the switch cuts power to the MCU. The cell drops into the PCB
 > pocket and rests on the bottom-tray floor. Tin the pads, tin the leads, join.
 > Consider soldering the battery **last**, and only after the continuity check, so
 > you're not working near a live cell.
@@ -112,6 +131,10 @@ need to be populated:
 > _TODO: expand._ Before connecting the battery, use a multimeter in continuity mode
 > to spot-check for shorts (especially battery + to −, and adjacent XIAO pins). Then
 > power on via USB-C first; confirm the XIAO enumerates before relying on battery.
+>
+> Note: both copper layers carry a **GND pour**, so every ground pad (battery −, XIAO
+> GND, all switch/diode grounds) reads as continuous with each other — that's
+> expected, not a short. A short is GND continuity to **`Braw`/`RAW` (battery +)**.
 
 ## 7. Firmware
 

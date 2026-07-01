@@ -37,7 +37,13 @@ units:
   # ~1.75mm. Knob kept symmetric with power_switch_top_clearance.
   xiao_top_clearance: 2
 
-  power_switch_right_clearance: -4
+  # Power switch sits in the top-left margin just east of the XIAO so the
+  # battery -> switch -> XIAO positive path (Braw/RAW) and the return stay
+  # short and in the clear top strip instead of crossing the key matrix
+  # (autorouter-friendly). Gap = XIAO east edge to switch west edge. The
+  # XIAO's east pad row reaches ~10mm from its center (a bit past xiao_width/2),
+  # so keep this >=4 to hold a comfortable copper-to-copper margin (~3.5mm).
+  power_switch_gap_from_xiao: 4.5
   power_switch_width: 6.7
   power_switch_length: 2.6
   # Inset the power switch from the top board edge so its pads keep >=0.2mm
@@ -62,7 +68,7 @@ units:
   # drops THROUGH the PCB and rests on the bottom-tray floor ~1 board thickness
   # lower (a bit more height clearance, and the cell can be a touch taller).
   # The pocket is centered on the battery; the solder pads sit on solid copper
-  # just east of it (battery_pad_gap). Pocket and pads both track
+  # just west of it (battery_pad_gap). Pocket and pads both track
   # battery_width/length, so swapping to a different cell size needs no other
   # edits. battery_pocket_clearance = gap between the cell and the pocket walls.
   battery_pocket_clearance: 0.5
@@ -268,10 +274,10 @@ points:
         tags: [power_switch]
         asym: source
       anchor:
-        ref: rect_top_right
+        ref: rect_top_left
         shift:
           [
-            power_switch_right_clearance - power_switch_width / 2,
+            xiao_left_clearance + xiao_length / 2 + xiao_width / 2 + power_switch_gap_from_xiao + power_switch_width / 2,
             -power_switch_length / 2 - power_switch_top_clearance,
           ]
 
@@ -323,6 +329,14 @@ points:
             asym: source
       rows:
         only:
+
+    # Zero-position anchor for the GND copper pours. Sits at ergogen (0,0) ->
+    # KiCad (0,0), so the filled_zone footprints' absolute polygon points are
+    # not shifted by a footprint origin.
+    board_origin:
+      key:
+        tags: [origin]
+        asym: source
 
 outlines:
   _demo:
@@ -404,7 +418,8 @@ outlines:
         - ref: rect_bottom_left
 
   # Battery rest cutout (PCB only — the case perimeter stays solid so the
-  # battery rests on the tray). West-biased so it clears the east solder pads.
+  # battery rests on the tray). Centered on the cell; the solder pads sit just
+  # beyond its west edge (see battery_pads) so they stay clear of the cutout.
   _battery_cutout:
     - what: rectangle
       where: battery_pack
@@ -500,6 +515,13 @@ pcbs:
           P9: R3
           P10: R4
           NFC1: R5
+          # Close the power loop: the XIAO's onboard PMIC is fed from its BAT+
+          # pad. Battery+ -> Braw -> power switch -> RAW lands here, so the
+          # switch actually cuts power to the MCU. Without this, RAW dead-ends
+          # at the switch and BAT_POS is an isolated island (board gets no
+          # power). BAT- returns to the shared GND net / pour.
+          BAT_POS: RAW
+          BAT_NEG: GND
 
       power_switch:
         what: ceoloide/power_switch_smd_side
@@ -515,8 +537,10 @@ pcbs:
         what: local/battery_pads_solder
         where: battery_pack
         adjust:
-          # On solid copper just east of the drop-in pocket; tracks battery_width.
-          shift: [battery_width / 2 + battery_pocket_clearance + battery_pad_gap, 0]
+          # On solid copper just WEST of the drop-in pocket (toward the XIAO /
+          # power-switch cluster) so the battery -> switch -> XIAO power nets
+          # stay short and clear of the matrix; tracks battery_width.
+          shift: [-(battery_width / 2 + battery_pocket_clearance + battery_pad_gap), 0]
           rotate: 90
         params:
           side: F
@@ -527,8 +551,9 @@ pcbs:
         what: ceoloide/utility_text
         where: battery_pack
         adjust:
-          # Just south of the drop-in pocket, on solid copper and clear of the
-          # east solder pads. Tracks battery_length so it follows the pocket.
+          # Just south of the drop-in pocket, on solid copper and centered
+          # (clear of the west solder pads). Tracks battery_length so it
+          # follows the pocket.
           shift: [0, -(battery_length / 2 + 3)]
         params:
           side: F
@@ -544,3 +569,31 @@ pcbs:
         params:
           hole_size: mounting_hole_diameter
           hole_drill: mounting_hole_diameter
+
+      # GND copper pours (front + back). KiCad clips the fill to the board edge
+      # (and the battery cutout), so the rectangle just needs to over-cover the
+      # board bbox (KiCad coords ~x +/-124.8, y -88.4..23.8; padded ~2mm). The
+      # pour removes GND from the autorouter's job entirely: the Specctra DSN
+      # export represents these as planes, so freerouting connects every GND
+      # pad (battery -, XIAO, every switch/diode) to the plane instead of
+      # routing individual GND traces. Anchored at board_origin (0,0) so the
+      # absolute polygon points below are not shifted.
+      gnd_pour_front:
+        what: ceoloide/utility_filled_zone
+        where: board_origin
+        params:
+          side: F
+          net: GND
+          name: GND
+          points:
+            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]
+
+      gnd_pour_back:
+        what: ceoloide/utility_filled_zone
+        where: board_origin
+        params:
+          side: B
+          net: GND
+          name: GND
+          points:
+            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]
