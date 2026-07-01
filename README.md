@@ -23,6 +23,8 @@ Wireless monoblock ergonomic keyboard derived from Dimetrodon.
 2. Generate artifacts:
    - `make build`
 
+For hand-assembly (soldering and case), see [`BUILD.md`](BUILD.md). Parts list is in [`BOM.md`](BOM.md).
+
 ## Verify Ergogen Changes
 Run this whenever you change `ergogen/config.yaml`.
 

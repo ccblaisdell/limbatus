@@ -33,6 +33,7 @@
 - Treat generated outlines/PCB/case artifacts as reproducible outputs.
 - Do not manually edit generated files unless explicitly documented.
 - The current case-generation spec lives in `case/README.md`; case work should follow that plan unless it is explicitly superseded.
+- Keep `BUILD.md` (hand-assembly guide) and `BOM.md` up to date when making changes that affect them: component choices, footprints, orientation/placement (e.g. MCU rotation), pin mapping, battery/power, or case hardware. Treat them as part of the change, not a follow-up.
 - Local reference repo: `~/dev/corney-island` (clone of `ceoloide/corney-island`) is available and useful for GitHub workflows, Ergogen patterns, and case-generation ideas.
 - Prefer small, focused commits for:
   1. geometry/layout,
