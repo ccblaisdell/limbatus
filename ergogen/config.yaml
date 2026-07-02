@@ -50,15 +50,14 @@ units:
   # copper-to-edge clearance (KiBot DRC threshold); 0.5 yields ~0.275mm.
   power_switch_top_clearance: 0.5
 
-  # Battery: 70 x 23 x 6mm LiPo cell (W x L x thickness).
-  # Sized to sit in the top-center pocket with room for a plate-level case wall
-  # between the cell and the neighbouring top-row switches. At 70mm wide it keeps
-  # ample margin to the nearest switch opening (the wall lives there); width is
-  # capped around ~82mm by the pinky-top keys, so extra capacity is taken in
-  # thickness (6mm) rather than footprint. The pocket fits roughly <=82mm wide x
-  # <=23mm tall. Set these to the actual cell's dimensions before ordering the PCB.
-  battery_width: 70
-  battery_length: 23
+  # Battery: 60 x 20 x 6mm LiPo cell (W x L x thickness), e.g. a 602060 pouch
+  # (~600-700mAh). Sits in the top-center pocket with generous room for a
+  # plate-level case wall between the cell and the neighbouring top-row switches.
+  # The tight axis (20mm, battery_length) stays well under the ~23mm pocket
+  # limit set by the pinky/ring top keys; the 60mm axis has slack (pocket fits
+  # up to ~82mm wide). Set these to the actual cell's dimensions before ordering.
+  battery_width: 60
+  battery_length: 20
   # Thickness grows into case depth, not key clearance (the cell sits under a
   # solid lid, clear of the keys). When the battery compartment is actually
   # modelled, confirm the case rear height hosts 6mm + battery_z_clearance.
@@ -568,7 +567,7 @@ pcbs:
           height: 1.2
           width: 1.2
           # Matches battery_width x battery_length x battery_thickness above.
-          text: "70 x 23 x 6mm"
+          text: "60 x 20 x 6mm"
 
       mounting_holes:
         what: ceoloide/mounting_hole_npth
