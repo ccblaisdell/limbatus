@@ -76,7 +76,12 @@ units:
   # battery_width/length, so swapping to a different cell size needs no other
   # edits. battery_pocket_clearance = gap between the cell and the pocket walls.
   battery_pocket_clearance: 0.5
-  battery_pad_gap: 4
+  # Gap between the pocket's west edge and the solder pads. Wide enough to host
+  # the cell's protection board (PCM) + short leads when the JST connector is
+  # snipped off: orient the cell so its wire/PCM end faces WEST (toward these
+  # pads). 8mm keeps the pads ~6mm clear of the nearest keycap (ample room in
+  # the rear margin). See BUILD.md step 5.
+  battery_pad_gap: 8
 
   case_switch_opening: 13.8
   case_component_clearance: 1

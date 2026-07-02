@@ -125,6 +125,16 @@ populated:
 > pocket and rests on the bottom-tray floor. Tin the pads, tin the leads, join.
 > Consider soldering the battery **last**, and only after the continuity check, so
 > you're not working near a live cell.
+>
+> **Keep the protection board — cut at the connector, not the cell.** Most cells
+> ship as: pouch → protection board (PCM, under Kapton tape at the wire end) →
+> leads → JST plug. Snip the **leads just before the JST plug** to remove only the
+> connector; the PCM stays bonded to the cell (this is what you want — it guards
+> against over-discharge/over-current/short). Cut **one lead at a time** so the
+> snips never bridge + and − (that would short the cell). Peek under the tape first
+> to confirm a PCM is actually present; some bare cells have none. Orient the cell
+> so its **wire/PCM end faces the pads** (west) for the shortest leads — the pad gap
+> is sized to host the PCM there. Red = `Braw` (+), black = `GND` (−).
 
 ## 6. Continuity check & first power-on
 
