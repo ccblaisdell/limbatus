@@ -5,7 +5,9 @@
       "Bash(make case:*)",
       "Bash(make build *)",
       "Read(//Users/ccblaisdell/dev/corney-island/ergogen/footprints/**)",
-      "Bash(find / -name \"*text*\" -path \"*footprint*\")"
+      "Bash(find / -name \"*text*\" -path \"*footprint*\")",
+      "Bash(npx ergogen *)",
+      "Bash(python3)"
     ]
   }
 }
