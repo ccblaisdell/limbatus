@@ -31,7 +31,7 @@ battery_z_clearance = 1.0;
 
 // Component heights (mirrors of ergogen/config.yaml)
 xiao_height       = 4.5;
-battery_thickness = 4.0;   // mirror of ergogen battery_thickness
+battery_thickness = 6.0;   // mirror of ergogen battery_thickness
 
 // Fasteners
 screw_diameter           = 3.0;

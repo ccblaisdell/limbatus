@@ -50,14 +50,19 @@ units:
   # copper-to-edge clearance (KiBot DRC threshold); 0.5 yields ~0.275mm.
   power_switch_top_clearance: 0.5
 
-  # Potential battery (NOTE: this linked 95x25 cell is too large for the
-  # top-center pocket — it overlaps the staggered top keys. The pocket fits
-  # roughly <=82mm wide x <=23mm tall. Using a fitting placeholder size below;
-  # set these to the actual cell's dimensions before ordering the PCB.):
-  # https://www.aliexpress.us/item/3256811651980837.html?spm=a2g0o.productlist.main.1.874bCamZCamZnD&algo_pvid=184459c6-e4ee-462b-abdb-a83167f5777b&algo_exp_id=184459c6-e4ee-462b-abdb-a83167f5777b-0&pdp_ext_f=%7B%22order%22%3A%2220%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21USD%215.92%214.12%21%21%2140.10%2127.90%21%4021033d1217827593902686380efa2d%2112000056743681156%21sea%21US%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A42c0f6c4%3Bm03_new_user%3A-29895%3BpisId%3A5000000208023469&curPageLogUid=MCxXjDzTmaEi&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005011838295589%7C_p_origin_prod%3A
-  battery_width: 80
-  battery_length: 20
-  battery_thickness: 4.0
+  # Battery: 70 x 23 x 6mm LiPo cell (W x L x thickness).
+  # Sized to sit in the top-center pocket with room for a plate-level case wall
+  # between the cell and the neighbouring top-row switches. At 70mm wide it keeps
+  # ample margin to the nearest switch opening (the wall lives there); width is
+  # capped around ~82mm by the pinky-top keys, so extra capacity is taken in
+  # thickness (6mm) rather than footprint. The pocket fits roughly <=82mm wide x
+  # <=23mm tall. Set these to the actual cell's dimensions before ordering the PCB.
+  battery_width: 70
+  battery_length: 23
+  # Thickness grows into case depth, not key clearance (the cell sits under a
+  # solid lid, clear of the keys). When the battery compartment is actually
+  # modelled, confirm the case rear height hosts 6mm + battery_z_clearance.
+  battery_thickness: 6.0
   # Distance from the board top edge to the cell. Set >= wall_thickness (2.5)
   # so the drop-in pocket starts at/inside the case wall and leaves a solid
   # north board strip rather than undercutting the wall.
@@ -288,7 +293,9 @@ points:
       anchor:
         - affect: x
         - ref: rect_top_left
-          shift: [0, board_padding_horizontal - battery_length - battery_top_clearance]
+          # Center the cell so its top (rear) edge sits battery_top_clearance
+          # below the board rear edge, independent of battery_length.
+          shift: [0, 0 - battery_top_clearance - battery_length / 2]
           affect: y
 
     # Case-mounting holes. Three left-side holes are declared; the global
@@ -561,7 +568,7 @@ pcbs:
           height: 1.2
           width: 1.2
           # Matches battery_width x battery_length x battery_thickness above.
-          text: "80 x 20 x 4mm"
+          text: "70 x 23 x 6mm"
 
       mounting_holes:
         what: ceoloide/mounting_hole_npth
