@@ -37,18 +37,21 @@ units:
   # ~1.75mm. Knob kept symmetric with power_switch_top_clearance.
   xiao_top_clearance: 2
 
-  # Power switch sits in the top-left margin just east of the XIAO so the
-  # battery -> switch -> XIAO positive path (Braw/RAW) and the return stay
-  # short and in the clear top strip instead of crossing the key matrix
-  # (autorouter-friendly). Gap = XIAO east edge to switch west edge. The
-  # XIAO's east pad row reaches ~10mm from its center (a bit past xiao_width/2),
-  # so keep this >=4 to hold a comfortable copper-to-copper margin (~3.5mm).
-  power_switch_gap_from_xiao: 4.5
+  # Power switch is WEST-facing (actuator points out the left board edge) and
+  # sits just SOUTH of the USB port -- i.e. immediately below the XIAO in the
+  # left margin -- so the slide actuator breaches the west case wall through
+  # case_power_switch_opening, right under the USB opening. The XIAO body spans
+  # the whole west edge down to xiao_width/2 below its center, so "just south of
+  # the USB" is the first clear west-edge spot: just below the XIAO south edge.
+  # power_switch_south_gap = XIAO south edge -> switch north edge.
+  power_switch_south_gap: 2.0
   power_switch_width: 6.7
   power_switch_length: 2.6
-  # Inset the power switch from the top board edge so its pads keep >=0.2mm
-  # copper-to-edge clearance (KiBot DRC threshold); 0.5 yields ~0.275mm.
-  power_switch_top_clearance: 0.5
+  # Inset the switch from the WEST board edge so its mounting-tab pads keep
+  # >=0.2mm copper-to-edge clearance (KiBot DRC threshold). Measured to the
+  # switch body's west edge; the tabs overhang ~0.325mm past it, so 1.0 yields
+  # ~0.675mm pad-to-edge.
+  power_switch_west_clearance: 1.0
 
   # Battery: 60 x 20 x 6mm LiPo cell (W x L x thickness), e.g. a 602060 pouch
   # (~600-700mAh). Sits in the top-center pocket with generous room for a
@@ -282,12 +285,18 @@ points:
       key:
         tags: [power_switch]
         asym: source
+        # Rotate the point 90deg (CCW) like the XIAO so the switch, its cavity,
+        # and its wall opening all face WEST. Combined with the footprint's own
+        # adjust.rotate 90 (see pcbs.power_switch) the footprint lands at 180deg:
+        # actuator out the west edge, signal/tab pads facing inland (east).
+        rotate: 90
       anchor:
         ref: rect_top_left
+        # West edge, just below the XIAO south edge (see power_switch_* notes).
         shift:
           [
-            xiao_left_clearance + xiao_length / 2 + xiao_width / 2 + power_switch_gap_from_xiao + power_switch_width / 2,
-            -power_switch_length / 2 - power_switch_top_clearance,
+            xiao_left_clearance + power_switch_west_clearance + power_switch_length / 2,
+            -xiao_width - xiao_top_clearance - power_switch_south_gap - power_switch_width / 2,
           ]
 
     battery_pack:
@@ -409,12 +418,19 @@ outlines:
         shift: [0, xiao_length / 2 - case_usb_opening_depth / 2]
       size: [case_usb_opening_width, case_usb_opening_depth]
 
+  # Actuator slot in the WEST wall. The switch is inset power_switch_west_clearance
+  # from the board edge for pad DRC, so push the opening the same amount further
+  # west (past the switch body edge) to land its outer edge on the board edge and
+  # fully breach the wall -- exactly like case_usb_opening reaches the edge.
   case_power_switch_opening:
     - what: rectangle
       where: power_switch
       adjust:
         shift:
-          [0, power_switch_length / 2 - case_power_switch_opening_depth / 2]
+          [
+            0,
+            power_switch_length / 2 + power_switch_west_clearance - case_power_switch_opening_depth / 2,
+          ]
       size:
         [case_power_switch_opening_width, case_power_switch_opening_depth]
 

@@ -49,9 +49,9 @@ with [`BOM.md`](BOM.md) for the parts list.
 
 > _TODO: expand._ 1× Alps SSSS811101 side-operated slide switch
 > (`power_switch_smd_side`), `Braw` → `RAW`. Shorter than the hotswap sockets, same
-> (front) side of the board. It sits in the **top-left margin, just east of the
-> XIAO**, actuator facing the top edge — grouped with the XIAO and battery pads so
-> the battery→switch→XIAO power nets stay short and clear of the key matrix. It is
+> (front) side of the board. It sits at the **west (left) board edge, just south
+> of the USB port** (immediately below the XIAO), actuator facing **west** so it
+> breaches the left case wall right under the USB opening. It is
 > in series in the battery **positive** line: battery + (`Braw`) → switch → `RAW` →
 > XIAO BAT+ (see step 4).
 
