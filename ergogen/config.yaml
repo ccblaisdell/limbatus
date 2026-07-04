@@ -43,8 +43,10 @@ units:
   # case_power_switch_opening, right under the USB opening. The XIAO body spans
   # the whole west edge down to xiao_width/2 below its center, so "just south of
   # the USB" is the first clear west-edge spot: just below the XIAO south edge.
-  # power_switch_south_gap = XIAO south edge -> switch north edge.
-  power_switch_south_gap: 2.0
+  # power_switch_south_gap = XIAO south edge -> switch north edge. Kept at 5mm
+  # (not hard up against the XIAO) so a soldering iron can reach the switch's
+  # north pads without fouling the adjacent MCU / its castellated pad row.
+  power_switch_south_gap: 5.0
   power_switch_width: 6.7
   power_switch_length: 2.6
   # Inset the switch from the WEST board edge so its mounting-tab pads keep
