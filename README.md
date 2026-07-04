@@ -1,14 +1,16 @@
 # limbatus
 
-Wireless monoblock ergonomic keyboard derived from Dimetrodon.
+A 34-key wireless monoblock ergonomic keyboard derived from Dimetrodon.
 
 ## Current status
-- Ergogen scaffold created.
-- `thumb_keys_per_side` parameter exists in `ergogen/config.yaml`.
-  - `3` => 36-key target
-  - `2` => 34-key target
-- Matrix is now organized as a XIAO BLE-compatible logical `6 x 6` scan.
+- Ships as a **34-key** layout (`thumb_keys_per_side: 2` in `ergogen/config.yaml`).
+- Matrix is organized as a XIAO BLE-compatible logical `6 x 6` scan.
 - `NFC1` is reserved for matrix use and must be configured as GPIO in firmware.
+
+> The config also retains an optional **36-key** mode (`thumb_keys_per_side: 3`,
+> which adds a third thumb key per side) as build infrastructure. The keyboard is
+> designed, documented, and built as a 34-key; the 36-key path is kept working but
+> not advertised.
 
 ## Latest PCB Images
 - Top view: https://ccblaisdell.github.io/limbatus/limbatus-top.png

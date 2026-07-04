@@ -60,7 +60,7 @@ Use this protocol after any change to `ergogen/config.yaml`.
 ## Decision Log (Current)
 - Wireless keyboard: yes.
 - Form factor: monoblock.
-- Key count: undecided between 34 and 36; config should support both.
+- Key count: advertised and built as `34-key` (the shipping default). Config retains `36-key` mode as optional infrastructure — keep both build paths working, but document and market the keyboard as 34-key only.
 - Matrix target: logical `6 x 6` matrix on XIAO BLE.
 - Matrix pin allocation: `P0..P5` columns, `P6..P10` and `NFC1` rows.
 - Firmware implication: disable NFC and use `NFC1` as GPIO for the sixth matrix row.
