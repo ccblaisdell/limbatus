@@ -66,7 +66,27 @@ Use this protocol after any change to `ergogen/config.yaml`.
 - Firmware implication: disable NFC and use `NFC1` as GPIO for the sixth matrix row.
 - Battery connector: direct solder pads (no JST).
 - Power switch: dedicated footprint included.
-- Reset switch: omitted; rely on the onboard XIAO reset button.
+- Reset switch: omitted; rely on the onboard XIAO reset button, actuated
+  through a Forager-style flexible case tab (no PCB reset switch or test pads).
+  The XIAO footprint still breaks out the unused `RST` pad as a free emergency
+  fallback. Two constraints this imposes on the PCB, to honor before the case is
+  finalized:
+  - The tab must reach the XIAO's *component* face (reset button + RGB LED sit
+    there, near the USB end). Whichever shell hosts the tab pins the XIAO's
+    mounting face; if the tab comes from the bottom tray, the `xiao_ble`
+    footprint flips to `side: B` (a real PCB edit that moves its pads/silk).
+    Currently the XIAO is on `F.Cu` (component face toward the top shell).
+  - After the 90deg rotation the reset button lands at the crowded west/USB
+    corner (shared with `case_usb_opening` and the power switch 5mm south). The
+    tab's travel path must clear the power-switch actuator and USB cutout. When
+    case work begins, parameterize the reset-button XY as a reference point in
+    `config.yaml` (like the USB/power-switch openings) so the tab and a keepout
+    derive from ergogen as the single source of truth.
+- Antenna keepout: the GND copper pours are excluded (copper-only, both layers)
+  from the XIAO's onboard-antenna region at the west/USB end, so ground plane
+  does not detune the BLE antenna. See `pcbs.limbatus.xiao_antenna_keepout`.
+- GND plane stitching: front/back GND pours are tied together by tented
+  stitching vias (`points.stitch` + `pcbs.limbatus.stitching_vias`).
 - MCU target: XIAO BLE nRF52840.
 
 ## Agent Expectations
