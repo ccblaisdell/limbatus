@@ -599,6 +599,23 @@ pcbs:
           hole_size: mounting_hole_diameter
           hole_drill: mounting_hole_diameter
 
+      # JLCPCB order/serial number marker. JLC substitutes the literal
+      # "JLCJLCJLCJLC" placeholder with the board's order number where it sits.
+      # Placed dead-center on board_origin (0,0) -- the wide central gap between
+      # the two halves is clear of keys/diodes (nearest footprint ~20mm away) and
+      # ~25mm from the center mounting hole. On the BACK silkscreen so it stays on
+      # the hidden bottom face; mirrored so it reads correctly from the back.
+      jlc_serial:
+        what: ceoloide/utility_text
+        where: board_origin
+        params:
+          side: B
+          layer: SilkS
+          mirrored: true
+          height: 1
+          width: 1
+          text: "JLCJLCJLCJLC"
+
       # GND copper pours (front + back). KiCad clips the fill to the board edge
       # (and the battery cutout), so the rectangle just needs to over-cover the
       # board bbox (KiCad coords ~x +/-124.8, y -88.4..23.8; padded ~2mm). The
