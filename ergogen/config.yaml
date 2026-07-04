@@ -352,6 +352,49 @@ points:
       rows:
         only:
 
+    # GND plane stitching vias. The board carries GND pours on BOTH copper
+    # layers, but they only tie together where a through-hole GND pad happens to
+    # land (essentially just the XIAO castellations). These vias short the two
+    # planes through their barrels, improving ground integrity and giving cleaner
+    # RF return paths on this 2.4GHz BLE board. Positions sit on solid GND copper
+    # clear of keys/diodes/MCU/battery/power switch, using the same rear/side
+    # margin logic as `mounting`: two on the central x=0 corridor (asym:source so
+    # the x=0 global mirror does not double them) and three left-side margin vias
+    # whose right-side counterparts the global mirror stamps automatically.
+    stitch:
+      anchor:
+        shift: [0, 0]
+      key:
+        tags: [stitch]
+        spread: 0
+        padding: 0
+      columns:
+        # Central corridor, between the logo/JLC cluster and the center
+        # mounting hole (KiCad 0,-25). asym:source keeps each single.
+        center_a:
+          key:
+            shift: [0, 12]
+            asym: source
+        center_b:
+          key:
+            shift: [0, 18]
+            asym: source
+        # Rear margin, between the battery cutout (x within +/-30) and the MCU
+        # (x <= -103). Mirrored to the right rear margin.
+        rear_inner:
+          key:
+            shift: [-40, 80]
+        rear_outer:
+          key:
+            shift: [-75, 80]
+        # West side margin, between the two side mounting holes (y 25 & 50) and
+        # south of the power switch. Mirrored to the east side margin.
+        side_mid:
+          key:
+            shift: [-117, 37]
+      rows:
+        only:
+
     # Zero-position anchor for the GND copper pours. Sits at ergogen (0,0) ->
     # KiCad (0,0), so the filled_zone footprints' absolute polygon points are
     # not shifted by a footprint origin.
@@ -631,6 +674,69 @@ pcbs:
         params:
           side: B
           scale: 1.0
+
+      # Board identity + revision, back silk, in the central gap just south of
+      # the JLC serial (the proven-clear board_origin cluster; nearest footprint
+      # ~20mm away). Mirrored so it reads correctly from the hidden bottom face.
+      # Bump `text` on board_rev whenever the board changes materially so stacked
+      # respins are distinguishable on the bench.
+      board_name:
+        what: ceoloide/utility_text
+        where: board_origin
+        adjust:
+          shift: [0, -4]
+        params:
+          side: B
+          layer: SilkS
+          mirrored: true
+          height: 1.4
+          width: 1.4
+          text: "limbatus"
+
+      board_rev:
+        what: ceoloide/utility_text
+        where: board_origin
+        adjust:
+          shift: [0, -8]
+        params:
+          side: B
+          layer: SilkS
+          mirrored: true
+          height: 1
+          width: 1
+          text: "rev A  2026-07"
+
+      # GND plane stitching vias (see points.stitch). Tented plated through-holes
+      # on GND, dropped inside both pours so their barrels short the planes.
+      stitching_vias:
+        what: local/stitching_via
+        where: stitch
+        params:
+          net: GND
+
+      # RF antenna keepout. The XIAO nRF52840's onboard antenna sits at the USB
+      # end of the module, which after the 90deg point rotation faces WEST, flush
+      # with the board edge (module west end ~x=-124.8, board edge ~-124.76).
+      # Ground plane under a chip antenna detunes it and cuts BLE range, so
+      # exclude the GND pours (both layers) from the antenna corner. Only the
+      # copper POUR is excluded -- tracks/vias/pads stay allowed so routing to any
+      # XIAO pad here is unaffected (a thin trace detunes far less than a plane).
+      # Absolute KiCad coords like the pours (where: board_origin is only an
+      # anchor; the keepout ignores it and uses these points). Clears the outer
+      # ~7mm of the module length across its full width (y -86.5..-68.7) + margin.
+      xiao_antenna_keepout:
+        what: ceoloide/utility_keepout_zone
+        where: board_origin
+        params:
+          side: F&B
+          name: xiao_antenna
+          copperpour_allowed: false
+          tracks_allowed: true
+          vias_allowed: true
+          pads_allowed: true
+          footprints_allowed: true
+          points:
+            [[-126, -87.5], [-117.5, -87.5], [-117.5, -67.7], [-126, -67.7]]
 
       # GND copper pours (front + back). KiCad clips the fill to the board edge
       # (and the battery cutout), so the rectangle just needs to over-cover the
