@@ -292,22 +292,6 @@ path.combo {
 <text x="0" y="0" class="key tap">TAB</text>
 <text x="0" y="24" class="key hold">RGUI</text>
 </g>
-<g class="combo combopos-0">
-<rect rx="6" ry="6" x="98" y="127" width="28" height="26" class="combo"/>
-<text x="112" y="140" class="combo tap">LCTRL</text>
-</g>
-<g class="combo combopos-1">
-<rect rx="6" ry="6" x="154" y="127" width="28" height="26" class="combo"/>
-<text x="168" y="140" class="combo tap">LALT</text>
-</g>
-<g class="combo combopos-2">
-<rect rx="6" ry="6" x="434" y="127" width="28" height="26" class="combo"/>
-<text x="448" y="140" class="combo tap">RALT</text>
-</g>
-<g class="combo combopos-3">
-<rect rx="6" ry="6" x="490" y="127" width="28" height="26" class="combo"/>
-<text x="504" y="140" class="combo tap">LCTRL</text>
-</g>
 </g>
 </g>
 <g transform="translate(30, 288)" class="layer-nav">
@@ -464,22 +448,6 @@ path.combo {
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
 </g>
-<g class="combo combopos-0">
-<rect rx="6" ry="6" x="98" y="127" width="28" height="26" class="combo"/>
-<text x="112" y="140" class="combo tap">LCTRL</text>
-</g>
-<g class="combo combopos-1">
-<rect rx="6" ry="6" x="154" y="127" width="28" height="26" class="combo"/>
-<text x="168" y="140" class="combo tap">LALT</text>
-</g>
-<g class="combo combopos-2">
-<rect rx="6" ry="6" x="434" y="127" width="28" height="26" class="combo"/>
-<text x="448" y="140" class="combo tap">RALT</text>
-</g>
-<g class="combo combopos-3">
-<rect rx="6" ry="6" x="490" y="127" width="28" height="26" class="combo"/>
-<text x="504" y="140" class="combo tap">LCTRL</text>
-</g>
 </g>
 </g>
 <g transform="translate(30, 577)" class="layer-sym">
@@ -627,22 +595,6 @@ path.combo {
 <g transform="translate(532, 204)" class="key trans keypos-35">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
-</g>
-<g class="combo combopos-0">
-<rect rx="6" ry="6" x="98" y="127" width="28" height="26" class="combo"/>
-<text x="112" y="140" class="combo tap">LCTRL</text>
-</g>
-<g class="combo combopos-1">
-<rect rx="6" ry="6" x="154" y="127" width="28" height="26" class="combo"/>
-<text x="168" y="140" class="combo tap">LALT</text>
-</g>
-<g class="combo combopos-2">
-<rect rx="6" ry="6" x="434" y="127" width="28" height="26" class="combo"/>
-<text x="448" y="140" class="combo tap">RALT</text>
-</g>
-<g class="combo combopos-3">
-<rect rx="6" ry="6" x="490" y="127" width="28" height="26" class="combo"/>
-<text x="504" y="140" class="combo tap">LCTRL</text>
 </g>
 </g>
 </g>
@@ -806,22 +758,6 @@ path.combo {
 <g transform="translate(532, 204)" class="key trans keypos-35">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
-</g>
-<g class="combo combopos-0">
-<rect rx="6" ry="6" x="98" y="127" width="28" height="26" class="combo"/>
-<text x="112" y="140" class="combo tap">LCTRL</text>
-</g>
-<g class="combo combopos-1">
-<rect rx="6" ry="6" x="154" y="127" width="28" height="26" class="combo"/>
-<text x="168" y="140" class="combo tap">LALT</text>
-</g>
-<g class="combo combopos-2">
-<rect rx="6" ry="6" x="434" y="127" width="28" height="26" class="combo"/>
-<text x="448" y="140" class="combo tap">RALT</text>
-</g>
-<g class="combo combopos-3">
-<rect rx="6" ry="6" x="490" y="127" width="28" height="26" class="combo"/>
-<text x="504" y="140" class="combo tap">LCTRL</text>
 </g>
 </g>
 </g>
