@@ -10,6 +10,7 @@ on:
       - "config/*.keymap"
       - "config/boards/shields/*/*.dtsi"
       - "keymap_drawer.config.yaml"
+      - "keymap-drawer/*.json"
       - ".github/workflows/draw-keymaps.yml"
 
 jobs:
