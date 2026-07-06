@@ -1,0 +1,29 @@
+name: Draw ZMK keymaps
+
+# Renders an SVG of each keymap with keymap-drawer and commits it back to the
+# repo (into keymap-drawer/). Runs on keymap/layout changes; can also be
+# triggered manually.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "config/*.keymap"
+      - "config/boards/shields/*/*.dtsi"
+      - "keymap_drawer.config.yaml"
+      - ".github/workflows/draw-keymaps.yml"
+
+jobs:
+  draw:
+    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main
+    permissions:
+      contents: write # allow the workflow to commit the rendered SVGs
+    with:
+      keymap_patterns: "config/*.keymap"
+      config_path: "keymap_drawer.config.yaml"
+      output_folder: "keymap-drawer"
+      # limbatus isn't a keyboard keymap-drawer knows about, so tell it to lay
+      # the keys out as a split 3x5 with thumbs. JSON (no spaces) so the
+      # reusable workflow's arg splitter keeps each value as one token.
+      draw_args: >-
+        limbatus:'--ortho-layout {"split":true,"rows":3,"columns":5,"thumbs":2}'
+        limbatus_36:'--ortho-layout {"split":true,"rows":3,"columns":5,"thumbs":3}'

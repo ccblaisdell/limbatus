@@ -7,7 +7,12 @@
 # `xiao_ble//zmk` selects the board's ZMK variant (SoC omitted — nRF52840 is the
 # only option). Plain `xiao_ble` would build the base Zephyr board without ZMK's
 # board glue and CI would reject it as "Missing ZMK Compat".
+#
+# limbatus (34-key) is the shipping default. limbatus_36 (36-key, 3 thumbs/side)
+# is retained infrastructure — built here too so the 36-key path keeps compiling.
 ---
 include:
   - board: xiao_ble//zmk
     shield: limbatus
+  - board: xiao_ble//zmk
+    shield: limbatus_36

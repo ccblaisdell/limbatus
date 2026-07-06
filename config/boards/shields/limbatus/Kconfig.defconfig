@@ -6,3 +6,10 @@ config ZMK_KEYBOARD_NAME
 	default "Limbatus"
 
 endif
+
+if SHIELD_LIMBATUS_36
+
+config ZMK_KEYBOARD_NAME
+	default "Limbatus 36"
+
+endif

@@ -2,3 +2,6 @@
 
 config SHIELD_LIMBATUS
 	def_bool $(shields_list_contains,limbatus)
+
+config SHIELD_LIMBATUS_36
+	def_bool $(shields_list_contains,limbatus_36)
