@@ -27,6 +27,16 @@ A 34-key wireless monoblock ergonomic keyboard derived from Dimetrodon.
 
 For hand-assembly (soldering and case), see [`BUILD.md`](BUILD.md). Parts list is in [`BOM.md`](BOM.md).
 
+## Firmware
+Runs [ZMK](https://zmk.dev) as a single (non-split) XIAO BLE image. The config,
+keymaps, pin map, and build/flash notes live in [`config/`](config/README.md);
+CI builds the `limbatus` (34-key) and `limbatus_36` (36-key) shields and uploads
+`.uf2` artifacts.
+
+Default 34-key keymap (rendered by [keymap-drawer](https://github.com/caksoylar/keymap-drawer)):
+
+![limbatus keymap](keymap-drawer/limbatus.svg)
+
 ## Verify Ergogen Changes
 Run this whenever you change `ergogen/config.yaml`.
 
