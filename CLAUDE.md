@@ -32,6 +32,17 @@
 - Keep Ergogen configuration as source of truth.
 - Treat generated outlines/PCB/case artifacts as reproducible outputs.
 - Do not manually edit generated files unless explicitly documented.
+- `outlines/` and `pcbs/` track current design. When you change
+  `ergogen/config.yaml`, run `make build` and commit the regenerated
+  `outlines/pcbs` in the same commit. CI's Reproducibility job enforces this by
+  failing if committed `outlines/pcbs` don't match a fresh build of the config.
+- `gerbers/` are PRODUCTION artifacts, not live outputs. Treat them as a pinned
+  release snapshot: only refresh and commit them when you are placing a physical
+  fab order, and record provenance in `gerbers/SOURCE.md` (source commit, date,
+  fab/order id). Tag each fab run (e.g. `fab-YYYY-MM-DD`). CI never regenerates
+  or auto-commits `gerbers/` — the KiBot job's gerbers stay ephemeral build
+  artifacts. `gerbers/` will lag `outlines/pcbs` between orders; that is expected.
+  The three artifacts are guaranteed to agree only at a fab tag.
 - The current case-generation spec lives in `case/README.md`; case work should follow that plan unless it is explicitly superseded.
 - Keep `BUILD.md` (hand-assembly guide) and `BOM.md` up to date when making changes that affect them: component choices, footprints, orientation/placement (e.g. MCU rotation), pin mapping, battery/power, or case hardware. Treat them as part of the change, not a follow-up.
 - Local reference repo: `~/dev/corney-island` (clone of `ceoloide/corney-island`) is available and useful for GitHub workflows, Ergogen patterns, and case-generation ideas.
