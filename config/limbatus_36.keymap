@@ -100,10 +100,8 @@ ZMK_HOLD_TAP(hmr,
           ╰───────╮ 30  31  32 │ │ 33  34  35 ╭───────╯
                   ╰────────────╯ ╰────────────╯        */
 
-        COMBO(lctrl, &kp LCTRL, 21 22, 50)
-        COMBO(lalt,  &kp LALT,  22 23, 50)
-        COMBO(ralt,  &kp RALT,  26 27, 50)
-        COMBO(rctrl, &kp LCTRL, 27 28, 50)
+        // No combos defined yet. Add them by hand with the COMBO() helper, e.g.
+        //   COMBO(lctrl, &kp LCTRL, 21 22, 50)
     };
 
 	keymap {
