@@ -1,0 +1,150 @@
+layout: {zmk_keyboard: limbatus_36}
+layers:
+  qwerty:
+  - Q
+  - W
+  - E
+  - R
+  - T
+  - Y
+  - U
+  - I
+  - O
+  - P
+  - '&hml LSHFT A'
+  - '&hml LCTRL S'
+  - '&hml LALT D'
+  - '&hml LGUI F'
+  - G
+  - H
+  - '&hmr RGUI J'
+  - '&hmr RALT K'
+  - '&hmr RCTL L'
+  - '&hmr RSHFT SEMI'
+  - Z
+  - X
+  - C
+  - V
+  - B
+  - N
+  - M
+  - COMMA
+  - DOT
+  - SLASH
+  - LGUI
+  - '&smart_shft'
+  - {t: ESC, h: sym}
+  - {t: ENTER, h: nav}
+  - SPACE
+  - {t: TAB, h: RGUI}
+  nav:
+  - '1'
+  - '2'
+  - '3'
+  - '4'
+  - '5'
+  - '6'
+  - '7'
+  - '8'
+  - '9'
+  - '0'
+  - {t: ▽, type: trans}
+  - PREV
+  - PP
+  - NEXT
+  - VOL UP
+  - LEFT
+  - DOWN
+  - UP
+  - RIGHT
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - VOL DN
+  - HOME
+  - PG DN
+  - PG UP
+  - END
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  sym:
+  - EXCL
+  - AT
+  - LBRC
+  - RBRC
+  - PIPE
+  - STAR
+  - EQUAL
+  - GT
+  - BSLH
+  - SLASH
+  - HASH
+  - DOLLAR
+  - LPAR
+  - RPAR
+  - GRAVE
+  - PLUS
+  - MINUS
+  - APOS
+  - DQT
+  - COLON
+  - PRCNT
+  - CARET
+  - LBKT
+  - RBKT
+  - TILDE
+  - AMPS
+  - UNDER
+  - LT
+  - GT
+  - QMARK
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: held}
+  - {t: ▽, type: trans}
+  - BSPC
+  - {t: ▽, type: trans}
+  fun:
+  - F9
+  - F10
+  - F11
+  - F12
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - BT PRV
+  - BT NXT
+  - BT CLR
+  - BT CLR ALL
+  - F5
+  - F6
+  - F7
+  - F8
+  - Gui+GRAVE
+  - Sft+Ctl+TAB
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Ctl+TAB
+  - {t: ▽, type: trans}
+  - F1
+  - F2
+  - F3
+  - F4
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Alt+BSPC
+  - Gui+BSPC
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: held}
+  - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}

@@ -1,0 +1,13 @@
+# keymap-drawer config for limbatus. See:
+# https://github.com/caksoylar/keymap-drawer/blob/main/CONFIGURATION.md
+draw_config:
+  # Draw held/combo keys a little more legibly.
+  separate_combo_diagrams: false
+  append_colon_to_layer_header: false
+
+parse_config:
+  # Strip the ZMK `&kp`/`&` noise so legends read as plain keys.
+  skip_binding_parsing: false
+  # Friendly names for the modifier-morph / layer-tap behaviors used in the
+  # keymaps, so they render as readable legends instead of raw node names.
+  zmk_keycode_map: {}

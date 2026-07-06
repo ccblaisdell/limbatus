@@ -1,0 +1,8 @@
+file_format: "1"
+id: limbatus_36
+name: Limbatus 36
+type: shield
+url: https://github.com/ccblaisdell/limbatus
+requires: [seeed_xiao]
+features:
+  - keys

@@ -1,0 +1,59 @@
+/*
+ * limbatus shared hardware definition — the kscan matrix.
+ *
+ * monoblock (unibody) wireless keyboard on a single Seeed XIAO BLE nRF52840,
+ * wired as a logical 6x6 diode matrix:
+ *   - 6 columns  C0..C5  ->  XIAO D0..D5
+ *   - 6 rows     R0..R5  ->  XIAO D6..D10 + NFC1 (P0.09)
+ *
+ * The left half uses rows R0..R2, the right half uses rows R3..R5, both halves
+ * sharing columns C0..C5. Diodes run switch(column) -> row (anode on the column
+ * side), i.e. diode-direction = "col2row": columns are strobed outputs, rows
+ * are sampled inputs.
+ *
+ * This matrix is identical for the 34-key and 36-key builds; only the
+ * matrix-transform (in each shield's .overlay) differs. The two extra 36-key
+ * thumbs live at otherwise-unused matrix intersections (C5,R2 and C5,R5), so a
+ * 34-key board simply never scans them.
+ *
+ * Pin/net mapping is the single source of truth in ergogen/config.yaml
+ * (pcbs.limbatus.footprints.xiao_ble) — keep this file in sync with it.
+ *
+ * NOTE: R5 is on NFC1 (nRF P0.09), an NFC antenna pin by default. Each shield's
+ * <shield>.conf sets CONFIG_NFCT_PINS_AS_GPIOS=y so it (and P0.10) act as
+ * ordinary GPIO. Without that, R5 will not scan.
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        wakeup-source;
+        diode-direction = "col2row";
+
+        /* Columns C0..C5 -> XIAO D0..D5 (strobed outputs). */
+        col-gpios
+            = <&xiao_d 0 GPIO_ACTIVE_HIGH>   /* C0 -> P0  / D0  / P0.02 */
+            , <&xiao_d 1 GPIO_ACTIVE_HIGH>   /* C1 -> P1  / D1  / P0.03 */
+            , <&xiao_d 2 GPIO_ACTIVE_HIGH>   /* C2 -> P2  / D2  / P0.28 */
+            , <&xiao_d 3 GPIO_ACTIVE_HIGH>   /* C3 -> P3  / D3  / P0.29 */
+            , <&xiao_d 4 GPIO_ACTIVE_HIGH>   /* C4 -> P4  / D4  / P0.04 */
+            , <&xiao_d 5 GPIO_ACTIVE_HIGH>   /* C5 -> P5  / D5  / P0.05 */
+            ;
+
+        /* Rows R0..R5 -> XIAO D6..D10 + NFC1 (sampled inputs, pulled down). */
+        row-gpios
+            = <&xiao_d 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>   /* R0 -> P6   / D6  / P1.11 */
+            , <&xiao_d 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>   /* R1 -> P7   / D7  / P1.12 */
+            , <&xiao_d 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>   /* R2 -> P8   / D8  / P1.13 */
+            , <&xiao_d 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>   /* R3 -> P9   / D9  / P1.14 */
+            , <&xiao_d 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>   /* R4 -> P10  / D10 / P1.15 */
+            , <&gpio0 9   (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>   /* R5 -> NFC1 / P0.09 (NFC-as-GPIO) */
+            ;
+    };
+};
