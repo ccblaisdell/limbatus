@@ -88,6 +88,15 @@ Use this protocol after any change to `ergogen/config.yaml`.
 - GND plane stitching: front/back GND pours are tied together by tented
   stitching vias (`points.stitch` + `pcbs.limbatus.stitching_vias`).
 - MCU target: XIAO BLE nRF52840.
+- Firmware: ZMK, in-tree under `config/` (unibody, non-split). Build target
+  board `xiao_ble//zmk` + shield `limbatus`; CI in
+  `.github/workflows/zmk-build.yml`. Matrix realized as `zmk,kscan-gpio-matrix`
+  (`col2row`) with columns C0–C5 on `&xiao_d 0..5` and rows R0–R5 on
+  `&xiao_d 6..10` + `&gpio0 9` (NFC1). `CONFIG_NFCT_PINS_AS_GPIOS=y` frees NFC1
+  for R5. The matrix transform/keymap follow urob zmk-helpers `34.h` labels
+  (ported from `ccblaisdell/zmk-config`); 36-key remains a documented variant.
+  ZMK + zmk-helpers are pinned in `config/west.yml`; keep the reusable-workflow
+  ref in `.github/workflows/zmk-build.yml` in sync with the ZMK SHA.
 
 ## Agent Expectations
 - Call out tradeoffs when changing thumb count, geometry, matrix dimensions, or MCU.

@@ -1,0 +1,13 @@
+# ZMK GitHub Actions build matrix for limbatus.
+#
+# limbatus is a monoblock (unibody, NON-split) wireless keyboard: a single
+# Seeed XIAO BLE nRF52840 driving a 6x6 diode matrix. So there is exactly one
+# board+shield combination to build (no _left / _right halves).
+#
+# `xiao_ble//zmk` selects the board's ZMK variant (SoC omitted — nRF52840 is the
+# only option). Plain `xiao_ble` would build the base Zephyr board without ZMK's
+# board glue and CI would reject it as "Missing ZMK Compat".
+---
+include:
+  - board: xiao_ble//zmk
+    shield: limbatus

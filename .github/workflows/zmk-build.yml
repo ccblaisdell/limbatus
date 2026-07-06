@@ -1,0 +1,21 @@
+name: ZMK firmware build
+
+# Only run when the firmware config actually changes, so PCB/case-only commits
+# don't spin up a firmware build (and vice-versa for the KiBot build.yaml).
+on:
+  push:
+    paths:
+      - "config/**"
+      - "build.yaml"
+      - ".github/workflows/zmk-build.yml"
+  pull_request:
+    paths:
+      - "config/**"
+      - "build.yaml"
+      - ".github/workflows/zmk-build.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    # Pinned to the same ZMK commit as config/west.yml. Bump both together.
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@484a0547078228f6957ed164523823e39fbedec4

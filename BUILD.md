@@ -148,9 +148,18 @@ populated:
 
 ## 7. Firmware
 
-> _TODO: expand._ Flash via the UF2 bootloader (double-tap reset → drag-and-drop).
-> **NFC must be disabled** so `NFC1` works as the R5 row GPIO. Matrix pin map:
-> `P0..P5` = columns, `P6..P10` + `NFC1` = rows. Firmware target/repo: TBD.
+> Firmware is **ZMK**, in-tree under [`config/`](config/) (see
+> [`config/README.md`](config/README.md) for the full pin map and build notes).
+> It builds a single unibody image — board `xiao_ble//zmk`, shield `limbatus` —
+> via GitHub Actions ([`.github/workflows/zmk-build.yml`](.github/workflows/zmk-build.yml)),
+> which uploads a `firmware` artifact containing `limbatus.uf2`.
+>
+> Flash via the UF2 bootloader (double-tap reset → drag-and-drop the `.uf2` onto
+> the mass-storage volume). The reset button is reached through the case tab.
+>
+> **NFC is disabled in firmware** (`CONFIG_NFCT_PINS_AS_GPIOS=y`) so `NFC1`
+> (P0.09) works as the R5 row GPIO. Matrix pin map: `P0..P5` = columns C0–C5,
+> `P6..P10` + `NFC1` = rows R0–R5, `col2row` diode direction.
 
 ## 8. Case assembly
 

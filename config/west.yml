@@ -1,0 +1,23 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: urob
+      url-base: https://github.com/urob
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      # Pinned to a recent ZMK main commit (2026-06-29). This is the revision
+      # this config was verified against: the XIAO board id is `xiao_ble`
+      # (seeed vendor layout) and the digital-pin GPIO nexus is `&xiao_d`.
+      # Keep the reusable-workflow ref in .github/workflows/zmk-build.yml in
+      # sync with this SHA.
+      revision: 484a0547078228f6957ed164523823e39fbedec4
+      import: app/west.yml
+    - name: zmk-helpers
+      remote: urob
+      # urob's helpers (home-row-mod macros + key-position labels) used by
+      # limbatus.keymap. Pinned to a commit compatible with the ZMK rev above.
+      revision: bc114546392b4615ac90a99140eaf21dde31209d
+  self:
+    path: config
