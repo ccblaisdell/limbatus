@@ -26,7 +26,9 @@ config/
     limbatus.yml / limbatus_36.yml           shield metadata
     Kconfig.shield / Kconfig.defconfig       shield selection + names
 keymap_drawer.config.yaml                    keymap-drawer styling
-keymap-drawer/                               generated keymap SVGs (committed by CI)
+keymap-drawer/
+  limbatus.json / limbatus_36.json           physical layouts for the drawer (source)
+  *.svg                                       generated keymap images (committed by CI)
 .github/workflows/zmk-build.yml              firmware CI (pinned reusable workflow)
 .github/workflows/draw-keymaps.yml           keymap image CI (keymap-drawer)
 ```
@@ -85,8 +87,9 @@ west build -s zmk/app -b 'xiao_ble//zmk' -- -DSHIELD=limbatus -DZMK_CONFIG=$(pwd
 `.github/workflows/draw-keymaps.yml` renders each keymap with
 [keymap-drawer](https://github.com/caksoylar/keymap-drawer) on every keymap
 change and commits the SVGs into `keymap-drawer/`. limbatus is an unknown board
-to keymap-drawer, so the workflow draws it as a split 3×5 with 2 (or 3) thumbs
-per side via `--ortho-layout`.
+to keymap-drawer, so we ship the physical layout as QMK-style `info.json` files
+(`keymap-drawer/limbatus.json`, `limbatus_36.json`) — a split 3×5 with 2 (or 3)
+thumbs per side — which the workflow auto-detects via `json_path`.
 
 <!-- These render once the draw-keymaps workflow has run and committed the SVGs. -->
 ### 34-key (`limbatus`)

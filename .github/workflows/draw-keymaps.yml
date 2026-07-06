@@ -21,9 +21,10 @@ jobs:
       keymap_patterns: "config/*.keymap"
       config_path: "keymap_drawer.config.yaml"
       output_folder: "keymap-drawer"
-      # limbatus isn't a keyboard keymap-drawer knows about, so tell it to lay
-      # the keys out as a split 3x5 with thumbs. JSON (no spaces) so the
-      # reusable workflow's arg splitter keeps each value as one token.
-      draw_args: >-
-        limbatus:'--ortho-layout {"split":true,"rows":3,"columns":5,"thumbs":2}'
-        limbatus_36:'--ortho-layout {"split":true,"rows":3,"columns":5,"thumbs":3}'
+      # limbatus isn't a keyboard keymap-drawer knows about, so we ship the
+      # physical layout ourselves: the workflow auto-detects
+      # <json_path>/<keymap>.json (QMK-style info.json, a split 3x5 + thumbs)
+      # and draws with it. This avoids passing a layout spec on the CLI — the
+      # reusable workflow interpolates draw_args into a double-quoted shell
+      # context, which eats JSON quotes and splits on spaces.
+      json_path: "keymap-drawer"
