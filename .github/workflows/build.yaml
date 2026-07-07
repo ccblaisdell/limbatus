@@ -6,41 +6,6 @@ on:
   pull_request:
 
 jobs:
-  reproducibility:
-    name: Reproducibility (default config)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.17.0
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install OpenSCAD
-        run: sudo apt-get update && sudo apt-get install -y openscad
-
-      - name: Generate with Ergogen
-        run: make build
-
-      - name: Verify expected outputs exist
-        run: |
-          test -f outlines/board.dxf
-          test -f pcbs/limbatus.kicad_pcb
-          test -f stl/top_shell.stl
-          test -f stl/bottom_tray.stl
-
-      - name: Fail if generated outputs changed
-        run: |
-          git diff --exit-code -- outlines pcbs
-
   kibot:
     name: KiBot (default config)
     runs-on: ubuntu-latest

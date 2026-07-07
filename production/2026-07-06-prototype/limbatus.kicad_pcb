@@ -11,7 +11,7 @@
   (paper "A3")
   (title_block
     (title "limbatus")
-    (date "2026-07-06")
+    (date "2026-07-02")
     (rev "v1.0.0")
     (company "Unknown")
   )
@@ -3444,9 +3444,9 @@
 
   (footprint "ceoloide:power_switch_smd_side"
     (layer "F.Cu")
-    (at -122.46385785552543 -60.511658066765584 180)
+    (at -97.66385785552544 -86.56165806676559 90)
     (property "Reference" "PWR1"
-      (at -3.6 0 90)
+      (at -3.6 0 0)
       (layer "F.SilkS")
       hide
       (effects (font (size 1 1) (thickness 0.15)))
@@ -3463,18 +3463,18 @@
     (fp_line (start 2.845 1.2) (end 2.845 0.35) (layer "F.Fab") (stroke (width 0.1) (type solid)))
     (fp_line (start 2.645 1.4) (end 2.845 1.2) (layer "F.Fab") (stroke (width 0.1) (type solid)))
     (fp_line (start 1.345 1.4) (end 2.645 1.4) (layer "F.Fab") (stroke (width 0.1) (type solid)))
-    (pad "" smd rect (at 1.125 -3.65 270) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
-    (pad "" smd rect (at -1.085 -3.65 270) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
-    (pad "" smd rect (at -1.085 3.65 270) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
-    (pad "" smd rect (at 1.125 3.65 270) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
-    (pad "1" smd rect (at -1.735 2.25 270) (size 0.7 1.5) (layers "F.Cu" "F.Paste" "F.Mask") (net 57 "Braw"))
-    (pad "2" smd rect (at -1.735 -0.75 270) (size 0.7 1.5) (layers "F.Cu" "F.Paste" "F.Mask") (net 55 "RAW"))
-    (pad "3" smd rect (at -1.735 -2.25 270) (size 0.7 1.5) (layers "F.Cu" "F.Paste" "F.Mask") )
+    (pad "" smd rect (at 1.125 -3.65 180) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
+    (pad "" smd rect (at -1.085 -3.65 180) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
+    (pad "" smd rect (at -1.085 3.65 180) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
+    (pad "" smd rect (at 1.125 3.65 180) (size 1 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
+    (pad "1" smd rect (at -1.735 2.25 180) (size 0.7 1.5) (layers "F.Cu" "F.Paste" "F.Mask") (net 57 "Braw"))
+    (pad "2" smd rect (at -1.735 -0.75 180) (size 0.7 1.5) (layers "F.Cu" "F.Paste" "F.Mask") (net 55 "RAW"))
+    (pad "3" smd rect (at -1.735 -2.25 180) (size 0.7 1.5) (layers "F.Cu" "F.Paste" "F.Mask") )
     
-    (fp_text user "ON" (at 0 5 180) (layer "F.SilkS")
+    (fp_text user "ON" (at 0 5 90) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text user "OFF" (at 0 -5 180) (layer "F.SilkS")
+    (fp_text user "OFF" (at 0 -5 90) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 0.415 -3.45) (end -0.375 -3.45) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
@@ -3483,8 +3483,8 @@
     (fp_line (start 1.425 2.85) (end 1.425 -2.85) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -1.425 -1.4) (end -1.425 -1.6) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     
-    (pad "" np_thru_hole circle (at 0.025 -1.5 270) (size 0.9 0.9) (drill 0.9) (layers "*.Cu" "*.Mask"))
-    (pad "" np_thru_hole circle (at 0.025 1.5 270) (size 0.9 0.9) (drill 0.9) (layers "*.Cu" "*.Mask"))
+    (pad "" np_thru_hole circle (at 0.025 -1.5 180) (size 0.9 0.9) (drill 0.9) (layers "*.Cu" "*.Mask"))
+    (pad "" np_thru_hole circle (at 0.025 1.5 180) (size 0.9 0.9) (drill 0.9) (layers "*.Cu" "*.Mask"))
   )
     
 
@@ -3654,287 +3654,6 @@
     )
   )
   
-
-  (gr_text "JLCJLCJLCJLCJLCJLCJLC"
-    (at 0 0 0)
-    (layer "B.SilkS" )
-    (effects
-      (font 
-        (size 1 1)
-        (thickness 0.15)
-        
-        
-      )
-      (justify  mirror)
-    )
-  )
-      
-
-  (footprint "ceoloide:utility_ergogen_logo"
-    (layer "B.Cu")
-    (at 0 -6 0)
-    (property "Reference" "LOGO1"
-      (at 4.572 0 0)
-      (layer "B.Fab")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-		(attr exclude_from_pos_files exclude_from_bom)
-    
-    (fp_poly 
-      (pts
-          (xy -2.501231 0.000000) (xy -2.501231 2.501231) (xy 0.000000 2.501231) (xy 2.501230 2.501231) (xy 2.501230 1.013088)
-          (xy 1.738355 1.013088) (xy 0.021885 1.009917) (xy -1.694584 1.006746) (xy -1.697905 0.662827) (xy -1.701225 0.318907)
-          (xy -1.528910 0.490867) (xy -1.356594 0.662827) (xy 0.190880 0.662827) (xy 1.738355 0.662827) (xy 1.738355 0.837957)
-          (xy 1.738355 1.013088) (xy 2.501230 1.013088) (xy 2.501230 0.150074) (xy 1.394101 0.150074) (xy 0.637478 0.150074)
-          (xy -0.119144 0.150074) (xy -0.293895 -0.025012) (xy -0.468646 -0.200098) (xy 0.287976 -0.200098) (xy 1.044599 -0.200098)
-          (xy 1.219350 -0.025012) (xy 1.394101 0.150074) (xy 2.501230 0.150074) (xy 2.501230 0.000000) (xy 2.501230 -1.063023)
-          (xy 1.738355 -1.063023) (xy 1.738355 -0.887937) (xy 1.738355 -0.712850) (xy 0.190545 -0.712850) (xy -1.357266 -0.712850)
-          (xy -1.525751 -0.544017) (xy -1.578342 -0.491483) (xy -1.624575 -0.445614) (xy -1.661679 -0.409133) (xy -1.686885 -0.384763)
-          (xy -1.697422 -0.375226) (xy -1.697537 -0.375184) (xy -1.698399 -0.387158) (xy -1.699177 -0.420952) (xy -1.699840 -0.473372)
-          (xy -1.700359 -0.541225) (xy -1.700701 -0.621320) (xy -1.700836 -0.710463) (xy -1.700837 -0.719103) (xy -1.700837 -1.063023)
-          (xy 0.018759 -1.063023) (xy 1.738355 -1.063023) (xy 2.501230 -1.063023) (xy 2.501230 -2.501230) (xy 0.000000 -2.501230)
-          (xy -2.501231 -2.501230)
-      )
-			(stroke
-				(width 0.01)
-				(type solid)
-			)
-			(fill solid)
-      (layer "B.SilkS")
-    )
-      
-  )
-    
-
-  (gr_text "limbatus"
-    (at 0 4 0)
-    (layer "B.SilkS" )
-    (effects
-      (font 
-        (size 1.4 1.4)
-        (thickness 0.15)
-        
-        
-      )
-      (justify  mirror)
-    )
-  )
-      
-
-  (gr_text "rev A  2026-07"
-    (at 0 8 0)
-    (layer "B.SilkS" )
-    (effects
-      (font 
-        (size 1 1)
-        (thickness 0.15)
-        
-        
-      )
-      (justify  mirror)
-    )
-  )
-      
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at 0 -12 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V1"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at 0 -18 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V2"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at -40 -80 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V3"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at -75 -80 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V4"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at -117 -37 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V5"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at 40 -80 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V6"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at 75 -80 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V7"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (footprint "local:stitching_via"
-    (layer "F.Cu")
-    (at 117 -37 0)
-    (attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
-    (property "Reference" "V8"
-      (at 0 0 0)
-      (layer "F.SilkS")
-      hide
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (pad "1" thru_hole circle
-      (at 0 0 0)
-      (size 0.6 0.6)
-      (drill 0.3)
-      (layers "*.Cu")
-      (remove_unused_layers no)
-      (net 3 "GND")
-    )
-  )
-  
-
-  (zone
-    (net 0)
-    (net_name "")
-    (locked no)
-    (layers "F&B.Cu")
-    (name "xiao_antenna")
-		(hatch edge 1)
-    (connect_pads
-      (clearance 0)
-    )
-    (min_thickness 0.25)
-    (filled_areas_thickness no)
-		(keepout
-			(tracks allowed)
-			(vias allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-		)
-    (polygon
-      (pts
-        (xy -126 -87.5) (xy -117.5 -87.5) (xy -117.5 -67.7) (xy -126 -67.7) 
-      )
-    )
-  )
-    
 
   (zone
     (net 3)
