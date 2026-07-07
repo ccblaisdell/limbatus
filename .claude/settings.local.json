@@ -7,7 +7,10 @@
       "Read(//Users/ccblaisdell/dev/corney-island/ergogen/footprints/**)",
       "Bash(find / -name \"*text*\" -path \"*footprint*\")",
       "Bash(npx ergogen *)",
-      "Bash(python3)"
+      "Bash(python3)",
+      "Bash(gh pr *)",
+      "Bash(git checkout *)",
+      "Bash(git ls-tree *)"
     ]
   }
 }

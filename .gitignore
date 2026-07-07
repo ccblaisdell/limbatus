@@ -2,3 +2,11 @@ node_modules/
 *.kicad_prl
 stl/
 .claude/worktrees/
+
+# Live Ergogen/KiBot build products — regenerate with `make build`.
+# The committed record of what was actually fabbed lives in production/ (see
+# production/README.md); these root-level outputs are ephemeral.
+/outlines/
+/pcbs/
+/gerbers/
+.DS_Store
