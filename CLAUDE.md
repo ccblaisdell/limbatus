@@ -32,10 +32,12 @@
 - Keep Ergogen configuration as source of truth.
 - Treat generated outlines/PCB/case artifacts as reproducible outputs.
 - Do not manually edit generated files unless explicitly documented.
-- `outlines/` and `pcbs/` track current design. When you change
-  `ergogen/config.yaml`, run `make build` and commit the regenerated
-  `outlines/pcbs` in the same commit. CI's Reproducibility job enforces this by
-  failing if committed `outlines/pcbs` don't match a fresh build of the config.
+- `outlines/` and `pcbs/` track current design and are kept in sync by CI: on
+  push to `main`, the `autocommit-outputs` job runs `make build` and commits any
+  regenerated `outlines/pcbs`. You only need to commit your `config.yaml` change;
+  regenerating locally is optional (though encouraged so PR diffs are accurate).
+  Generation is byte-reproducible — `make build` normalizes the date Ergogen
+  stamps into the PCB title block, so re-runs don't churn.
 - `gerbers/` are PRODUCTION artifacts, not live outputs. Treat them as a pinned
   release snapshot: only refresh and commit them when you are placing a physical
   fab order, and record provenance in `gerbers/SOURCE.md` (source commit, date,

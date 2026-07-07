@@ -8,6 +8,10 @@ build: ergogen case
 
 ergogen:
 	npm run build:ergogen
+	@# Ergogen's kicad8 template stamps the current date into the PCB title
+	@# block (new Date()), which makes the artifact change every calendar day.
+	@# Normalize it to a fixed value so the generated PCB is byte-reproducible.
+	perl -0pi -e 's/\(date "\d{4}-\d{2}-\d{2}"\)/(date "")/' pcbs/limbatus.kicad_pcb
 
 case: case-top case-bottom
 
