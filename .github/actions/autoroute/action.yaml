@@ -4,6 +4,14 @@ inputs:
   boards:
     description: 'Specctra SES output file'
     required: true
+  max_passes:
+    description: 'Upper bound on autorouter passes (graceful cap; still writes .ses)'
+    required: false
+    default: '25'
+  timeout:
+    description: 'Hard wall-clock ceiling per board, in seconds. Backstop only -- fails the step (exit 124) if freerouting runs away.'
+    required: false
+    default: '600'
 runs:
   using: 'docker'
   # TODO: May want to use my own dockerfile
@@ -21,13 +29,24 @@ runs:
         fi
         if [ -e pcbs/${board}.dsn ]; then
           echo "Autoroute PCB";
-          AUTOROUTE_ARGS="-de pcbs/${board}.dsn -do pcbs/${board}.ses -mp 25 -mt 1 -dct 0 --gui.enabled=false --profile.email=ccblaisdell@gmail.com"
+          # Freerouting v2.x headless (--gui.enabled=false) ignores the legacy
+          # short flag `-mp` (freerouting#376), which is why a stuck route ran
+          # 807 passes / 21min in CI. Use the dotted settings-override form
+          # `--router.max_passes` instead, which the router config actually
+          # honors, so a struggling route stops after N passes and still writes
+          # a .ses (possibly with a few unrouted nets -- that is the pre-existing
+          # re-run-to-fix flakiness, not a new failure mode).
+          AUTOROUTE_ARGS="-de pcbs/${board}.dsn -do pcbs/${board}.ses --router.max_passes=${{ inputs.max_passes }} -mt 1 -dct 0 --gui.enabled=false --profile.email=ccblaisdell@gmail.com"
           if [ -e ./freerouting/freerouting.rules ]; then
             echo "Using custom freerouting rules";
             AUTOROUTE_ARGS="$AUTOROUTE_ARGS -dr ./freerouting/freerouting.rules --user-data-path ./freerouting"
           else
             echo "No ./freerouting/freerouting.rules found; using freerouting defaults";
           fi
-          java -jar /opt/freerouting.jar $AUTOROUTE_ARGS
+          # Hard wall-clock backstop: freerouting has no built-in job timeout, so
+          # bound it externally. If the pass cap is ever ignored too, timeout(1)
+          # sends SIGTERM at the deadline (SIGKILL 30s later) and the step fails
+          # loudly (exit 124) instead of burning 25+ minutes.
+          timeout --kill-after=30s "${{ inputs.timeout }}" java -jar /opt/freerouting.jar $AUTOROUTE_ARGS
         fi
       done
