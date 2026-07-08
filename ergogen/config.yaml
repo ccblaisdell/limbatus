@@ -727,16 +727,19 @@ pcbs:
       # Absolute KiCad coords like the pours (where: board_origin is only an
       # anchor; the keepout ignores it and uses these points).
       #
-      # SIZING: the zone is deliberately confined to the module's PAD-FREE tip and
-      # the open board just EAST of it -- x -106..-100. After the 90deg rotation
-      # the castellated pad rows span x -121.9..-106.6, and the pad-free antenna
-      # tip is x -106.6..-103.8. Keeping the keepout's west edge at -106 (just east
-      # of the pads) avoids cutting the GND plane out from under the pad fanout.
-      # An earlier, wider version (x -110.76..-101.76) reached ~4mm into the pad
-      # rows and orphaned GND connections there, roughly doubling autoroute time
-      # and unrouted-net count; this tip-only zone routes as cleanly as no keepout
-      # at all while still clearing pour from the antenna's radiating region. See
-      # the ci-autoroute-flaky and xiao-antenna-opposite-usb memories.
+      # SIZING: the zone is confined to the module's PAD-FREE antenna tip --
+      # x -106..-102, y -72..-83. After the 90deg rotation the castellated pad
+      # rows span x -121.9..-106.6, and the pad-free antenna tip is x -106.6..-103.8.
+      # Keeping the keepout's west edge at -106 (just east of the pads) avoids
+      # cutting the GND plane out from under the pad fanout. The east edge was
+      # pulled from -100 to -102 (it had spilled ~4mm onto open board east of the
+      # module, excluding pour for no RF benefit) and the Y height cut from the
+      # full 17.8mm module width to 11mm centered on the module (y=-77.6), to give
+      # the autorouter back GND plane at the east end and reduce plane
+      # fragmentation. An earlier, wider version (x -110.76..-101.76) reached ~4mm
+      # into the pad rows and orphaned GND connections there, roughly doubling
+      # autoroute time and unrouted-net count. See the ci-autoroute-flaky and
+      # xiao-antenna-opposite-usb memories.
       #
       # NOTE: the antenna end still sits ~21mm inland (nearest edge is the north
       # edge ~10.75mm away), so this keepout mitigates but does not fully solve the
@@ -754,7 +757,7 @@ pcbs:
           pads_allowed: true
           footprints_allowed: true
           points:
-            [[-106, -86.5], [-100, -86.5], [-100, -68.7], [-106, -68.7]]
+            [[-106, -83], [-102, -83], [-102, -72], [-106, -72]]
 
       # GND copper pours (front + back). KiCad clips the fill to the board edge
       # (and the battery cutout), so the rectangle just needs to over-cover the
