@@ -94,8 +94,13 @@ Use this protocol after any change to `ergogen/config.yaml`.
     `config.yaml` (like the USB/power-switch openings) so the tab and a keepout
     derive from ergogen as the single source of truth.
 - Antenna keepout: the GND copper pours are excluded (copper-only, both layers)
-  from the XIAO's onboard-antenna region at the west/USB end, so ground plane
-  does not detune the BLE antenna. See `pcbs.limbatus.xiao_antenna_keepout`.
+  from the XIAO's onboard-antenna region so ground plane does not detune the BLE
+  antenna. The antenna is at the short end OPPOSITE the USB-C (verified from
+  Seeed's front-pinout image), i.e. the EAST end of the module (~x=-103.8), NOT
+  the USB/west end. The keepout was corrected from the west/USB end to the east
+  end 2026-07. The antenna still sits ~21mm inland (compromised RF position
+  inherent to the west-USB exit) -- revisit if BLE range disappoints. See
+  `pcbs.limbatus.xiao_antenna_keepout`.
 - GND plane stitching: front/back GND pours are tied together by tented
   stitching vias (`points.stitch` + `pcbs.limbatus.stitching_vias`).
 - MCU target: XIAO BLE nRF52840.
