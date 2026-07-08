@@ -759,6 +759,33 @@ pcbs:
           points:
             [[-106, -83], [-102, -83], [-102, -72], [-106, -72]]
 
+      # Battery-cutout edge keepout. KiCad's "board edge clearance" DRC rule
+      # (0.5mm) is NOT exported into the Specctra DSN, so freerouting only holds
+      # its own small default off the internal battery cutout and routes tracks
+      # right up to it (observed: an R-row track/arc 0.24mm from the cutout edge,
+      # failing the 0.5mm rule). This keepout forbids TRACKS and VIAS in a 0.65mm
+      # ring around the cutout so the autorouter keeps clear; freerouting honors
+      # DSN keepouts. copperpour stays ALLOWED so the GND plane still fills up to
+      # its own zone clearance -- we only push routed copper out, we do not carve
+      # a wider hole in the plane. pads/footprints allowed (the battery solder
+      # pads sit ~8mm west, outside this ring). Absolute KiCad coords like the
+      # pours/antenna keepout (where: board_origin is only an anchor). The cutout
+      # is x +/-30.5, y -85.862..-64.862 (battery 60x20 + 2x0.5 pocket clearance),
+      # measured from the generated Edge.Cuts; expanded 0.65mm on every side.
+      battery_edge_keepout:
+        what: ceoloide/utility_keepout_zone
+        where: board_origin
+        params:
+          side: F&B
+          name: battery_edge
+          copperpour_allowed: true
+          tracks_allowed: false
+          vias_allowed: false
+          pads_allowed: true
+          footprints_allowed: true
+          points:
+            [[-31.15, -86.512], [31.15, -86.512], [31.15, -64.212], [-31.15, -64.212]]
+
       # GND copper pours (front + back). KiCad clips the fill to the board edge
       # (and the battery cutout), so the rectangle just needs to over-cover the
       # board bbox (KiCad coords ~x +/-124.8, y -88.4..23.8; padded ~2mm). The
