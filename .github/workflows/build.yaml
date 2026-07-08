@@ -45,6 +45,17 @@ jobs:
         with:
           boards: limbatus
 
+      # Pinned freerouting release. Must be >= 2.2.0 so the -mp pass cap is
+      # honored in headless mode (freerouting#522); 2.2.x jars need JDK 25,
+      # which the autoroute action provides via eclipse-temurin:25-jre.
+      - name: Download freerouting
+        env:
+          FREEROUTING_VERSION: '2.2.4'
+        run: |
+          curl -fsSL -o freerouting.jar \
+            "https://github.com/freerouting/freerouting/releases/download/v${FREEROUTING_VERSION}/freerouting-${FREEROUTING_VERSION}.jar"
+          ls -la freerouting.jar
+
       - name: Autoroute PCB
         uses: ./.github/actions/autoroute
         with:

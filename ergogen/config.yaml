@@ -714,16 +714,34 @@ pcbs:
         params:
           net: GND
 
-      # RF antenna keepout. The XIAO nRF52840's onboard antenna sits at the USB
-      # end of the module, which after the 90deg point rotation faces WEST, flush
-      # with the board edge (module west end ~x=-124.8, board edge ~-124.76).
+      # RF antenna keepout. The XIAO nRF52840's onboard meander PCB antenna is at
+      # the short end OPPOSITE the USB-C connector (verified from Seeed's official
+      # front-pinout image -- the USB is at one short edge, the antenna trace at
+      # the far one). The USB end faces WEST, flush with the board edge (module
+      # west end ~x=-124.76); the ANTENNA end is therefore the EAST end of the
+      # 21mm module, at ~x=-103.76 (XIAO center x=-114.26, half-length 10.5).
       # Ground plane under a chip antenna detunes it and cuts BLE range, so
       # exclude the GND pours (both layers) from the antenna corner. Only the
       # copper POUR is excluded -- tracks/vias/pads stay allowed so routing to any
       # XIAO pad here is unaffected (a thin trace detunes far less than a plane).
       # Absolute KiCad coords like the pours (where: board_origin is only an
-      # anchor; the keepout ignores it and uses these points). Clears the outer
-      # ~7mm of the module length across its full width (y -86.5..-68.7) + margin.
+      # anchor; the keepout ignores it and uses these points).
+      #
+      # SIZING: the zone is deliberately confined to the module's PAD-FREE tip and
+      # the open board just EAST of it -- x -106..-100. After the 90deg rotation
+      # the castellated pad rows span x -121.9..-106.6, and the pad-free antenna
+      # tip is x -106.6..-103.8. Keeping the keepout's west edge at -106 (just east
+      # of the pads) avoids cutting the GND plane out from under the pad fanout.
+      # An earlier, wider version (x -110.76..-101.76) reached ~4mm into the pad
+      # rows and orphaned GND connections there, roughly doubling autoroute time
+      # and unrouted-net count; this tip-only zone routes as cleanly as no keepout
+      # at all while still clearing pour from the antenna's radiating region. See
+      # the ci-autoroute-flaky and xiao-antenna-opposite-usb memories.
+      #
+      # NOTE: the antenna end still sits ~21mm inland (nearest edge is the north
+      # edge ~10.75mm away), so this keepout mitigates but does not fully solve the
+      # interior-antenna RF compromise -- revisit with a XIAO reorientation if BLE
+      # range disappoints.
       xiao_antenna_keepout:
         what: ceoloide/utility_keepout_zone
         where: board_origin
@@ -736,7 +754,7 @@ pcbs:
           pads_allowed: true
           footprints_allowed: true
           points:
-            [[-126, -87.5], [-117.5, -87.5], [-117.5, -67.7], [-126, -67.7]]
+            [[-106, -86.5], [-100, -86.5], [-100, -68.7], [-106, -68.7]]
 
       # GND copper pours (front + back). KiCad clips the fill to the board edge
       # (and the battery cutout), so the rectangle just needs to over-cover the
