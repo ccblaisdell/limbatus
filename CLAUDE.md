@@ -98,9 +98,11 @@ Use this protocol after any change to `ergogen/config.yaml`.
   antenna. The antenna is at the short end OPPOSITE the USB-C (verified from
   Seeed's front-pinout image), i.e. the EAST end of the module (~x=-103.8), NOT
   the USB/west end. The keepout was corrected from the west/USB end to the east
-  end 2026-07. The antenna still sits ~21mm inland (compromised RF position
-  inherent to the west-USB exit) -- revisit if BLE range disappoints. See
-  `pcbs.limbatus.xiao_antenna_keepout`.
+  end 2026-07, then narrowed to the module's pad-free tip (x -106..-100) so it
+  does not cut the plane out from under the pad fanout (a wider version doubled
+  autoroute time / unrouted nets). The antenna still sits ~21mm inland
+  (compromised RF position inherent to the west-USB exit) -- revisit if BLE range
+  disappoints. See `pcbs.limbatus.xiao_antenna_keepout`.
 - GND plane stitching: front/back GND pours are tied together by tented
   stitching vias (`points.stitch` + `pcbs.limbatus.stitching_vias`).
 - MCU target: XIAO BLE nRF52840.
