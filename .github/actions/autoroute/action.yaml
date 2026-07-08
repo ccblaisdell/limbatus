@@ -4,8 +4,12 @@ inputs:
   boards:
     description: 'Specctra SES output file'
     required: true
+  jar:
+    description: 'Path (in the workspace) to the freerouting jar to run. The workflow downloads a pinned release before this step.'
+    required: false
+    default: 'freerouting.jar'
   max_passes:
-    description: 'Upper bound on autorouter passes (graceful cap; still writes .ses)'
+    description: 'Upper bound on autorouter passes (honored by freerouting >= 2.2.0; still writes .ses)'
     required: false
     default: '25'
   timeout:
@@ -14,8 +18,12 @@ inputs:
     default: '600'
 runs:
   using: 'docker'
-  # TODO: May want to use my own dockerfile
-  image: 'docker://ceoloide/ergogen-freerouting:latest'
+  # Pinned JDK 25 image: freerouting 2.2.x jars are compiled for Java 25 (class
+  # file 69). The old ceoloide/ergogen-freerouting image only ships freerouting
+  # 2.1.0 on an older JDK -- and 2.1.0 IGNORES the pass cap in headless mode
+  # (fixed in 2.2.0, freerouting#522), which let stuck routes run 800+ passes.
+  # We bring our own pinned freerouting jar (downloaded by the workflow) instead.
+  image: 'docker://eclipse-temurin:25-jre'
   entrypoint: '/bin/sh'
   args:
     - '-c'
@@ -29,14 +37,12 @@ runs:
         fi
         if [ -e pcbs/${board}.dsn ]; then
           echo "Autoroute PCB";
-          # Freerouting v2.x headless (--gui.enabled=false) ignores the legacy
-          # short flag `-mp` (freerouting#376), which is why a stuck route ran
-          # 807 passes / 21min in CI. Use the dotted settings-override form
-          # `--router.max_passes` instead, which the router config actually
-          # honors, so a struggling route stops after N passes and still writes
-          # a .ses (possibly with a few unrouted nets -- that is the pre-existing
-          # re-run-to-fix flakiness, not a new failure mode).
-          AUTOROUTE_ARGS="-de pcbs/${board}.dsn -do pcbs/${board}.ses --router.max_passes=${{ inputs.max_passes }} -mt 1 -dct 0 --gui.enabled=false --profile.email=ccblaisdell@gmail.com"
+          # `-mp` caps the autorouter passes. This is honored only by freerouting
+          # >= 2.2.0 in headless mode (freerouting#522); the pinned jar is 2.2.x,
+          # so a struggling route stops after N passes and still writes a .ses
+          # (possibly with a few unrouted nets -- the pre-existing re-run-to-fix
+          # flakiness, not a new failure mode).
+          AUTOROUTE_ARGS="-de pcbs/${board}.dsn -do pcbs/${board}.ses -mp ${{ inputs.max_passes }} -mt 1 --gui.enabled=false --profile.email=ccblaisdell@gmail.com"
           if [ -e ./freerouting/freerouting.rules ]; then
             echo "Using custom freerouting rules";
             AUTOROUTE_ARGS="$AUTOROUTE_ARGS -dr ./freerouting/freerouting.rules --user-data-path ./freerouting"
@@ -47,6 +53,6 @@ runs:
           # bound it externally. If the pass cap is ever ignored too, timeout(1)
           # sends SIGTERM at the deadline (SIGKILL 30s later) and the step fails
           # loudly (exit 124) instead of burning 25+ minutes.
-          timeout --kill-after=30s "${{ inputs.timeout }}" java -jar /opt/freerouting.jar $AUTOROUTE_ARGS
+          timeout --kill-after=30s "${{ inputs.timeout }}" java -jar "${{ inputs.jar }}" $AUTOROUTE_ARGS
         fi
       done
