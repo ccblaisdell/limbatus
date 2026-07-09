@@ -788,6 +788,11 @@ pcbs:
       # tip (x -106..-102, cut from the north edge -90.5 down to -72). That notch
       # is the RF antenna GND exclusion -- see the long comment above where the
       # xiao_antenna_keepout used to be. Both pours carry the identical notch.
+      #
+      # fill_type: hatch renders the plane as a crosshatch grid (cosmetic choice).
+      # It does NOT affect autorouting: the pour is exported to the Specctra DSN
+      # as a solid GND (plane) built from the zone OUTLINE, so freerouting never
+      # sees the hatch and still connects every GND pad to the plane.
       gnd_pour_front:
         what: ceoloide/utility_filled_zone
         where: board_origin
@@ -795,6 +800,7 @@ pcbs:
           side: F
           net: GND
           name: GND
+          fill_type: hatch
           points:
             [[-127, -90.5], [-106, -90.5], [-106, -72], [-102, -72], [-102, -90.5], [127, -90.5], [127, 26], [-127, 26]]
 
@@ -805,5 +811,6 @@ pcbs:
           side: B
           net: GND
           name: GND
+          fill_type: hatch
           points:
             [[-127, -90.5], [-106, -90.5], [-106, -72], [-102, -72], [-102, -90.5], [127, -90.5], [127, 26], [-127, 26]]
