@@ -11,6 +11,14 @@
 //  this 2.4GHz BLE board. Purely mechanical/electrical: excluded from BOM and
 //  position files so it does not appear as an assembly component.
 //
+//  The pad uses a SOLID zone connection (zone_connect 2) rather than the pour's
+//  default thermal relief. A tented stitching via wants maximum plane tie and is
+//  never hand-soldered, so spokes are pointless -- and if nearby autorouted
+//  tracks block all of a via's thermal spokes, the via drops off the pour
+//  entirely and KiCad flags it "unconnected" (seen on V2 in CI). Solid connection
+//  removes that spoke dependency: every via ties both planes wherever pour copper
+//  reaches its pad.
+//
 // Params
 //    net: default net "GND"
 //      net connected to the via (both planes use GND).
@@ -43,6 +51,7 @@ module.exports = {
       (drill ${p.drill})
       (layers "*.Cu")
       (remove_unused_layers no)
+      (zone_connect 2)
       ${p.net.str}
     )
   )
