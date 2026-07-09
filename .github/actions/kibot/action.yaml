@@ -9,7 +9,9 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/inti-cmnb/kicad8_auto:latest'
+  # KiCad 9 to match the export-dsn / import-ses actions (single KiCad version
+  # across the whole pipeline). See export-dsn/action.yaml for the rationale.
+  image: 'docker://ghcr.io/inti-cmnb/kicad9_auto:latest'
   entrypoint: '/bin/bash'
   args:
     - '-c'
@@ -17,7 +19,10 @@ runs:
       for board in ${{ inputs.boards }};
       do
         echo "Processing $board";
-        # KiBot image uses KiCad 8 parser, which does not accept this newer token.
+        # Strip (embedded_fonts no) as a precaution. KiCad 9 accepts the token,
+        # but the older KiCad 8 parser this action used to run choked on it;
+        # dropping it is harmless (it's a cosmetic font setting) and keeps the
+        # board parseable if the pinned image ever rolls back.
         sed -i '/(embedded_fonts no)/d' $GITHUB_WORKSPACE/pcbs/${board}.kicad_pcb
         kibot -b $GITHUB_WORKSPACE/pcbs/${board}.kicad_pcb -c $GITHUB_WORKSPACE/kibot/${{ inputs.config }}.kibot.yaml
       done

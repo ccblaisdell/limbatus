@@ -6,7 +6,9 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/inti-cmnb/kicad8_auto:latest'
+  # KiCad 9 to match the export-dsn action (the DSN/SES pipeline must use one
+  # KiCad version end to end). See export-dsn/action.yaml for the rationale.
+  image: 'docker://ghcr.io/inti-cmnb/kicad9_auto:latest'
   entrypoint: '/bin/bash'
   args:
     - '-c'

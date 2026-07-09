@@ -6,7 +6,11 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/inti-cmnb/kicad8_auto:latest'
+  # KiCad 9 exports a richer Specctra DSN (finer pad/keepout geometry) than
+  # KiCad 8; freerouting completes the dense 2-layer matrix on it with 0
+  # unrouted nets, where the KiCad 8 DSN leaves the center column crossings
+  # (C1/C2/R4) stuck. Keep this in sync with the other two actions' image.
+  image: 'docker://ghcr.io/inti-cmnb/kicad9_auto:latest'
   entrypoint: '/bin/bash'
   args:
     - '-c'
