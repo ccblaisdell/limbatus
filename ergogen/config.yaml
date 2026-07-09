@@ -781,10 +781,13 @@ pcbs:
       #     island. The stitching vias (points.stitch) keep the two solid planes
       #     tied together.
       #
-      # fill_type: hatch renders the plane as a crosshatch grid (cosmetic choice).
-      # None of these settings affect autorouting: the pour is exported to the
-      # Specctra DSN as a solid GND (plane) built from the zone OUTLINE, so
-      # freerouting never sees the fill and still connects every GND pad to it.
+      # Fill is SOLID (utility_filled_zone default). A crosshatch fill was tried for
+      # looks but solid copper connects pads/vias and ties the two planes far more
+      # robustly (a thin hatch grid fragments around every trace/pad), and a solid
+      # ground is better for the 2.4GHz BLE return paths. None of these settings
+      # affect autorouting anyway: the pour is exported to the Specctra DSN as a
+      # solid GND (plane) built from the zone OUTLINE, so freerouting never sees the
+      # fill and still connects every GND pad to it.
       gnd_pour_front:
         what: ceoloide/utility_filled_zone
         where: board_origin
@@ -792,7 +795,6 @@ pcbs:
           side: F
           net: GND
           name: GND
-          fill_type: hatch
           connect_pads: 'yes'
           remove_islands: 'always'
           points:
@@ -805,7 +807,6 @@ pcbs:
           side: B
           net: GND
           name: GND
-          fill_type: hatch
           connect_pads: 'yes'
           remove_islands: 'always'
           points:
