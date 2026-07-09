@@ -714,39 +714,21 @@ pcbs:
         params:
           net: GND
 
-      # RF antenna GND-pour exclusion -- implemented as a NOTCH cut into
-      # gnd_pour_front / gnd_pour_back below (x -106..-102, from the north pour
-      # edge down to y=-72), NOT as a separate keepout footprint.
+      # RF antenna GND exclusion: REMOVED (2026-07-09, deliberate design call).
+      # The GND pours below now fill SOLID under the XIAO's onboard BLE antenna.
       #
-      # The XIAO nRF52840's onboard meander PCB antenna is at the short end
-      # OPPOSITE the USB-C connector (verified from Seeed's official front-pinout
-      # image). The USB end faces WEST, flush with the board edge; the ANTENNA end
-      # is the EAST end of the 21mm module, at ~x=-103.76 (module x -121.9..-103.8,
-      # antenna tip x -106.6..-103.8). Ground plane under a chip antenna detunes it
-      # and cuts BLE range, so we keep GND pour off the antenna tip.
-      #
-      # WHY A POUR NOTCH INSTEAD OF A utility_keepout_zone: this used to be an
-      # xiao_antenna_keepout (copperpour_allowed:false, tracks_allowed:true). But
-      # KiCad exports EVERY rule-area keepout to the Specctra DSN as a plain
-      # `(keepout)` that freerouting treats as FULLY blocking -- the per-type
-      # tracks/vias/pads "allowed" flags are dropped on export. That keepout
-      # overlaps the NFC1 pad (matrix row R5, MCU1 pad 21, physically at the
-      # antenna tip ~x-105.5,y-81.4) AND the corridor R5 escapes through (it exits
-      # south on B.Cu along x~-106), so freerouting could never route R5 out of
-      # the XIAO: a permanent "unconnected MCU1 pad 21 [R5] -> D30", regardless of
-      # clearance, via size, or pass count (shrinking/moving the keepout only
-      # relocated the block). Cutting the SAME region out of the GND pour polygons
-      # removes the copper -- identical RF benefit, no plane under the antenna --
-      # without emitting a routing keepout, so R5 routes freely. The notch reaches
-      # the north pour edge because a filled_zone is a single polygon (no interior
-      # holes); the slot is clipped to the board outline and stays east of the pad
-      # fanout (pads end at x-106.6). Verified: full autoroute completes with 0
-      # unrouted nets, and GND pour is absent throughout x -106..-102 on both
-      # layers. See the ci-autoroute-flaky and xiao-antenna-opposite-usb memories.
-      #
-      # NOTE: the antenna end still sits ~21mm inland, so this mitigates but does
-      # not fully solve the interior-antenna RF compromise -- revisit with a XIAO
-      # reorientation if BLE range disappoints.
+      # History: the antenna (a meander trace at the short end OPPOSITE the USB-C,
+      # i.e. the east end of the module ~x-103.8) sits under the ground plane,
+      # which detunes it. That was first mitigated by an xiao_antenna_keepout, then
+      # -- because KiCad exports every rule-area keepout to the Specctra DSN as a
+      # fully routing-BLOCKING `(keepout)` that stranded the NFC1/R5 pad at the
+      # antenna tip -- by a NOTCH cut into these pours (same RF void, no routing
+      # block). Both are now gone: the antenna already sits ~21mm inland (a
+      # compromised RF spot inherent to the west-USB exit that the small void only
+      # marginally helped), and a fully-continuous ground plane is simpler and less
+      # prone to fragmenting into isolated pour islands. Net effect on BLE range is
+      # expected to be minor; revisit with a XIAO reorientation if range
+      # disappoints. See the xiao-antenna-opposite-usb memory.
 
       # Battery-cutout edge keepout. KiCad's "board edge clearance" DRC rule
       # (0.5mm) is NOT exported into the Specctra DSN, so freerouting only holds
@@ -782,17 +764,27 @@ pcbs:
       # export represents these as planes, so freerouting connects every GND
       # pad (battery -, XIAO, every switch/diode) to the plane instead of
       # routing individual GND traces. Anchored at board_origin (0,0) so the
-      # absolute polygon points below are not shifted.
+      # absolute polygon points below are not shifted. The polygon is a plain
+      # board-covering rectangle (no antenna notch anymore -- see above).
       #
-      # The polygon is the board-covering rectangle with a NOTCH at the antenna
-      # tip (x -106..-102, cut from the north edge -90.5 down to -72). That notch
-      # is the RF antenna GND exclusion -- see the long comment above where the
-      # xiao_antenna_keepout used to be. Both pours carry the identical notch.
+      # GND-fill robustness (so the autorouted preview reports 0 unconnected items
+      # regardless of how a given freerouting run slices the pour):
+      #   connect_pads: yes  -- SOLID connection for every GND pad, not thermal
+      #     relief. With thermal relief, if a run's tracks happen to block all of a
+      #     pad's spokes the pad drops off the pour and DRC flags it unconnected
+      #     (seen on the XIAO GND pads and stitching vias). Solid connection has no
+      #     spokes to block. Trade-off: GND pads sink heat into the plane, so the
+      #     XIAO castellations and the BAT- pad need a hotter iron / more dwell --
+      #     see BUILD.md.
+      #   remove_islands: always  -- drop any pour region a run isolates from the
+      #     main plane, instead of leaving it as a floating "GND zone unconnected"
+      #     island. The stitching vias (points.stitch) keep the two solid planes
+      #     tied together.
       #
       # fill_type: hatch renders the plane as a crosshatch grid (cosmetic choice).
-      # It does NOT affect autorouting: the pour is exported to the Specctra DSN
-      # as a solid GND (plane) built from the zone OUTLINE, so freerouting never
-      # sees the hatch and still connects every GND pad to the plane.
+      # None of these settings affect autorouting: the pour is exported to the
+      # Specctra DSN as a solid GND (plane) built from the zone OUTLINE, so
+      # freerouting never sees the fill and still connects every GND pad to it.
       gnd_pour_front:
         what: ceoloide/utility_filled_zone
         where: board_origin
@@ -801,8 +793,10 @@ pcbs:
           net: GND
           name: GND
           fill_type: hatch
+          connect_pads: 'yes'
+          remove_islands: 'always'
           points:
-            [[-127, -90.5], [-106, -90.5], [-106, -72], [-102, -72], [-102, -90.5], [127, -90.5], [127, 26], [-127, 26]]
+            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]
 
       gnd_pour_back:
         what: ceoloide/utility_filled_zone
@@ -812,5 +806,7 @@ pcbs:
           net: GND
           name: GND
           fill_type: hatch
+          connect_pads: 'yes'
+          remove_islands: 'always'
           points:
-            [[-127, -90.5], [-106, -90.5], [-106, -72], [-102, -72], [-102, -90.5], [127, -90.5], [127, 26], [-127, 26]]
+            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]

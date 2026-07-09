@@ -26,14 +26,6 @@ preflight:
         error: 'shorting_items'
       - filter: 'MX reversible hotswap has co-located drill holes'
         error: 'holes_co_located'
-      # Freerouting sometimes routes a track across one thermal spoke of a GND
-      # plane pad, leaving it with a single spoke (KiCad wants >=2). The pad is
-      # still electrically connected to the plane -- this is a cosmetic thermal-
-      # relief artifact of the autorouted PREVIEW only (production is hand-routed
-      # per production/README.md). Keep thermal relief (eases hand-soldering the
-      # XIAO/BAT GND pads, see BUILD.md) rather than forcing solid GND connections.
-      - filter: 'Autoroute may leave a GND plane pad with a single thermal spoke; pad stays connected'
-        error: 'starved_thermal'
   fill_zones: true
 
 global:
@@ -58,8 +50,6 @@ global:
       regex: 'shorting_items'
     - number: 58
       regex: 'solder_mask_bridge'
-    - number: 58
-      regex: 'starved_thermal'
 
 import:
   - ./default.kibot.yaml

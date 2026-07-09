@@ -8,6 +8,12 @@ with [`BOM.md`](BOM.md) for the parts list.
 > mixes a few SMD parts (diodes, hotswap sockets, power switch) with one
 > through-hole module (the XIAO) and direct-solder pads (battery). Work from the
 > lowest/most-fragile parts to the tallest so nothing blocks your iron.
+>
+> **Heads-up on GND pads:** the ground pads — the XIAO's GND castellations and the
+> battery **−** (`GND`) pad — are tied **solidly** to the board-wide ground plane
+> (no thermal-relief spokes), so they sink heat fast. Give them extra dwell, plenty
+> of flux, and bump the iron ~20–30 °C hotter than for signal pads; a chisel tip
+> helps. (Solid GND connections keep the autorouted plane fill clean; see CLAUDE.md.)
 
 ## Tools & supplies
 

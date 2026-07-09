@@ -93,27 +93,29 @@ Use this protocol after any change to `ergogen/config.yaml`.
     case work begins, parameterize the reset-button XY as a reference point in
     `config.yaml` (like the USB/power-switch openings) so the tab and a keepout
     derive from ergogen as the single source of truth.
-- Antenna GND exclusion: the GND copper pours are kept off the XIAO's
-  onboard-antenna region (both layers) so the ground plane does not detune the
-  BLE antenna. The antenna is at the short end OPPOSITE the USB-C (verified from
-  Seeed's front-pinout image), i.e. the EAST end of the module (~x=-103.8), NOT
-  the USB/west end. This exclusion is now a NOTCH cut into the `gnd_pour_front` /
-  `gnd_pour_back` polygons (x -106..-102), NOT a separate keepout footprint. The
-  earlier `xiao_antenna_keepout` (a `utility_keepout_zone`) was removed 2026-07:
-  KiCad exports every rule-area keepout to the Specctra DSN as a fully
-  track-blocking `(keepout)` (its per-type allow flags are dropped), and that
-  zone overlapped the NFC1 pad (matrix row R5, MCU1 pad 21, at the antenna tip)
-  and R5's escape corridor -- so freerouting could NEVER route R5 out of the XIAO
-  (permanent "unconnected MCU1 pad 21 [R5] -> D30"), regardless of clearance/via/
-  passes. Notching the pour removes the same copper (identical RF benefit) without
-  a routing keepout, so the full autoroute now completes with 0 unrouted nets.
-  The antenna still sits ~21mm inland (compromised RF position inherent to the
-  west-USB exit) -- revisit if BLE range disappoints. See the notch on
-  `pcbs.limbatus.gnd_pour_front` / `gnd_pour_back`. (One side effect: the changed
-  route can leave a GND plane pad with a single thermal spoke -- a benign
-  autoroute-preview artifact filtered in `kibot/boards.kibot.yaml`.)
+- Antenna GND exclusion: REMOVED (2026-07-09). The GND pours now fill SOLID
+  under the XIAO's onboard BLE antenna (east end of the module, ~x=-103.8, the
+  short end OPPOSITE the USB-C). History: a plane under a chip antenna detunes
+  it, so this was first an `xiao_antenna_keepout`, then a NOTCH in the pours
+  (KiCad exports every rule-area keepout to the Specctra DSN as a fully
+  track-blocking `(keepout)`, which stranded the NFC1/R5 pad at the antenna tip
+  and made R5 permanently unroutable; the notch gave the same RF void without
+  blocking routing). Both were then dropped by choice: the antenna already sits
+  ~21mm inland (a compromised RF spot inherent to the west-USB exit that the
+  small void only marginally helped), and a fully-continuous plane is simpler and
+  does not fragment into isolated pour islands. Revisit with a XIAO reorientation
+  if BLE range disappoints.
+- GND fill robustness: both pours use `connect_pads: 'yes'` (SOLID pad
+  connection, no thermal relief) and `remove_islands: 'always'`. This keeps the
+  autorouted preview at 0 unconnected items regardless of how a given
+  (non-deterministic) freerouting run slices the pour -- thermal-relief spokes
+  could be fully blocked by tracks and drop a GND pad/via off the plane, and
+  isolated pour fragments showed as floating "GND zone unconnected" islands.
+  Trade-off: solid GND pads sink heat into the plane, so the XIAO castellations
+  and the BAT- pad need a hotter iron / more dwell (see BUILD.md).
 - GND plane stitching: front/back GND pours are tied together by tented
-  stitching vias (`points.stitch` + `pcbs.limbatus.stitching_vias`).
+  stitching vias (`points.stitch` + `pcbs.limbatus.stitching_vias`), which use a
+  solid zone connection (`zone_connect 2`) for a reliable plane tie.
 - MCU target: XIAO BLE nRF52840.
 - Firmware: ZMK, in-tree under `config/` (unibody, non-split). Board target
   `xiao_ble//zmk`; two shields share `limbatus.dtsi` — `limbatus` (34-key,
