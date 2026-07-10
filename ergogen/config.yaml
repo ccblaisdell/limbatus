@@ -648,30 +648,9 @@ pcbs:
           hole_size: mounting_hole_diameter
           hole_drill: mounting_hole_diameter
 
-      # JLCPCB order/serial number marker. JLC substitutes the literal
-      # placeholder string with the board's order number, scaling it into the
-      # placeholder's footprint -- so the string must be at least as long as the
-      # order number or the number gets clipped. Match Dimetrodon's 7x "JLC"
-      # (21 chars) rather than the bare 4x example, to leave room for a full
-      # order number. Sits on board_origin (0,0), just south of the ergogen logo,
-      # in the wide central gap between the halves (nearest footprint ~20mm away,
-      # ~25mm from the center mounting hole). On the BACK silkscreen so it stays
-      # on the hidden bottom face; mirrored so it reads correctly from the back.
-      jlc_serial:
-        what: ceoloide/utility_text
-        where: board_origin
-        params:
-          side: B
-          layer: SilkS
-          mirrored: true
-          height: 1
-          width: 1
-          text: "JLCJLCJLCJLCJLCJLCJLC"
-
       # Ergogen logo (5x5mm silkscreen). Dimetrodon tucks it just below the MCU;
       # here that spot is taken by the west-edge power switch, so place it in the
-      # same clear central gap, just north of the JLC marker. BACK silk (mirrored
-      # automatically) to share the hidden bottom face with the JLC text.
+      # same clear central gap. BACK silk (mirrored automatically)
       ergogen_logo:
         what: ceoloide/utility_ergogen_logo
         where: board_origin
@@ -681,8 +660,8 @@ pcbs:
           side: B
           scale: 1.0
 
-      # Board identity + revision, back silk, in the central gap just south of
-      # the JLC serial (the proven-clear board_origin cluster; nearest footprint
+      # Board identity + revision, back silk, in the central gap 
+      # (the proven-clear board_origin cluster; nearest footprint
       # ~20mm away). Mirrored so it reads correctly from the hidden bottom face.
       # Bump `text` on board_rev whenever the board changes materially so stacked
       # respins are distinguishable on the bench.
