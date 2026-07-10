@@ -14,7 +14,7 @@ design at any time.
 
 ```
 production/
-  <order-id>/                 # e.g. 2026-08-01-jlcpcb
+  rev <version>/                 # e.g. 2026-08-01-jlcpcb
     gerbers/
       limbatus/               # base-board gerbers
       limbatus.zip            # the zip actually uploaded to the fab
