@@ -358,9 +358,18 @@ points:
     # planes through their barrels, improving ground integrity and giving cleaner
     # RF return paths on this 2.4GHz BLE board. Positions sit on solid GND copper
     # clear of keys/diodes/MCU/battery/power switch, using the same rear/side
-    # margin logic as `mounting`: two on the central x=0 corridor (asym:source so
-    # the x=0 global mirror does not double them) and three left-side margin vias
-    # whose right-side counterparts the global mirror stamps automatically.
+    # margin logic as `mounting`: three left-side/rear margin vias whose
+    # right-side counterparts the global mirror stamps automatically (six total).
+    #
+    # NO central x=0 corridor vias (2026-07-09): two used to sit there, but on the
+    # autorouted preview the row traces that cross the center corridor box off an
+    # E-W strip of the F.Cu pour, and a via inside that strip PINS it as a floating
+    # island that `remove_islands: always` can no longer drop -- surfacing as a
+    # "Zone GND on F.Cu unconnected" DRC error. Confirmed on the real failing CI
+    # board: deleting the two center vias took its GND-zone-unconnected count 2->1,
+    # with zero signal-routing or plane-tie regression across controlled runs. The
+    # margin vias below tie the planes where copper is continuous. See the
+    # ci-autoroute-flaky memory for the full A/B.
     stitch:
       anchor:
         shift: [0, 0]
@@ -369,16 +378,6 @@ points:
         spread: 0
         padding: 0
       columns:
-        # Central corridor, between the logo/JLC cluster and the center
-        # mounting hole (KiCad 0,-25). asym:source keeps each single.
-        center_a:
-          key:
-            shift: [0, 12]
-            asym: source
-        center_b:
-          key:
-            shift: [0, 18]
-            asym: source
         # Rear margin, between the battery cutout (x within +/-30) and the MCU
         # (x <= -103). Mirrored to the right rear margin.
         rear_inner:
