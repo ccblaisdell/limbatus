@@ -35,7 +35,14 @@ units:
   # (previously the pad-free short end faced it). Inset the MCU from the rear
   # edge so those pads keep >=0.2mm copper-to-edge (KiBot DRC); 2mm yields
   # ~1.75mm. Knob kept symmetric with power_switch_top_clearance.
-  xiao_top_clearance: 2
+  #
+  # Bumped 2 -> 4 (2026-07-09): moves the whole NW cluster (XIAO + the
+  # power switch and USB opening derived from it) ~2mm SOUTH, opening a
+  # routing channel along the north edge above the MCU castellation fanout
+  # -- the congested spot that leaves the MCU-corner GND pour fragmented on
+  # the autorouted preview. The power switch stays clear of MH2 (~0.9mm pad
+  # gap; boss keepout still met). Pads now sit ~3.75mm off the rear edge.
+  xiao_top_clearance: 4
 
   # Power switch is WEST-facing (actuator points out the left board edge) and
   # sits just SOUTH of the USB port -- i.e. immediately below the XIAO in the
