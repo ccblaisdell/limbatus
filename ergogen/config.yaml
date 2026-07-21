@@ -560,6 +560,22 @@ pcbs:
           keycap_height: ky
           keycap_width: kx
 
+          # 3D models (design-time visualization only; not fabrication data).
+          # Paths use KiCad's built-in ${KIPRJMOD} (the dir holding the
+          # .kicad_pcb, i.e. pcbs/) so they resolve with no KiCad path setup.
+          # Offsets/rotations are the community-tuned values for this ceoloide
+          # footprint on its default side B (switch + keycap render on -Z).
+          # Sources/licenses: see ergogen/3dmodels/README.md.
+          switch_3dmodel_filename: ${KIPRJMOD}/../ergogen/3dmodels/Choc_V1_Switch.step
+          switch_3dmodel_xyz_offset: [0, 0, -1.2]
+          switch_3dmodel_xyz_rotation: [0, 180, 180]
+          hotswap_3dmodel_filename: ${KIPRJMOD}/../ergogen/3dmodels/Choc_V1_Hotswap.step
+          hotswap_3dmodel_xyz_offset: [0, 0, -1.6]
+          hotswap_3dmodel_xyz_rotation: [0, 180, 180]
+          keycap_3dmodel_filename: ${KIPRJMOD}/../ergogen/3dmodels/Choc_V1_Keycap_MBK_White_1u.step
+          keycap_3dmodel_xyz_offset: [0, 0, -8]
+          keycap_3dmodel_xyz_rotation: [0, 180, 0]
+
           # Matrix wiring scaffold.
           from: "{{column_net}}"
           to: "SW_{{name}}"
@@ -576,6 +592,9 @@ pcbs:
           side: F
           from: "SW_{{name}}"
           to: "{{row_net}}"
+          # 3D model: SnapEDA 1N4148W (SOD-123, matches this footprint).
+          # See ergogen/3dmodels/README.md.
+          diode_3dmodel_filename: ${KIPRJMOD}/../ergogen/3dmodels/Diode_1N4148W.step
 
       xiao_ble:
         what: local/xiao_ble
@@ -600,6 +619,17 @@ pcbs:
           # power). BAT- returns to the shared GND net / pour.
           BAT_POS: RAW
           BAT_NEG: GND
+          # 3D model: Seeed's official XIAO nRF52840 STEP (includes the BLE
+          # chip antenna + USB-C). Seeed's mechanical export is authored in a
+          # Y-up frame, length along X, width along Z, and offset from origin,
+          # so it is NOT aligned to KiCad's footprint origin. The rotation below
+          # maps that frame into KiCad's (Z-up) footprint frame and the offset
+          # recenters it; both are analytical ESTIMATES -- do a one-time visual
+          # check in KiCad's footprint 3D tab and nudge if needed, then paste
+          # the corrected numbers back here. See ergogen/3dmodels/README.md.
+          xiao_3dmodel_filename: ${KIPRJMOD}/../ergogen/3dmodels/XIAO-nRF52840.step
+          xiao_3dmodel_xyz_offset: [7.7, -0.5, 0]
+          xiao_3dmodel_xyz_rotation: [-90, 180, -90]
 
       power_switch:
         what: ceoloide/power_switch_smd_side
@@ -610,6 +640,11 @@ pcbs:
           reversible: false
           from: Braw
           to: RAW
+          # 3D model: SnapEDA C&K PCM12SMTR slide switch. The footprint's own
+          # adjust.rotate 90 spins it in-plane; this stands the model upright.
+          # See ergogen/3dmodels/README.md.
+          switch_3dmodel_filename: ${KIPRJMOD}/../ergogen/3dmodels/Switch_Power.step
+          switch_3dmodel_xyz_rotation: [-90, 0, -90]
 
       battery_pads:
         what: local/battery_pads_solder
