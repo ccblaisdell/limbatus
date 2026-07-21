@@ -38,6 +38,32 @@ KiCad's Z-up footprint frame and were tuned and verified visually in KiCad's
 footprint 3D tab. The switch, hotswap, keycap, and power-switch transforms are
 the community-tuned values from the ceoloide/infused-kim footprints.
 
+## Exporting the board for case design
+
+Two paths, depending on what you need. Both require `KIPRJMOD` to be defined so
+the component models resolve (KiCad sets it automatically in the GUI; the CLI
+does not — pass `-D KIPRJMOD="$PWD/pcbs"`).
+
+- **Full-detail STEP** (exact BREP, editable geometry):
+  ```
+  kicad-cli pcb export step --force -D KIPRJMOD="$PWD/pcbs" \
+    -o limbatus-3d.step pcbs/limbatus.kicad_pcb
+  ```
+  (Don't add `--no-unspecified` — the diodes are "unspecified" type and would be
+  dropped.)
+
+- **Light decimated mesh for Onshape** — the full STEP/mesh (~653k triangles)
+  lags Onshape's UI, so `make onshape-mesh` exports an STL and uses Blender to
+  collapse it to `ONSHAPE_RATIO` (~8% → ~52k triangles), keeping the overall
+  shape and exact dimensions. Output: `export3d/limbatus-onshape.stl` (gitignored).
+  Import it into Onshape as a mesh reference. Requires Blender
+  (`brew install --cask blender`); dev-only, not part of `make build`/CI.
+  Tune density with `make onshape-mesh ONSHAPE_RATIO=0.15`.
+
+For **precise** board geometry in Onshape (crisp edges for case fitting), prefer
+the exact `outlines/board.dxf` over the mesh; use the mesh only as the component
+clearance envelope.
+
 ## Model sources & licenses
 
 Each file keeps the license of its upstream source. This directory aggregates
