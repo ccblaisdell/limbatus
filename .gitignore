@@ -2,6 +2,7 @@ node_modules/
 *.kicad_prl
 stl/
 export3d/
+__pycache__/
 .claude/worktrees/
 
 # Live Ergogen/KiBot build products — regenerate with `make build`.

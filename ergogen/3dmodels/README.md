@@ -28,15 +28,27 @@ into their own directory, so `${KIPRJMOD}/../ergogen/3dmodels` will not resolve
 there. That is intentional — those are fab records for gerber review, not 3D
 previews.
 
-## Placement note (XIAO)
+## Placement note (XIAO — orientation is baked in)
 
-`XIAO-nRF52840.step` is Seeed's official mechanical export. It is authored in a
-**Y-up** frame (length along X, width along Z) and offset from the origin, so it
-is not aligned to KiCad's footprint origin. The `xiao_3dmodel_xyz_rotation`
-(`[90, 0, 90]`) / `_offset` (`[6.2, -1.6, 0]`) in `config.yaml` map it into
-KiCad's Z-up footprint frame and were tuned and verified visually in KiCad's
-footprint 3D tab. The switch, hotswap, keycap, and power-switch transforms are
-the community-tuned values from the ceoloide/infused-kim footprints.
+`XIAO-nRF52840.step` is Seeed's official mechanical export, authored in a **Y-up**
+frame (length along X, width along Z) offset from the origin — not aligned to
+KiCad's footprint origin. It needs a two-axis rotation to sit correctly, and
+that's where a KiCad quirk bites: **the 3D viewer and the STEP/mesh exporter
+compose multi-axis `(rotate …)` values in different orders**, so a rotation tuned
+in the viewer comes out *flipped* in the STEP/STL export (only the XIAO is
+affected — every other part uses a single-axis or identity rotation).
+
+Fix: the orientation is **baked into the model geometry**. `make bake-xiao` runs
+`scripts/bake_xiao_rotation.py` (headless FreeCAD) to transform the raw
+`XIAO-nRF52840.step` into **`XIAO-nRF52840-kicad.step`**, which `config.yaml`
+references with an **identity** transform (rotation `[0,0,0]`, offset `[0,0,0]`).
+An identity transform has no order to disagree on, so the viewer and every export
+match. Regenerate only if the raw Seeed model is replaced. Trade-off: the bake is
+geometry-only, so the baked XIAO renders a single flat color (invisible in the
+monochrome Onshape mesh; minor in the KiCad viewer).
+
+The switch, hotswap, keycap, and power-switch transforms are the community-tuned
+values from the ceoloide/infused-kim footprints and need no baking.
 
 ## Exporting the board for case design
 
@@ -71,7 +83,8 @@ third-party models for convenience; it does not relicense them.
 
 | File | Part | Source |
 |------|------|--------|
-| `XIAO-nRF52840.step` | Seeed XIAO nRF52840 (incl. BLE antenna + USB-C) | Seeed Studio official 3D model — <https://wiki.seeedstudio.com/XIAO_BLE/> |
+| `XIAO-nRF52840.step` | Seeed XIAO nRF52840 (incl. BLE antenna + USB-C) — raw source | Seeed Studio official 3D model — <https://wiki.seeedstudio.com/XIAO_BLE/> |
+| `XIAO-nRF52840-kicad.step` | Same, re-oriented for KiCad (used by config) | Generated from the row above by `make bake-xiao` |
 | `Choc_V1_Switch.step` | Kailh Choc v1 switch | Joe Scotto, ScottoKeebs — <https://github.com/joe-scotto/scottokeebs> |
 | `Choc_V1_Hotswap.step` | Choc v1 hotswap socket | Joe Scotto, ScottoKeebs — <https://github.com/joe-scotto/scottokeebs> |
 | `Choc_V1_Keycap_MBK_White_1u.step` | MBK 1u keycap | Darryldh (Thingiverse thing:4564253); color variant by @infused-kim |
