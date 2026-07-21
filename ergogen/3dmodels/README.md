@@ -32,12 +32,11 @@ previews.
 
 `XIAO-nRF52840.step` is Seeed's official mechanical export. It is authored in a
 **Y-up** frame (length along X, width along Z) and offset from the origin, so it
-is not aligned to KiCad's footprint origin. The `xiao_3dmodel_xyz_rotation` /
-`_offset` in `config.yaml` are analytical estimates that map it into KiCad's
-Z-up footprint frame. Confirm the fit once in KiCad's footprint 3D tab and, if
-needed, nudge the values and paste them back into `config.yaml`. The switch,
-hotswap, keycap, and power-switch transforms are the community-tuned values from
-the ceoloide/infused-kim footprints and should need no adjustment.
+is not aligned to KiCad's footprint origin. The `xiao_3dmodel_xyz_rotation`
+(`[90, 0, 90]`) / `_offset` (`[6.2, -1.6, 0]`) in `config.yaml` map it into
+KiCad's Z-up footprint frame and were tuned and verified visually in KiCad's
+footprint 3D tab. The switch, hotswap, keycap, and power-switch transforms are
+the community-tuned values from the ceoloide/infused-kim footprints.
 
 ## Model sources & licenses
 

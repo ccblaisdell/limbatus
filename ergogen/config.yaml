@@ -622,14 +622,13 @@ pcbs:
           # 3D model: Seeed's official XIAO nRF52840 STEP (includes the BLE
           # chip antenna + USB-C). Seeed's mechanical export is authored in a
           # Y-up frame, length along X, width along Z, and offset from origin,
-          # so it is NOT aligned to KiCad's footprint origin. The rotation below
-          # maps that frame into KiCad's (Z-up) footprint frame and the offset
-          # recenters it; both are analytical ESTIMATES -- do a one-time visual
-          # check in KiCad's footprint 3D tab and nudge if needed, then paste
-          # the corrected numbers back here. See ergogen/3dmodels/README.md.
+          # so it is NOT aligned to KiCad's footprint origin. The offset/rotation
+          # below map it into KiCad's (Z-up) footprint frame; they were tuned
+          # and verified visually in KiCad's footprint 3D tab.
+          # See ergogen/3dmodels/README.md.
           xiao_3dmodel_filename: ${KIPRJMOD}/../ergogen/3dmodels/XIAO-nRF52840.step
-          xiao_3dmodel_xyz_offset: [7.7, -0.5, 0]
-          xiao_3dmodel_xyz_rotation: [-90, 180, -90]
+          xiao_3dmodel_xyz_offset: [6.2, -1.6, 0]
+          xiao_3dmodel_xyz_rotation: [90, 0, 90]
 
       power_switch:
         what: ceoloide/power_switch_smd_side
