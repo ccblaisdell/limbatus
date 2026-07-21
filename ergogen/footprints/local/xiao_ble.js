@@ -34,6 +34,13 @@ module.exports = {
     BAT_NEG: { type: 'net', value: 'BAT_NEG' },
     NFC1: { type: 'net', value: 'NFC1' },
     NFC2: { type: 'net', value: 'NFC2' },
+    // Optional 3D model for design-time visualization. Point the filename at a
+    // STEP/WRL via a KiCad path variable (e.g. ${KIPRJMOD}/...); when empty no
+    // (model ...) node is emitted. Mirrors the ceoloide footprints' convention.
+    xiao_3dmodel_filename: { type: 'string', value: '' },
+    xiao_3dmodel_xyz_offset: { type: 'array', value: [0, 0, 0] },
+    xiao_3dmodel_xyz_rotation: { type: 'array', value: [0, 0, 0] },
+    xiao_3dmodel_xyz_scale: { type: 'array', value: [1, 1, 1] },
   },
   body: p => {
     const fp = [];
@@ -76,6 +83,17 @@ fp.push(`(pad "19" thru_hole circle (at -4.445 ${flipN(flip, -0.317)} ${flipR(fl
 fp.push(`(pad "20" thru_hole circle (at -4.445 ${flipN(flip, -2.222)} ${flipR(flip, p.r + 180)}) (size 1.397 1.397) (drill 1.016) (layers "*.Cu" "*.Mask") (remove_unused_layers no)  ${p.BAT_NEG})`);
 fp.push(`(pad "21" thru_hole circle (at 3.802408 ${flipN(flip, 8.801408)} ${flipR(flip, p.r + 270)}) (size 1.397 1.397) (drill 1.016) (layers "*.Cu" "*.Mask") (remove_unused_layers no)  ${p.NFC1})`);
 fp.push(`(pad "22" thru_hole circle (at 5.707408 ${flipN(flip, 8.801408)} ${flipR(flip, p.r + 270)}) (size 1.397 1.397) (drill 1.016) (layers "*.Cu" "*.Mask") (remove_unused_layers no)  ${p.NFC2})`);
+
+// Optional 3D model (only emitted when a filename is provided).
+if (p.xiao_3dmodel_filename) {
+  const o = p.xiao_3dmodel_xyz_offset;
+  const r = p.xiao_3dmodel_xyz_rotation;
+  const s = p.xiao_3dmodel_xyz_scale;
+  fp.push(`(model "${p.xiao_3dmodel_filename}"`);
+  fp.push(`  (offset (xyz ${o[0]} ${o[1]} ${o[2]}))`);
+  fp.push(`  (scale (xyz ${s[0]} ${s[1]} ${s[2]}))`);
+  fp.push(`  (rotate (xyz ${r[0]} ${r[1]} ${r[2]})))`);
+}
 
 // NOTE: upstream "Drawings on Edge.Cuts" block intentionally omitted (see header).
 

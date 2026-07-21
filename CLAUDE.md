@@ -117,6 +117,16 @@ Use this protocol after any change to `ergogen/config.yaml`.
   stitching vias (`points.stitch` + `pcbs.limbatus.stitching_vias`), which use a
   solid zone connection (`zone_connect 2`) for a reliable plane tie.
 - MCU target: XIAO BLE nRF52840.
+- 3D models: footprints carry STEP models for KiCad 3D-view visualization only
+  (not fabrication data). Models are committed in `ergogen/3dmodels/` and
+  referenced from `config.yaml` via KiCad's built-in `${KIPRJMOD}` path
+  (`${KIPRJMOD}/../ergogen/3dmodels/<File>.step`), so they resolve with no
+  KiCad "Configure Paths" setup. The ceoloide switch/diode/power-switch
+  footprints have native `*_3dmodel_filename` params; `local/xiao_ble.js` was
+  extended with an `xiao_3dmodel_filename` param to match. The XIAO model is
+  Seeed's official STEP (authored in a non-KiCad Y-up frame); its offset/rotation
+  were tuned and verified visually in KiCad. See `ergogen/3dmodels/README.md`
+  for sources, licenses, and the placement note.
 - Firmware: ZMK, in-tree under `config/` (unibody, non-split). Board target
   `xiao_ble//zmk`; two shields share `limbatus.dtsi` — `limbatus` (34-key,
   shipping) and `limbatus_36` (36-key, retained). Both build in CI
