@@ -108,18 +108,30 @@ units:
   # switch-local frame (these rectangles/circles are placed `where: [key]`, so
   # they inherit each key's splay + mirror automatically):
   #   1. Kailh Choc hotswap socket, soldered to B.Cu just NORTH of the key
-  #      center (matches the diode note: socket is on the opposite layer). Its
-  #      body spans ~x[-6..7], y[-8.2..-1.5] with pin holes at (0,-5.95) and
-  #      (+/-5,-3.75). A single rectangle covers the socket body + pin holes.
+  #      center (matches the diode note: socket is on the opposite layer). The
+  #      socket has two round contact cups over the switch pin holes at
+  #      (0,-5.95) and (5,-3.75); its plastic body + solder tabs span the
+  #      B.SilkS outline ~x[-2..7], y[-8.2..-1.5] (pad centers at x=-3.275 and
+  #      x=8.275). We trace this as TWO overlapping circles (one per cup) that
+  #      union into the real peanut/bowtie silhouette -- far tighter than the
+  #      old bounding rectangle, so the tray floor keeps more material. The
+  #      shape is asymmetric (side cup to +x); it auto-mirrors on the right
+  #      half because it is placed `where: [key]` (verified: a +x local shift
+  #      lands -x on mirrored keys).
   #   2. Switch through-holes on the key centerline (choc v1 defaults, since
   #      choc_v2_support:false): center pole hole (3.4mm) at (0,0) and two
   #      stabilizer boss holes (1.9mm) at x = +/-5.5.
   # underside_relief_clearance pads every edge so the pocket is a clearance
   # fit, not a press fit. Tune here; the case DXF regenerates on `make build`.
   underside_relief_clearance: 0.5
-  hotswap_relief_width: 15    # X span of the socket body (symmetric, generous)
-  hotswap_relief_height: 8    # Y span of the socket body
-  hotswap_relief_shift_y: -4.85  # center of the socket rect, north of key center
+  # Socket cup radius. Effective radius = this + underside_relief_clearance.
+  # 2.8 -> 3.3mm cups: reach both solder-pad centers (+/-3.275 from each cup)
+  # and every B.SilkS corner, while overlapping into a single loop per socket.
+  hotswap_lobe_radius: 2.8
+  hotswap_socket_pin1_x: 0       # inner/center contact cup (middle pin hole)
+  hotswap_socket_pin1_y: -5.95
+  hotswap_socket_pin2_x: 5       # side contact cup (side pin hole)
+  hotswap_socket_pin2_y: -3.75
   switch_center_hole_diameter: 3.4  # choc v1 center pole
   switch_stab_hole_diameter: 1.9    # choc v1 stabilizer bosses
   switch_stab_hole_x: 5.5           # +/- X of the stabilizer bosses
@@ -508,18 +520,23 @@ outlines:
         [case_power_switch_opening_width, case_power_switch_opening_depth]
 
   # --- Bottom-tray underside relief -------------------------------------
-  # Per-switch pocket for the Choc hotswap socket body + pin holes (B.Cu,
-  # north of the key center). One rectangle per key.
+  # Per-switch pocket tracing the Choc hotswap socket silhouette (B.Cu, north
+  # of the key center): two overlapping circles over the contact cups at the
+  # switch pin holes, unioned into one peanut/bowtie loop per key. Tight to the
+  # socket body (vs the earlier bounding rectangle) so the tray floor keeps
+  # more material.
   case_hotswap_clearance:
-    - what: rectangle
+    - what: circle
       where: [key]
       adjust:
-        shift: [0, hotswap_relief_shift_y]
-      size:
-        [
-          hotswap_relief_width + underside_relief_clearance * 2,
-          hotswap_relief_height + underside_relief_clearance * 2,
-        ]
+        shift: [hotswap_socket_pin1_x, hotswap_socket_pin1_y]
+      radius: hotswap_lobe_radius + underside_relief_clearance
+    - what: circle
+      where: [key]
+      adjust:
+        shift: [hotswap_socket_pin2_x, hotswap_socket_pin2_y]
+      radius: hotswap_lobe_radius + underside_relief_clearance
+      operation: add
 
   # Switch through-holes on the key centerline: center pole (Ø3.4) plus the
   # two choc v1 stabilizer bosses (Ø1.9) at x = +/-5.5. These sit at y=0,
