@@ -102,6 +102,28 @@ units:
   case_power_switch_opening_width: 8.5
   case_power_switch_opening_depth: 4
 
+  # --- Bottom-tray underside relief (things that protrude BELOW the PCB) ---
+  # The XIAO is on F.Cu (component face toward the top shell), so the bottom
+  # tray only has to clear per-switch hardware. Two protruding classes, in the
+  # switch-local frame (these rectangles/circles are placed `where: [key]`, so
+  # they inherit each key's splay + mirror automatically):
+  #   1. Kailh Choc hotswap socket, soldered to B.Cu just NORTH of the key
+  #      center (matches the diode note: socket is on the opposite layer). Its
+  #      body spans ~x[-6..7], y[-8.2..-1.5] with pin holes at (0,-5.95) and
+  #      (+/-5,-3.75). A single rectangle covers the socket body + pin holes.
+  #   2. Switch through-holes on the key centerline (choc v1 defaults, since
+  #      choc_v2_support:false): center pole hole (3.4mm) at (0,0) and two
+  #      stabilizer boss holes (1.9mm) at x = +/-5.5.
+  # underside_relief_clearance pads every edge so the pocket is a clearance
+  # fit, not a press fit. Tune here; the case DXF regenerates on `make build`.
+  underside_relief_clearance: 0.5
+  hotswap_relief_width: 15    # X span of the socket body (symmetric, generous)
+  hotswap_relief_height: 8    # Y span of the socket body
+  hotswap_relief_shift_y: -4.85  # center of the socket rect, north of key center
+  switch_center_hole_diameter: 3.4  # choc v1 center pole
+  switch_stab_hole_diameter: 1.9    # choc v1 stabilizer bosses
+  switch_stab_hole_x: 5.5           # +/- X of the stabilizer bosses
+
   # Mounting holes: the case boss passes up through the PCB, so the hole
   # clears the boss (case boss_diameter 6.5mm + tolerance). Holes are kept in
   # the rear/side margins where the wedge case is tall enough to host a boss.
@@ -485,6 +507,48 @@ outlines:
       size:
         [case_power_switch_opening_width, case_power_switch_opening_depth]
 
+  # --- Bottom-tray underside relief -------------------------------------
+  # Per-switch pocket for the Choc hotswap socket body + pin holes (B.Cu,
+  # north of the key center). One rectangle per key.
+  case_hotswap_clearance:
+    - what: rectangle
+      where: [key]
+      adjust:
+        shift: [0, hotswap_relief_shift_y]
+      size:
+        [
+          hotswap_relief_width + underside_relief_clearance * 2,
+          hotswap_relief_height + underside_relief_clearance * 2,
+        ]
+
+  # Switch through-holes on the key centerline: center pole (Ø3.4) plus the
+  # two choc v1 stabilizer bosses (Ø1.9) at x = +/-5.5. These sit at y=0,
+  # just south of the hotswap rectangle, so they are their own shapes.
+  case_switch_holes:
+    - what: circle
+      where: [key]
+      radius: switch_center_hole_diameter / 2 + underside_relief_clearance
+    - what: circle
+      where: [key]
+      adjust:
+        shift: [-switch_stab_hole_x, 0]
+      radius: switch_stab_hole_diameter / 2 + underside_relief_clearance
+      operation: add
+    - what: circle
+      where: [key]
+      adjust:
+        shift: [switch_stab_hole_x, 0]
+      radius: switch_stab_hole_diameter / 2 + underside_relief_clearance
+      operation: add
+
+  # Combined cutout for the bottom tray: hotswap sockets + switch through-holes,
+  # unioned. Import this single DXF onto the tray floor in Onshape and cut. Case
+  # mounting holes are intentionally NOT included (they are bosses, not relief).
+  bottom_tray_cutouts:
+    - name: case_hotswap_clearance
+    - operation: add
+      name: case_switch_holes
+
   _outer_rect:
     - what: polygon
       joints: pointy
@@ -539,6 +603,8 @@ outlines:
       name: _power_switch_debug
     - operation: stack
       name: case_mounting_holes
+    - operation: stack
+      name: bottom_tray_cutouts
 
 pcbs:
   limbatus:
