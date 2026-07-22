@@ -624,6 +624,32 @@ outlines:
       where: mount
       radius: mounting_hole_diameter / 2
 
+  # --- Self-registering ("aligned") variants for CAD import -------------
+  # A voids-only DXF has an asymmetric bounding box (the XIAO + power-switch
+  # cavities weight it to one side), so tools that place a DXF by centering its
+  # bbox (e.g. Onshape "Insert DXF") drop it off-center from the real board.
+  # These variants `stack` (NOT union -- union would swallow the inner voids)
+  # the symmetric board perimeter and the mounting-hole circles onto the voids,
+  # so the file's bbox equals the board and it self-registers. Import one of
+  # these, then in CAD constrain the perimeter rectangle (translation +
+  # orientation) and/or the mounting-hole circles (concentric = exact XY +
+  # rotation lock) to your modeled board; the void loops then sit correctly.
+  # The plain voids-only outlines (switch_plate_voids / bottom_tray_cutouts)
+  # are kept for coordinate-preserving import workflows.
+  switch_plate_voids_aligned:
+    - name: case_perimeter
+    - operation: stack
+      name: case_mounting_holes
+    - operation: stack
+      name: switch_plate_voids
+
+  bottom_tray_cutouts_aligned:
+    - name: case_perimeter
+    - operation: stack
+      name: case_mounting_holes
+    - operation: stack
+      name: bottom_tray_cutouts
+
   debug:
     - name: board
     - operation: stack
