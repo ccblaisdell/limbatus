@@ -141,6 +141,10 @@ units:
   # the rear/side margins where the wedge case is tall enough to host a boss.
   mounting_hole_diameter: 7.0
 
+  # Keywell pocket rounding (top shell). The merged key-cluster silhouette is
+  # filleted by this radius into a smooth dished wall the keycaps travel in.
+  keywell_fillet: 1.5
+
 points:
   mirror: 0
   zones:
@@ -584,6 +588,25 @@ outlines:
       name: case_power_switch_cavity
     - operation: add
       name: case_usb_opening
+
+  # --- Keywells (top shell) ---------------------------------------------
+  # Merged silhouette of each hand's key cluster: one continuous recessed
+  # pocket per hand that the keycaps travel in (mirrors Dimetrodon's
+  # `keywell`). Each key contributes an oversized rectangle -- one key pitch
+  # plus a 1mm rim on every side (2*cpx x 2*cpy, cpx = 1 + kx/2) -- so it
+  # overlaps its neighbors and the whole cluster fuses into a single loop;
+  # the outer boundary is then filleted into a smooth dished wall. The two
+  # hands sit half_separation apart, so this yields two pockets (the outline
+  # auto-mirrors with the keys). NOT the per-key switch openings -- those are
+  # the tight 13.8mm holes in case_switch_plate.
+  _keywells:
+    - what: rectangle
+      where: [key]
+      size: [cpx * 2, cpy * 2]
+  keywells:
+    - what: outline
+      name: _keywells
+      fillet: keywell_fillet
 
   _outer_rect:
     - what: polygon
