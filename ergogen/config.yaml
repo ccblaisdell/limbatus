@@ -569,10 +569,11 @@ outlines:
   # --- Switch-plate voids (top shell) -----------------------------------
   # Every void that passes through / is recessed into the switch plate, unioned
   # into one DXF for a single Onshape import: the per-key switch openings plus
-  # the XIAO, battery, and power-switch component cavities. These reuse the
-  # existing single-purpose outlines above so there is one source of truth for
-  # each shape. NOT included (they are wall/edge breaches or bosses, not plate
-  # voids): case_usb_opening, case_power_switch_opening, case_mounting_holes.
+  # the XIAO, battery, and power-switch component cavities, and the USB-C wall
+  # opening. These reuse the existing single-purpose outlines above so there is
+  # one source of truth for each shape. NOT included (they are wall/edge
+  # breaches or bosses, not plate voids): case_power_switch_opening,
+  # case_mounting_holes.
   switch_plate_voids:
     - name: case_switch_plate
     - operation: add
@@ -581,6 +582,8 @@ outlines:
       name: case_battery_cavity
     - operation: add
       name: case_power_switch_cavity
+    - operation: add
+      name: case_usb_opening
 
   _outer_rect:
     - what: polygon
