@@ -676,6 +676,17 @@ outlines:
     - operation: stack
       name: bottom_tray_cutouts
 
+  # keywells is symmetric in x (self-centers horizontally) but its y-extent is
+  # the key cluster, not the board, so a plain import lands vertically off the
+  # board. Stack the board perimeter + mounting holes so the bbox equals the
+  # board and it self-registers, same as the *_aligned variants above.
+  keywells_aligned:
+    - name: case_perimeter
+    - operation: stack
+      name: case_mounting_holes
+    - operation: stack
+      name: keywells
+
   debug:
     - name: board
     - operation: stack
