@@ -589,6 +589,19 @@ outlines:
     - operation: add
       name: case_usb_opening
 
+  # Board outer perimeter (filleted rectangle from the four corner points).
+  # Defined here, before keywells, so keywells can stack it as a centering
+  # frame for CAD import (a name: reference must resolve to an earlier outline).
+  _outer_rect:
+    - what: polygon
+      joints: pointy
+      fillet: 2
+      points:
+        - ref: rect_top_left
+        - ref: rect_top_right
+        - ref: rect_bottom_right
+        - ref: rect_bottom_left
+
   # --- Keywells (top shell) ---------------------------------------------
   # Merged silhouette of each hand's key cluster: one continuous recessed
   # pocket per hand that the keycaps travel in (mirrors Dimetrodon's
@@ -607,16 +620,12 @@ outlines:
     - what: outline
       name: _keywells
       fillet: keywell_fillet
-
-  _outer_rect:
-    - what: polygon
-      joints: pointy
-      fillet: 2
-      points:
-        - ref: rect_top_left
-        - ref: rect_top_right
-        - ref: rect_bottom_right
-        - ref: rect_bottom_left
+    # Stack the board perimeter (unmodified, not unioned) so the exported
+    # keywells DXF bbox equals the board and it self-centers/registers on
+    # import into a CAD sketch (keywells alone is x-symmetric but its y-extent
+    # is only the key cluster, so it would otherwise land off-board vertically).
+    - name: _outer_rect
+      operation: stack
 
   # Battery rest cutout (PCB only — the case perimeter stays solid so the
   # battery rests on the tray). Centered on the cell; the solder pads sit just
