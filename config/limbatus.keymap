@@ -104,8 +104,22 @@ ZMK_HOLD_TAP(hmr,
           ╰───────╮ 30  31     │ │     32  33 ╭───────╯
                   ╰────────────╯ ╰────────────╯        */
 
-        // No combos defined yet. Add them by hand with the COMBO() helper, e.g.
-        //   COMBO(lctrl, &kp LCTRL, 21 22, 50)
+        // Tab isn't on any layer otherwise, so it lives on two bottom-row
+        // combos (right hand N+M, left hand V+B) restricted to QWERTY so
+        // they don't collide with SYM's `_`/`<` at the same positions.
+        combo_tab_nm {
+            timeout-ms = <50>;
+            bindings = <&kp TAB>;
+            key-positions = <25 26>;
+            layers = <QWERTY_L>;
+        };
+
+        combo_tab_vb {
+            timeout-ms = <50>;
+            bindings = <&kp TAB>;
+            key-positions = <23 24>;
+            layers = <QWERTY_L>;
+        };
     };
 
 	keymap {
