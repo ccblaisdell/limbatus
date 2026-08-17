@@ -103,8 +103,8 @@ layers:
   - QMARK
   - {t: ▽, type: trans}
   - {type: held}
-  - BSPC
   - {t: ▽, type: trans}
+  - BSPC
   fun:
   - F9
   - F10
@@ -140,3 +140,10 @@ layers:
   - {type: held}
   - {type: held}
   - {t: ▽, type: trans}
+combos:
+- p: [25, 26]
+  k: TAB
+  l: [qwerty]
+- p: [23, 24]
+  k: TAB
+  l: [qwerty]
