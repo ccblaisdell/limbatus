@@ -64,13 +64,27 @@ with [`BOM.md`](BOM.md) for the parts list.
 ## 4. XIAO BLE MCU (through-hole)
 
 The board uses a **through-hole** XIAO footprint (`local/xiao_ble`): the 14 main
-pins are plated through-holes on 2.54 mm / 0.1" pitch, so it's soldered with header
-pins — the easier method for hand assembly. We are **direct-soldering** the XIAO
-(not socketing it): lower profile and more rugged.
+pins are plated through-holes on 2.54 mm / 0.1" pitch. We are **direct-soldering**
+the XIAO (not socketing it): lower profile and more rugged. Two mounting styles
+both work with this footprint:
 
-The XIAO ships with two 7-pin header strips in the box — that's all you need.
+- **Header-mounted** — the XIAO's castellations are soldered to a pair of 7-pin
+  header strips first, then the strip's pins drop into the board's through-holes.
+  Easier to keep flat and easier to rework, but leaves the module ~1.5 mm proud
+  of the PCB on the pin shoulders.
+- **Flush-mounted (no headers)** — the XIAO's castellations sit directly against
+  the board's plated through-holes with nothing in between; solder is flowed
+  straight through each hole to bond module pad to board pad. Lowest possible
+  profile, and it turns the BAT+/BAT−/NFC1 connections below into a plain
+  flow-solder job instead of a hand-run jumper — but it's less forgiving to
+  rework, since there's no gap to fall back into if a joint needs redoing. Get
+  the dry-fit orientation right before tacking the first pin.
 
-### Steps
+Pick one approach and use it consistently for the 14 main pins and for the
+BAT+/BAT−/NFC1 pads below. The XIAO ships with two 7-pin header strips in the
+box, needed only for the header-mounted approach.
+
+### Steps (header-mounted)
 
 1. **Solder the headers to the XIAO first.** Insert the two 7-pin strips up through
    the XIAO's castellated edges from the **bottom**, long pins pointing down, so the
@@ -87,39 +101,83 @@ The XIAO ships with two 7-pin header strips in the box — that's all you need.
    pins from the **underside** of the PCB.
 4. **Trim flush.** Cut the pin stubs flush under the board so they don't foul the
    bottom-tray floor.
+5. **BAT+/BAT−/NFC1.** See below — with headers in place there's a ~1.5 mm gap
+   under the module, so these three pads need a short hand-run jumper wire rather
+   than a direct flow-solder joint. Easiest to do **before** final seating, while
+   you can still reach the module's underside directly.
+
+### Steps (flush-mounted, no headers)
+
+1. **Dry-fit first.** Rest the bare XIAO directly on the board pads (no headers),
+   same rotation as above — **USB-C exits the LEFT board edge**. Confirm against
+   the case USB opening before soldering anything; once a joint is tacked, there's
+   no gap left to correct a rotation mistake without desoldering.
+2. **Tack one corner, check, then finish.** Solder a single corner pin from the
+   **underside** of the PCB, confirm the XIAO is flat and square, then solder the
+   remaining 13 main pins the same way — solder flows up through each plated hole
+   and bonds directly to the castellation sitting on top of it.
+3. **BAT+/BAT−/NFC1.** See below — with the module flush against the board, these
+   are just three more plated through-holes to flow solder into, using the same
+   underside technique as the 14 main pins. No jumper wire needed.
 
 ### Orientation & fit
 
 - **USB-C** exits the **left board edge** (the XIAO is rotated 90° in the config).
   Confirm against the case USB opening before soldering.
-- Soldered direct, the XIAO body rides ~1.5 mm above the PCB on the pin shoulders.
-  You _can_ solder the castellations straight into the through-holes (no headers) for
-  the lowest possible profile, but headers are easier to get flat and to rework —
-  keep the headers.
+- Header-mounted, the XIAO body rides ~1.5 mm above the PCB on the pin shoulders.
+  Flush-mounted, it sits directly on the board with no gap — lowest profile, but
+  commit to the orientation before the first joint.
 
-### BAT+/BAT− carry the battery feed — connect them
+### BAT+/BAT−/NFC1 — required connections beyond the 14 main pins
 
-The board delivers battery power **through the XIAO's own BAT+/BAT− pads** so the
-onboard charger/PMIC manages the LiPo (charging over USB-C, battery run otherwise).
-The path is: battery direct-solder pads (step 5) → power switch → **XIAO BAT+**
-(`RAW` net), and battery − → **XIAO BAT−** (`GND`). So these two inner pads **must be
-connected**, not left open.
+Three of the footprint's extra through-holes carry live nets and **must be
+connected** — don't treat them like the SWD/RST/NFC2 pads below.
 
-On the physical XIAO BLE, BAT+/BAT− are on the **module underside**. Solder a short
-jumper from each of the module's BAT pads to the matching board through-hole
-(`BAT_POS`/`BAT_NEG`) — easiest to do **before** final seating, while you can still
-reach the underside. Observe polarity; a reversed BAT connection can damage the cell
-and the XIAO.
+- **BAT+/BAT−** carry the battery feed. The board delivers battery power
+  **through the XIAO's own BAT+/BAT− pads** so the onboard charger/PMIC manages
+  the LiPo (charging over USB-C, battery run otherwise). The path is: battery
+  direct-solder pads (step 5) → power switch → **XIAO BAT+** (`RAW` net), and
+  battery − → **XIAO BAT−** (`GND`). Leaving these open means the board gets no
+  battery power at all.
+- **NFC1** carries the **6th matrix row (`R5`)** — the entire bottom row of the
+  right-hand half, plus a right thumb key. Firmware disables NFC
+  (`CONFIG_NFCT_PINS_AS_GPIOS=y`) specifically so this pad can act as a plain
+  GPIO row line instead. Leaving it open means that whole row goes dead.
+  (`NFC2`, by contrast, is genuinely unused — see below.)
+
+On the physical XIAO BLE, all three pads (`BAT+`, `BAT−`, `NFC1`) are on the
+**module underside**, positioned over the board's `BAT_POS`/`BAT_NEG`/`NFC1`
+through-holes but not part of the 14-pin header array — they need their own
+connection regardless of mounting style:
+
+- **Header-mounted:** solder a short jumper from each of the module's pads to
+  the matching board through-hole. Do this **before** final seating, while you
+  can still reach the module's underside.
+- **Flush-mounted:** flow solder straight into the `BAT_POS`/`BAT_NEG`/`NFC1`
+  through-holes from the underside of the main PCB, same technique as the 14
+  main pins — the module's pad sits directly above each hole and the solder
+  wicks up to bond them.
+
+Two cautions either way:
+
+- **Polarity on BAT+/BAT−** — a reversed connection can damage the cell and the
+  XIAO.
+- **`BAT_POS` and `BAT_NEG` sit only ~1.9 mm apart** — flux well, use fine
+  solder, and do them as two separate deliberate joints, not one sweep. After
+  soldering, probe continuity directly between the two holes — it must read
+  **open**; continuity there means a solder bridge shorting the battery.
+  (`BAT_NEG` *will* show continuity to other GND points — expected, see the
+  continuity check below — but `BAT_POS` should not.)
 
 ### Leave these pads unpopulated
 
-The footprint also exposes through-holes for **SWD, RST, and NFC**. None need to be
-populated:
+The footprint also exposes through-holes for **SWD, RST, and NFC2**. None carry
+a connected net, so none need to be populated:
 
-- **SWD / RST** — debug only; reset and reflashing are handled by the onboard button +
-  UF2 bootloader.
-- **NFC1** — already carried through the main pin array as the 6th matrix row (R5);
-  nothing extra to wire.
+- **SWD / RST** — debug only; reset and reflashing are handled by the onboard
+  button + UF2 bootloader.
+- **NFC2** — not assigned to any net in `ergogen/config.yaml`; no trace expects
+  a connection here.
 
 ## 5. Battery (direct-solder pads)
 
