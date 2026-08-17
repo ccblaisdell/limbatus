@@ -104,8 +104,22 @@ ZMK_HOLD_TAP(hmr,
           ╰───────╮ 30  31     │ │     32  33 ╭───────╯
                   ╰────────────╯ ╰────────────╯        */
 
-        // No combos defined yet. Add them by hand with the COMBO() helper, e.g.
-        //   COMBO(lctrl, &kp LCTRL, 21 22, 50)
+        // Tab isn't on any layer otherwise, so it lives on two bottom-row
+        // combos (right hand N+M, left hand V+B) restricted to QWERTY so
+        // they don't collide with SYM's `_`/`<` at the same positions.
+        combo_tab_nm {
+            timeout-ms = <50>;
+            bindings = <&kp TAB>;
+            key-positions = <25 26>;
+            layers = <QWERTY_L>;
+        };
+
+        combo_tab_vb {
+            timeout-ms = <50>;
+            bindings = <&kp TAB>;
+            key-positions = <23 24>;
+            layers = <QWERTY_L>;
+        };
     };
 
 	keymap {
@@ -137,7 +151,7 @@ ZMK_HOLD_TAP(hmr,
                    &kp EXCL     &kp AT        &kp LBRC      &kp RBRC           &kp PIPE           &kp STAR            &kp EQUAL        &kp GT                &kp BSLH      &kp SLASH
                    &kp HASH     &kp DOLLAR    &kp LPAR      &kp RPAR           &kp GRAVE          &kp PLUS            &kp MINUS        &kp APOS              &kp DQT       &kp COLON
                    &kp PRCNT    &kp CARET     &kp LBKT      &kp RBKT           &kp TILDE          &kp AMPS            &kp UNDER        &kp LT                &kp GT        &kp QMARK
-                                                            &trans             &trans             &kp BSPC            &trans
+                                                            &trans             &trans             &trans              &kp BSPC
 			>;
 		};
 
