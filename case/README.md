@@ -12,7 +12,7 @@ The case will be a rectangular top view with a wedge side profile, split into a 
 ## Review Notes
 - Keep this aligned with repo policy: there is a dedicated power switch footprint, there is no JST battery connector, and reset access is via the onboard XIAO button unless the PCB later proves that inadequate.
 - Ergogen must remain the source of truth for 2D geometry. Case inputs should be derived DXFs, not hand-maintained sketches.
-- The plan needs to support both 34-key and 36-key modes. Any case-driving outlines tied to switch pattern or exterior perimeter need validation in both modes.
+- The plan needs to support the 36-key layout. Any case-driving outlines tied to switch pattern or exterior perimeter need validation.
 - The current plan is viable, but implementation should start with a minimal pipeline that proves geometry export and shell generation before adding STEP conversion and more detailed internal features.
 
 ## Implementation Changes
@@ -101,9 +101,9 @@ The case will be a rectangular top view with a wedge side profile, split into a 
   - both halves are manifold solids
   - no trapped impossible-overhang cavities for normal FDM printing
   - heat-set bosses have sufficient surrounding material and do not break through cavity walls
-- Mode compatibility:
-  - case generation works for both 34-key and 36-key layouts
-  - switch openings and external perimeter remain valid in both modes
+- Layout compatibility:
+  - case generation works for the 36-key layout
+  - switch openings and external perimeter remain valid
 - CAD interoperability:
   - STEP files open in graphical CAD software without missing bodies
   - STL and STEP shapes are visually consistent

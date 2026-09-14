@@ -3,17 +3,12 @@
 A 36-key wireless monoblock ergonomic keyboard derived from Dimetrodon.
 
 ## Current status
-- Ships as a **36-key** layout (`thumb_keys_per_side: 3` in `ergogen/config.yaml`).
+- Ships as a **36-key** layout (3 thumb keys per side).
 - Matrix is organized as a XIAO BLE-compatible logical `6 x 6` scan.
 - `NFC1` is reserved for matrix use and must be configured as GPIO in firmware.
 - The thumb cluster's anchor/shift/splay values match Dimetrodon's thumb
   cluster exactly (same fan shape, ported into limbatus's mirrored monoblock
   frame).
-
-> The config also retains an optional **34-key** mode (`thumb_keys_per_side: 2`,
-> which drops the third thumb key per side) as build infrastructure. The keyboard is
-> designed, documented, and built as a 36-key; the 34-key path is kept working but
-> not advertised.
 
 ## Latest PCB Images
 - Top view: https://ccblaisdell.github.io/limbatus/limbatus-top.png
@@ -33,31 +28,25 @@ For hand-assembly (soldering and case), see [`BUILD.md`](BUILD.md). Parts list i
 ## Firmware
 Runs [ZMK](https://zmk.dev) as a single (non-split) XIAO BLE image. The config,
 keymaps, pin map, and build/flash notes live in [`config/`](config/README.md);
-CI builds the `limbatus_36` (36-key) and `limbatus` (34-key) shields and uploads
-`.uf2` artifacts.
+CI builds the `limbatus` shield and uploads a `.uf2` artifact.
 
-Default 36-key keymap (rendered by [keymap-drawer](https://github.com/caksoylar/keymap-drawer)):
+Default keymap (rendered by [keymap-drawer](https://github.com/caksoylar/keymap-drawer)):
 
-![limbatus_36 keymap](keymap-drawer/limbatus_36.svg)
+![limbatus keymap](keymap-drawer/limbatus.svg)
 
 ## Verify Ergogen Changes
 Run this whenever you change `ergogen/config.yaml`.
 
-1. Confirm current thumb mode value:
-   - `rg -n "thumb_keys_per_side" ergogen/config.yaml`
-2. Build with current mode:
+1. Build:
    - `make build`
-3. Verify generated artifacts exist:
+2. Verify generated artifacts exist:
    - `ls outlines`
    - `ls pcbs`
-4. Check what changed:
+3. Check what changed:
    - `git status --short`
-5. Validate both key-count modes before merging layout changes:
-   - 36-key mode: set `thumb_keys_per_side: 3` and set the reachy `skip` field to `false`, then run `make build`
-   - 34-key mode: set `thumb_keys_per_side: 2` and set the reachy `skip` field to `true`, then run `make build`
-6. In KiCad, open the generated board and confirm:
+4. In KiCad, open the generated board and confirm:
    - no missing footprints
-   - expected key count (34 or 36)
+   - 36 keys present
    - MCU footprint placement still valid
    - no obvious overlap/regression in thumb cluster or center bridge
 

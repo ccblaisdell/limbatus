@@ -1,9 +1,7 @@
 # limbatus — Bill of Materials
 
-36-key (`thumb_keys_per_side: 3`) monoblock wireless build. Quantities below are
-for **one** keyboard. (For the retained 34-key/`thumb_keys_per_side: 2` optional
-build, subtract 2 from every per-key quantity: 34 diodes, 34 hotswap sockets,
-34 switches, 34 keycaps.)
+36-key (3 thumb keys per side) monoblock wireless build. Quantities below are
+for **one** keyboard.
 
 > Generated from `ergogen/config.yaml`. The switches, keycaps, battery, and case
 > hardware are **not** on the PCB netlist, so a KiCad-derived BOM would only list

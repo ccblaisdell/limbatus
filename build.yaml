@@ -8,11 +8,8 @@
 # only option). Plain `xiao_ble` would build the base Zephyr board without ZMK's
 # board glue and CI would reject it as "Missing ZMK Compat".
 #
-# limbatus_36 (36-key, 3 thumbs/side) is the shipping default. limbatus (34-key)
-# is retained infrastructure — built here too so the 34-key path keeps compiling.
+# 36-key (3 thumbs/side) is the only supported layout.
 ---
 include:
-  - board: xiao_ble//zmk
-    shield: limbatus_36
   - board: xiao_ble//zmk
     shield: limbatus

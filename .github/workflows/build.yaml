@@ -104,19 +104,8 @@ jobs:
           path: images
 
   generate:
-    name: Generate (${{ matrix.mode_label }})
+    name: Generate
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - mode_label: 36-key
-            thumb_keys_per_side: 3
-            reachy_skip: false
-          - mode_label: 34-key
-            thumb_keys_per_side: 2
-            reachy_skip: true
-
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -131,11 +120,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Configure Ergogen mode
-        run: |
-          perl -0pi -e 's/thumb_keys_per_side:\s*\d+/thumb_keys_per_side: ${{ matrix.thumb_keys_per_side }}/' ergogen/config.yaml
-          perl -0pi -e 's/\bskip:\s*(true|false)/skip: ${{ matrix.reachy_skip }}/g' ergogen/config.yaml
 
       - name: Install OpenSCAD
         run: sudo apt-get update && sudo apt-get install -y openscad
@@ -156,7 +140,7 @@ jobs:
       - name: Publish output
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.mode_label }}
+          name: build
           path: |
             outlines
             pcbs

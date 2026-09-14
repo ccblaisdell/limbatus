@@ -11,10 +11,6 @@ units:
   cpx: 1 + kx / 2
   cpy: 1 + ky / 2
 
-  # 2 or 3 thumb keys per side. 36-key (3/side) is the shipping default;
-  # 34-key (2/side) is retained as an optional build.
-  thumb_keys_per_side: 3
-
   # Per-column splay applied to the middle/reachy thumb columns (matches
   # Dimetrodon's thumbs zone). Named rather than inlined so both columns (and
   # any future geometry depending on it) stay in sync.
@@ -282,8 +278,6 @@ points:
             column_net: C5
             row_net: R2
             mirror.row_net: R5
-            # 3rd thumb key -- enabled (36-key shipping default).
-            skip: false
       rows:
         cluster:
 
