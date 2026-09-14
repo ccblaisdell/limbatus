@@ -110,12 +110,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - mode_label: 34-key
-            thumb_keys_per_side: 2
-            reachy_skip: true
           - mode_label: 36-key
             thumb_keys_per_side: 3
             reachy_skip: false
+          - mode_label: 34-key
+            thumb_keys_per_side: 2
+            reachy_skip: true
 
     steps:
       - name: Check out the repo

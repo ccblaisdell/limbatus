@@ -1,9 +1,9 @@
 /*
- * limbatus 36-key keymap (optional build).
+ * limbatus 36-key keymap (shipping default).
  *
  * This is the original 36-key layout from ccblaisdell/zmk-config's Dimetrodon
- * `base.keymap` (3 thumbs/side). The shipping 34-key limbatus.keymap is a
- * trimmed version of this. Kept in sync so the 36-key build path stays valid.
+ * `base.keymap` (3 thumbs/side). limbatus.keymap (34-key, retained optional
+ * build) is a trimmed version of this.
  */
 
 #include <behaviors.dtsi>

@@ -1,11 +1,12 @@
 /*
- * limbatus default keymap.
+ * limbatus 34-key keymap (optional build).
  *
  * Ported from ccblaisdell/zmk-config's Dimetrodon `base.keymap` and trimmed
- * from 36 keys (3 thumbs/side) to limbatus' shipping 34-key layout (2
- * thumbs/side). Layer structure, home-row mods and combos are unchanged; only
- * the thumb row differs. The outer thumbs that used to hold LGUI (left) and
- * RGUI/TAB (right) are dropped — GUI is still available as a home-row mod.
+ * from 36 keys (3 thumbs/side) to limbatus' 34-key layout (2 thumbs/side,
+ * retained optional build — limbatus_36.keymap is the shipping default).
+ * Layer structure, home-row mods and combos are unchanged; only the thumb row
+ * differs. The outer thumbs that used to hold LGUI (left) and RGUI/TAB
+ * (right) are dropped — GUI is still available as a home-row mod.
  *
  * Tweak freely: this is a starting point, not a finished layout.
  */

@@ -1,8 +1,9 @@
 /*
- * limbatus — 34-key (advertised / shipping) build.
+ * limbatus — 34-key (optional / retained infrastructure) build.
  *
  * Shares the kscan matrix in limbatus.dtsi; defines the 34-key matrix
- * transform (2 thumbs per side).
+ * transform (2 thumbs per side). The 36-key build (limbatus_36) is the
+ * advertised/shipping default; this path is kept building so it doesn't rot.
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>

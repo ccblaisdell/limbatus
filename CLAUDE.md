@@ -59,8 +59,8 @@ Use this protocol after any change to `ergogen/config.yaml`.
 2. Confirm generated outputs are present in `outlines/` and `pcbs/`.
 3. Check `git status --short` to review all changed generated artifacts.
 4. For geometry or thumb-cluster changes, validate both modes:
-   - 34-key: `thumb_keys_per_side: 2` with both reachy `skip` fields set to `true`, then `make build`
-   - 36-key: `thumb_keys_per_side: 3` with both reachy `skip` fields set to `false`, then `make build`
+   - 36-key: `thumb_keys_per_side: 3` with the reachy `skip` field set to `false`, then `make build`
+   - 34-key: `thumb_keys_per_side: 2` with the reachy `skip` field set to `true`, then `make build`
 5. Perform a KiCad visual check for each mode:
    - key count and footprint presence
    - no footprint overlaps
@@ -71,7 +71,21 @@ Use this protocol after any change to `ergogen/config.yaml`.
 ## Decision Log (Current)
 - Wireless keyboard: yes.
 - Form factor: monoblock.
-- Key count: advertised and built as `34-key` (the shipping default). Config retains `36-key` mode as optional infrastructure — keep both build paths working, but document and market the keyboard as 34-key only.
+- Key count: advertised and built as `36-key` (the shipping default, 3 thumb
+  keys/side). Config retains `34-key` mode as optional infrastructure — keep
+  both build paths working, but document and market the keyboard as 36-key.
+  (Changed 2026-09-14, reversing the earlier 34-key-first decision after a few
+  weeks of daily use.)
+- Thumb cluster geometry: the `left_thumbs` anchor/shift/splay values in
+  `ergogen/config.yaml` are copied 1:1 from Dimetrodon's `thumbs` zone (anchor
+  shift `[4, -22]` off `matrix_pointer_bottom`; tucky un-shifted, middle shift
+  `[2.4, -1.8]` splay `-13`, reachy shift `[5.1, -3.2]` splay `-13`), so the
+  cluster's fan shape/spacing matches Dimetrodon's exactly, carried into
+  limbatus's mirrored monoblock frame via the same `left_matrix_pointer_bottom`
+  anchor chain (which already bakes in `inward_rotation`). Verified via ergogen
+  debug points: adjacent-column spacing comes out to ~20mm center-to-center on
+  both hops (tucky→middle, middle→reachy), comfortably clear of the matrix
+  columns above.
 - Matrix target: logical `6 x 6` matrix on XIAO BLE.
 - Matrix pin allocation: `P0..P5` columns, `P6..P10` and `NFC1` rows.
 - Firmware implication: disable NFC and use `NFC1` as GPIO for the sixth matrix row.
@@ -129,7 +143,7 @@ Use this protocol after any change to `ergogen/config.yaml`.
   for sources, licenses, and the placement note.
 - Firmware: ZMK, in-tree under `config/` (unibody, non-split). Board target
   `xiao_ble//zmk`; two shields share `limbatus.dtsi` — `limbatus` (34-key,
-  shipping) and `limbatus_36` (36-key, retained). Both build in CI
+  retained) and `limbatus_36` (36-key, shipping). Both build in CI
   (`.github/workflows/zmk-build.yml`). Matrix is `zmk,kscan-gpio-matrix`
   (`col2row`): columns C0–C5 on `&xiao_d 0..5`, rows R0–R5 on `&xiao_d 6..10` +
   `&gpio0 9` (NFC1). `CONFIG_NFCT_PINS_AS_GPIOS=y` frees NFC1 for R5. Transforms

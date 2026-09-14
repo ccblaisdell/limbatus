@@ -1,12 +1,12 @@
 /*
- * limbatus — 36-key (optional / retained infrastructure) build.
+ * limbatus — 36-key (advertised / shipping) build.
  *
  * Same board and kscan as the 34-key build (limbatus.dtsi); adds the third
  * thumb per side. The extra thumbs are the "reachy" keys, wired to C5,R2 (left)
  * and C5,R5 (right) — the intersections a 34-key board leaves unpopulated.
  *
- * Per CLAUDE.md, limbatus is marketed as 34-key; this path is kept building so
- * the 36-key option doesn't rot. Uses urob zmk-helpers key-labels/36.h.
+ * Per CLAUDE.md, limbatus is marketed as 36-key. Uses urob zmk-helpers
+ * key-labels/36.h.
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>

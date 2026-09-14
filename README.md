@@ -1,15 +1,18 @@
 # limbatus
 
-A 34-key wireless monoblock ergonomic keyboard derived from Dimetrodon.
+A 36-key wireless monoblock ergonomic keyboard derived from Dimetrodon.
 
 ## Current status
-- Ships as a **34-key** layout (`thumb_keys_per_side: 2` in `ergogen/config.yaml`).
+- Ships as a **36-key** layout (`thumb_keys_per_side: 3` in `ergogen/config.yaml`).
 - Matrix is organized as a XIAO BLE-compatible logical `6 x 6` scan.
 - `NFC1` is reserved for matrix use and must be configured as GPIO in firmware.
+- The thumb cluster's anchor/shift/splay values match Dimetrodon's thumb
+  cluster exactly (same fan shape, ported into limbatus's mirrored monoblock
+  frame).
 
-> The config also retains an optional **36-key** mode (`thumb_keys_per_side: 3`,
-> which adds a third thumb key per side) as build infrastructure. The keyboard is
-> designed, documented, and built as a 34-key; the 36-key path is kept working but
+> The config also retains an optional **34-key** mode (`thumb_keys_per_side: 2`,
+> which drops the third thumb key per side) as build infrastructure. The keyboard is
+> designed, documented, and built as a 36-key; the 34-key path is kept working but
 > not advertised.
 
 ## Latest PCB Images
@@ -30,12 +33,12 @@ For hand-assembly (soldering and case), see [`BUILD.md`](BUILD.md). Parts list i
 ## Firmware
 Runs [ZMK](https://zmk.dev) as a single (non-split) XIAO BLE image. The config,
 keymaps, pin map, and build/flash notes live in [`config/`](config/README.md);
-CI builds the `limbatus` (34-key) and `limbatus_36` (36-key) shields and uploads
+CI builds the `limbatus_36` (36-key) and `limbatus` (34-key) shields and uploads
 `.uf2` artifacts.
 
-Default 34-key keymap (rendered by [keymap-drawer](https://github.com/caksoylar/keymap-drawer)):
+Default 36-key keymap (rendered by [keymap-drawer](https://github.com/caksoylar/keymap-drawer)):
 
-![limbatus keymap](keymap-drawer/limbatus.svg)
+![limbatus_36 keymap](keymap-drawer/limbatus_36.svg)
 
 ## Verify Ergogen Changes
 Run this whenever you change `ergogen/config.yaml`.
@@ -50,8 +53,8 @@ Run this whenever you change `ergogen/config.yaml`.
 4. Check what changed:
    - `git status --short`
 5. Validate both key-count modes before merging layout changes:
-   - 34-key mode: set `thumb_keys_per_side: 2` and set both reachy `skip` fields to `true`, then run `make build`
-   - 36-key mode: set `thumb_keys_per_side: 3` and set both reachy `skip` fields to `false`, then run `make build`
+   - 36-key mode: set `thumb_keys_per_side: 3` and set the reachy `skip` field to `false`, then run `make build`
+   - 34-key mode: set `thumb_keys_per_side: 2` and set the reachy `skip` field to `true`, then run `make build`
 6. In KiCad, open the generated board and confirm:
    - no missing footprints
    - expected key count (34 or 36)

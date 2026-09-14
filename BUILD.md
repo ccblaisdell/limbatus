@@ -1,8 +1,10 @@
 # limbatus — Build Guide
 
-Hand-assembly guide for a **34-key** (`thumb_keys_per_side: 2`) monoblock wireless
+Hand-assembly guide for a **36-key** (`thumb_keys_per_side: 3`) monoblock wireless
 build. This walks through soldering and assembly in the recommended order. Pair it
-with [`BOM.md`](BOM.md) for the parts list.
+with [`BOM.md`](BOM.md) for the parts list. (For the retained 34-key optional
+build, everything below applies the same way with 34 diodes/sockets/switches
+instead of 36, and shield `limbatus` instead of `limbatus_36` in step 7.)
 
 > **Everything here is hand-soldered.** No reflow/PCBA step is assumed. The board
 > mixes a few SMD parts (diodes, hotswap sockets, power switch) with one
@@ -40,14 +42,14 @@ with [`BOM.md`](BOM.md) for the parts list.
 
 ## 1. Diodes (SMD)
 
-> _TODO: expand._ 34× 1N4148W (SOD-123) on the **front** side. Cathode (the bar on
+> _TODO: expand._ 36× 1N4148W (SOD-123) on the **front** side. Cathode (the bar on
 > the package and the silkscreen) faces the **row** net — confirm orientation
 > before soldering; they're directional. Technique: tin one pad, place the diode
 > with tweezers while reheating, then solder the second end.
 
 ## 2. Hotswap sockets (SMD)
 
-> _TODO: expand._ 34× Kailh Choc v1 hotswap sockets. Switches are **not** soldered
+> _TODO: expand._ 36× Kailh Choc v1 hotswap sockets. Switches are **not** soldered
 > — only the sockets are. Tin one pad, seat the socket flat, solder, then do the
 > second pad. Make sure each socket sits flush so switches seat fully.
 
@@ -156,9 +158,9 @@ populated:
 
 > Firmware is **ZMK**, in-tree under [`config/`](config/) (see
 > [`config/README.md`](config/README.md) for the full pin map and build notes).
-> It builds a single unibody image — board `xiao_ble//zmk`, shield `limbatus` —
+> It builds a single unibody image — board `xiao_ble//zmk`, shield `limbatus_36` —
 > via GitHub Actions ([`.github/workflows/zmk-build.yml`](.github/workflows/zmk-build.yml)),
-> which uploads a `firmware` artifact containing `limbatus.uf2`.
+> which uploads a `firmware` artifact containing `limbatus_36.uf2`.
 >
 > Flash via the UF2 bootloader (double-tap reset → drag-and-drop the `.uf2` onto
 > the mass-storage volume). The reset button is reached through the case tab.
