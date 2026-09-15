@@ -959,8 +959,12 @@ pcbs:
 
       # GND copper pours (front + back). KiCad clips the fill to the board edge
       # (and the battery cutout), so the rectangle just needs to over-cover the
-      # board bbox (KiCad coords ~x +/-124.8, y -88.4..23.8; padded ~2mm). The
-      # pour removes GND from the autorouter's job entirely: the Specctra DSN
+      # board bbox (KiCad coords ~x +/-124.8, y -88.4..39.3; padded ~2mm --
+      # the y-max grew from ~23.8 when the thumb cluster moved to match
+      # Dimetrodon's deeper/more-splayed reachy key, which pushed the board's
+      # bottom edge (rect_bottom_left/_right) further out. Re-measure this pour
+      # from the generated Edge.Cuts after any further thumb-geometry change).
+      # The pour removes GND from the autorouter's job entirely: the Specctra DSN
       # export represents these as planes, so freerouting connects every GND
       # pad (battery -, XIAO, every switch/diode) to the plane instead of
       # routing individual GND traces. Anchored at board_origin (0,0) so the
@@ -998,7 +1002,7 @@ pcbs:
           connect_pads: 'yes'
           remove_islands: 'always'
           points:
-            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]
+            [[-127, -90.5], [127, -90.5], [127, 42], [-127, 42]]
 
       gnd_pour_back:
         what: ceoloide/utility_filled_zone
@@ -1010,4 +1014,4 @@ pcbs:
           connect_pads: 'yes'
           remove_islands: 'always'
           points:
-            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]
+            [[-127, -90.5], [127, -90.5], [127, 42], [-127, 42]]
