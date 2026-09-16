@@ -74,13 +74,13 @@ units:
   # ~0.675mm pad-to-edge.
   power_switch_west_clearance: 1.0
 
-  # Battery: 60 x 20 x 6mm LiPo cell (W x L x thickness), e.g. a 602060 pouch
+  # Battery: 66 x 20 x 6mm LiPo cell (W x L x thickness), e.g. a 662060 pouch
   # (~600-700mAh). Sits in the top-center pocket with generous room for a
   # plate-level case wall between the cell and the neighbouring top-row switches.
   # The tight axis (20mm, battery_length) stays well under the ~23mm pocket
-  # limit set by the pinky/ring top keys; the 60mm axis has slack (pocket fits
+  # limit set by the pinky/ring top keys; the 66mm axis has slack (pocket fits
   # up to ~82mm wide). Set these to the actual cell's dimensions before ordering.
-  battery_width: 60
+  battery_width: 66
   battery_length: 20
   # Thickness grows into case depth, not key clearance (the cell sits under a
   # solid lid, clear of the keys). When the battery compartment is actually
@@ -854,7 +854,7 @@ pcbs:
           height: 1.2
           width: 1.2
           # Matches battery_width x battery_length x battery_thickness above.
-          text: "60 x 20 x 6mm"
+          text: "66 x 20 x 6mm"
 
       mounting_holes:
         what: ceoloide/mounting_hole_npth
