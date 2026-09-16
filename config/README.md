@@ -2,33 +2,30 @@
 
 ZMK config for **limbatus**, a monoblock (unibody, non-split) wireless keyboard
 built on a single Seeed **XIAO BLE nRF52840** driving a logical **6×6 diode
-matrix**. This is the shipping **34-key** layout.
+matrix**. This is the **36-key** layout (3 thumb keys per side).
 
 Because limbatus is unibody, each build is one firmware image (one
 `board + shield` pair) — not the `_left` / `_right` split pair you'd see on a
-Dimetrodon-style board. Two shields share the same board and matrix:
-`limbatus` (34-key, shipping default) and `limbatus_36` (36-key, retained).
+Dimetrodon-style board. There is a single shield, `limbatus`.
 
 ## Layout
 
 ```
-build.yaml                                   GitHub Actions build matrix (both shields)
+build.yaml                                   GitHub Actions build matrix
 config/
   west.yml                                   ZMK + urob/zmk-helpers, both pinned
-  limbatus.keymap                            34-key keymap (QWERTY / NAV / SYM / FUN)
-  limbatus_36.keymap                         36-key keymap (adds the 3rd thumb/side)
+  limbatus.keymap                            keymap (QWERTY / NAV / SYM / FUN)
   limbatus.conf                              user Kconfig (battery, sleep, logging)
   boards/shields/limbatus/
-    limbatus.dtsi                            shared kscan matrix (both shields)
-    limbatus.overlay                         34-key transform + chosen
-    limbatus_36.overlay                      36-key transform + chosen
-    limbatus.conf / limbatus_36.conf         shield requirement (NFC pins as GPIO)
-    limbatus.yml / limbatus_36.yml           shield metadata
-    Kconfig.shield / Kconfig.defconfig       shield selection + names
+    limbatus.dtsi                            kscan matrix
+    limbatus.overlay                         matrix transform + chosen
+    limbatus.conf                            shield requirement (NFC pins as GPIO)
+    limbatus.yml                             shield metadata
+    Kconfig.shield / Kconfig.defconfig       shield selection + name
 keymap_drawer.config.yaml                    keymap-drawer styling
 keymap-drawer/
-  limbatus.json / limbatus_36.json           physical layouts for the drawer (source)
-  *.svg                                       generated keymap images (committed by CI)
+  limbatus.json                              physical layout for the drawer (source)
+  limbatus.svg                               generated keymap image (committed by CI)
 .github/workflows/zmk-build.yml              firmware CI (pinned reusable workflow)
 .github/workflows/draw-keymaps.yml           keymap image CI (keymap-drawer)
 ```
@@ -65,18 +62,17 @@ NFC and use NFC1 as GPIO for the sixth matrix row.")
 
 ## Building
 
-CI (`.github/workflows/zmk-build.yml`) builds `xiao_ble//zmk` with both the
-`limbatus` and `limbatus_36` shields on every push that touches `config/**` or
-`build.yaml`, and uploads a `firmware` artifact containing `limbatus.uf2` /
-`limbatus_36.uf2`. Flash the one you built by double-tapping reset (via the case
-tab) to enter the UF2 bootloader and dropping the `.uf2` onto the mass-storage
-volume.
+CI (`.github/workflows/zmk-build.yml`) builds `xiao_ble//zmk` with the
+`limbatus` shield on every push that touches `config/**` or `build.yaml`, and
+uploads a `firmware` artifact containing `limbatus.uf2`. Flash it by
+double-tapping reset (via the case tab) to enter the UF2 bootloader and
+dropping the `.uf2` onto the mass-storage volume.
 
 The board target is `xiao_ble//zmk` — the `//zmk` selects ZMK's board variant
 (the SoC is omitted since nRF52840 is the only one). Plain `xiao_ble` builds the
 bare Zephyr board and CI rejects it as "Missing ZMK Compat".
 
-Local build (34-key; use `-DSHIELD=limbatus_36` for the 36-key build):
+Local build:
 
 ```sh
 west build -s zmk/app -b 'xiao_ble//zmk' -- -DSHIELD=limbatus -DZMK_CONFIG=$(pwd)/config
@@ -84,19 +80,15 @@ west build -s zmk/app -b 'xiao_ble//zmk' -- -DSHIELD=limbatus -DZMK_CONFIG=$(pwd
 
 ## Keymap images
 
-`.github/workflows/draw-keymaps.yml` renders each keymap with
+`.github/workflows/draw-keymaps.yml` renders the keymap with
 [keymap-drawer](https://github.com/caksoylar/keymap-drawer) on every keymap
-change and commits the SVGs into `keymap-drawer/`. limbatus is an unknown board
-to keymap-drawer, so we ship the physical layout as QMK-style `info.json` files
-(`keymap-drawer/limbatus.json`, `limbatus_36.json`) — a split 3×5 with 2 (or 3)
-thumbs per side — which the workflow auto-detects via `json_path`.
+change and commits the SVG into `keymap-drawer/`. limbatus is an unknown board
+to keymap-drawer, so we ship the physical layout as a QMK-style `info.json`
+file (`keymap-drawer/limbatus.json`) — a split 3×5 with 3 thumbs per side —
+which the workflow auto-detects via `json_path`.
 
-<!-- These render once the draw-keymaps workflow has run and committed the SVGs. -->
-### 34-key (`limbatus`)
+<!-- This renders once the draw-keymaps workflow has run and committed the SVG. -->
 ![limbatus keymap](../keymap-drawer/limbatus.svg)
-
-### 36-key (`limbatus_36`)
-![limbatus_36 keymap](../keymap-drawer/limbatus_36.svg)
 
 ## Versions
 
@@ -106,19 +98,12 @@ commit. Bump them together. ZMK is currently tracking a `main` commit (there is
 no release tag yet that ships the `xiao_ble` board id used here); if CI breaks
 after a helper bump, re-pin to a known-good pair.
 
-## 34-key vs 36-key
+## Thumb transform
 
-Both modes share `limbatus.dtsi` (the 6×6 kscan is identical); only the
-matrix-transform and keymap differ. The 36-key build adds the third "reachy"
-thumb per side at the otherwise-unused intersections **C5,R2** (left) and
-**C5,R5** (right), so a 34-key board simply never scans them. Transform thumb
-rows (verified against generated PCB geometry, outer→inner):
+The third "reachy" thumb per side sits at the matrix intersections **C5,R2**
+(left) and **C5,R5** (right). Transform thumb rows (verified against
+generated PCB geometry, outer→inner):
 
-| | left thumbs | right thumbs |
-| --- | --- | --- |
-| 34-key | tucky `RC(0,5)`, middle `RC(1,5)` | middle `RC(4,5)`, tucky `RC(3,5)` |
-| 36-key | tucky `RC(0,5)`, middle `RC(1,5)`, reachy `RC(2,5)` | reachy `RC(5,5)`, middle `RC(4,5)`, tucky `RC(3,5)` |
-
-The 34-key `limbatus` is the advertised/shipping default; `limbatus_36` is kept
-building so the option doesn't rot (mirrors the ergogen `thumb_keys_per_side`
-toggle). Match the firmware you flash to the number of thumb switches you built.
+| left thumbs | right thumbs |
+| --- | --- |
+| tucky `RC(0,5)`, middle `RC(1,5)`, reachy `RC(2,5)` | reachy `RC(5,5)`, middle `RC(4,5)`, tucky `RC(3,5)` |

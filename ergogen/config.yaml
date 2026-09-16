@@ -11,13 +11,25 @@ units:
   cpx: 1 + kx / 2
   cpy: 1 + ky / 2
 
-  # 2 or 3 thumb keys per side.
-  thumb_keys_per_side: 2
+  # Per-column splay applied to the middle/reachy thumb columns (matches
+  # Dimetrodon's thumbs zone). Named rather than inlined so both columns (and
+  # any future geometry depending on it) stay in sync.
+  thumb_column_splay: -13
 
   # Negative values rotate each half inward (mirrored on the right).
   inward_rotation: -12
 
   total_matrix_splay: 6
+
+  # Half-extent (world Y, below center) of the reachy thumb key's rotated
+  # cpx x cpy keywell square (see `_keywells`) -- the deepest/most-splayed
+  # thumb, so it sets the board's bottom edge (`rect_bottom_left`/`_right`).
+  # reachy's absolute rotation is `inward_rotation - total_matrix_splay +
+  # 2 * thumb_column_splay` = -44deg with the values above, so its rotated
+  # bounding half-extent is `cpx*|sin(44deg)| + cpy*|cos(44deg)|`
+  # = 10*(0.695+0.719) ~= 14.1mm; rounded up for a little extra safety.
+  thumb_reachy_bottom_clearance: 16
+
   half_separation: 105
 
   board_padding_top: 10
@@ -62,13 +74,13 @@ units:
   # ~0.675mm pad-to-edge.
   power_switch_west_clearance: 1.0
 
-  # Battery: 60 x 20 x 6mm LiPo cell (W x L x thickness), e.g. a 602060 pouch
+  # Battery: 66 x 20 x 6mm LiPo cell (W x L x thickness), e.g. a 662060 pouch
   # (~600-700mAh). Sits in the top-center pocket with generous room for a
   # plate-level case wall between the cell and the neighbouring top-row switches.
   # The tight axis (20mm, battery_length) stays well under the ~23mm pocket
-  # limit set by the pinky/ring top keys; the 60mm axis has slack (pocket fits
+  # limit set by the pinky/ring top keys; the 66mm axis has slack (pocket fits
   # up to ~82mm wide). Set these to the actual cell's dimensions before ordering.
-  battery_width: 60
+  battery_width: 66
   battery_length: 20
   # Thickness grows into case depth, not key clearance (the cell sits under a
   # solid lid, clear of the keys). When the battery compartment is actually
@@ -234,37 +246,38 @@ points:
     left_thumbs:
       anchor:
         ref: left_matrix_pointer_bottom
-        # Offset the cluster ~half a key toward board center so the thumbs are
-        # not column-aligned with the matrix keys directly above them.
-        shift: [kx / 2, -ky]
+        # Matches Dimetrodon's thumbs-zone anchor exactly (same offset off
+        # matrix_pointer_bottom), so the cluster aligns perfectly with
+        # Dimetrodon's thumb-cluster placement, carried into limbatus's
+        # mirrored monoblock frame via this same anchor chain.
+        shift: [4, -22]
       key:
         padding: ky
         spread: kx
         tags: [key, left, thumb]
       columns:
+        # Column shift/splay values below are copied 1:1 from Dimetrodon's
+        # thumbs zone (tucky/middle/reachy) so the fan shape -- not just the
+        # key pitch -- matches Dimetrodon's thumb cluster.
         tucky:
           key:
-            # Drop the outer thumb key down onto the same plane as the inner
-            # (middle) thumb key so it no longer rides up into the pointer/inner
-            # matrix columns. Lands ~1u to middle's side, no overlap.
-            shift: [0, -2]
             column_net: C5
             row_net: R0
             mirror.row_net: R3
         middle:
           key:
-            shift: [0, -2]
+            shift: [2.4, -1.8]
+            splay: thumb_column_splay
             column_net: C5
             row_net: R1
             mirror.row_net: R4
         reachy:
           key:
-            shift: [0, -4]
+            shift: [5.1, -3.2]
+            splay: thumb_column_splay
             column_net: C5
             row_net: R2
             mirror.row_net: R5
-            # Optional 3rd thumb key.
-            skip: true
       rows:
         cluster:
 
@@ -293,14 +306,20 @@ points:
 
     rect_bottom_left:
       mirror: {}
+      # x comes from rect_top_left (unchanged); y comes from the reachy thumb
+      # (the lowest, most-splayed key) minus its rotated-footprint clearance.
+      # (Previously this intersected two rotated lines through rect_top_left
+      # and thumbs_reachy_cluster -- a construction that assumed an un-splayed
+      # thumb row. Once reachy picked up real splay (to match Dimetrodon's
+      # thumb cluster), that intersection's angle became reachy-rotation
+      # dependent and the corner landed *above* the thumbs entirely, clipping
+      # the matrix keys next to them. This `affect`-based form only needs
+      # reachy's absolute Y, so it isn't sensitive to its local rotation.)
       anchor:
-        aggregate:
-          method: intersect
-          parts:
-            - ref: rect_top_left
-            - ref: left_thumbs_reachy_cluster
-              shift: [6ky, 0]
-              rotate: 90 - inward_rotation
+        - ref: rect_top_left
+        - ref: left_thumbs_reachy_cluster
+          affect: y
+        - shift: [0, -(thumb_reachy_bottom_clearance + board_padding_bottom)]
       key:
         tags: [bounds]
 
@@ -835,7 +854,7 @@ pcbs:
           height: 1.2
           width: 1.2
           # Matches battery_width x battery_length x battery_thickness above.
-          text: "60 x 20 x 6mm"
+          text: "66 x 20 x 6mm"
 
       mounting_holes:
         what: ceoloide/mounting_hole_npth
@@ -940,8 +959,12 @@ pcbs:
 
       # GND copper pours (front + back). KiCad clips the fill to the board edge
       # (and the battery cutout), so the rectangle just needs to over-cover the
-      # board bbox (KiCad coords ~x +/-124.8, y -88.4..23.8; padded ~2mm). The
-      # pour removes GND from the autorouter's job entirely: the Specctra DSN
+      # board bbox (KiCad coords ~x +/-124.8, y -88.4..39.3; padded ~2mm --
+      # the y-max grew from ~23.8 when the thumb cluster moved to match
+      # Dimetrodon's deeper/more-splayed reachy key, which pushed the board's
+      # bottom edge (rect_bottom_left/_right) further out. Re-measure this pour
+      # from the generated Edge.Cuts after any further thumb-geometry change).
+      # The pour removes GND from the autorouter's job entirely: the Specctra DSN
       # export represents these as planes, so freerouting connects every GND
       # pad (battery -, XIAO, every switch/diode) to the plane instead of
       # routing individual GND traces. Anchored at board_origin (0,0) so the
@@ -979,7 +1002,7 @@ pcbs:
           connect_pads: 'yes'
           remove_islands: 'always'
           points:
-            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]
+            [[-127, -90.5], [127, -90.5], [127, 42], [-127, 42]]
 
       gnd_pour_back:
         what: ceoloide/utility_filled_zone
@@ -991,4 +1014,4 @@ pcbs:
           connect_pads: 'yes'
           remove_islands: 'always'
           points:
-            [[-127, -90.5], [127, -90.5], [127, 26], [-127, 26]]
+            [[-127, -90.5], [127, -90.5], [127, 42], [-127, 42]]

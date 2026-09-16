@@ -10,10 +10,7 @@
 
 ## Core Design Constraints
 - Keep Dimetrodon-like columnar stagger and splay.
-- Thumb cluster must support either:
-  - `36-key` mode: 3 thumb keys per side, or
-  - `34-key` mode: 2 thumb keys per side.
-- Prefer parameterized Ergogen config so 34 vs 36 can be toggled with one variable.
+- Thumb cluster: 3 keys per side (36-key), matching Dimetrodon's thumb cluster.
 
 ## Power and Battery Requirements
 - Wireless-first design assumptions:
@@ -58,20 +55,31 @@ Use this protocol after any change to `ergogen/config.yaml`.
 1. Run `make build` and ensure generation succeeds.
 2. Confirm generated outputs are present in `outlines/` and `pcbs/`.
 3. Check `git status --short` to review all changed generated artifacts.
-4. For geometry or thumb-cluster changes, validate both modes:
-   - 34-key: `thumb_keys_per_side: 2` with both reachy `skip` fields set to `true`, then `make build`
-   - 36-key: `thumb_keys_per_side: 3` with both reachy `skip` fields set to `false`, then `make build`
-5. Perform a KiCad visual check for each mode:
-   - key count and footprint presence
+4. For geometry or thumb-cluster changes, perform a KiCad visual check:
+   - key count and footprint presence (36 keys)
    - no footprint overlaps
    - acceptable MCU/reset placement
    - monoblock bridge outline continuity
-6. If either mode fails generation or visual checks, do not merge.
+5. If generation or the visual check fails, do not merge.
 
 ## Decision Log (Current)
 - Wireless keyboard: yes.
 - Form factor: monoblock.
-- Key count: advertised and built as `34-key` (the shipping default). Config retains `36-key` mode as optional infrastructure — keep both build paths working, but document and market the keyboard as 34-key only.
+- Key count: `36-key` (3 thumb keys per side), the only supported layout.
+  (Changed 2026-09-14, reversing the earlier 34-key-first decision after a few
+  weeks of daily use; the 34-key variant was fully removed on 2026-09-14 rather
+  than kept as a retained/optional build — there is exactly one shield, one
+  keymap, one PCB footprint set.)
+- Thumb cluster geometry: the `left_thumbs` anchor/shift/splay values in
+  `ergogen/config.yaml` are copied 1:1 from Dimetrodon's `thumbs` zone (anchor
+  shift `[4, -22]` off `matrix_pointer_bottom`; tucky un-shifted, middle shift
+  `[2.4, -1.8]` splay `-13`, reachy shift `[5.1, -3.2]` splay `-13`), so the
+  cluster's fan shape/spacing matches Dimetrodon's exactly, carried into
+  limbatus's mirrored monoblock frame via the same `left_matrix_pointer_bottom`
+  anchor chain (which already bakes in `inward_rotation`). Verified via ergogen
+  debug points: adjacent-column spacing comes out to ~20mm center-to-center on
+  both hops (tucky→middle, middle→reachy), comfortably clear of the matrix
+  columns above.
 - Matrix target: logical `6 x 6` matrix on XIAO BLE.
 - Matrix pin allocation: `P0..P5` columns, `P6..P10` and `NFC1` rows.
 - Firmware implication: disable NFC and use `NFC1` as GPIO for the sixth matrix row.
@@ -128,19 +136,17 @@ Use this protocol after any change to `ergogen/config.yaml`.
   were tuned and verified visually in KiCad. See `ergogen/3dmodels/README.md`
   for sources, licenses, and the placement note.
 - Firmware: ZMK, in-tree under `config/` (unibody, non-split). Board target
-  `xiao_ble//zmk`; two shields share `limbatus.dtsi` — `limbatus` (34-key,
-  shipping) and `limbatus_36` (36-key, retained). Both build in CI
-  (`.github/workflows/zmk-build.yml`). Matrix is `zmk,kscan-gpio-matrix`
-  (`col2row`): columns C0–C5 on `&xiao_d 0..5`, rows R0–R5 on `&xiao_d 6..10` +
-  `&gpio0 9` (NFC1). `CONFIG_NFCT_PINS_AS_GPIOS=y` frees NFC1 for R5. Transforms
-  and keymaps follow urob zmk-helpers `34.h` / `36.h` labels (ported from
-  `ccblaisdell/zmk-config`); the two 36-key reachy thumbs sit at C5,R2 (left) and
-  C5,R5 (right). Keymap SVGs are rendered by keymap-drawer
+  `xiao_ble//zmk`; a single shield `limbatus` (`limbatus.dtsi` +
+  `limbatus.overlay`) builds in CI (`.github/workflows/zmk-build.yml`). Matrix
+  is `zmk,kscan-gpio-matrix` (`col2row`): columns C0–C5 on `&xiao_d 0..5`,
+  rows R0–R5 on `&xiao_d 6..10` + `&gpio0 9` (NFC1). `CONFIG_NFCT_PINS_AS_GPIOS=y`
+  frees NFC1 for R5. Transforms and keymaps follow urob zmk-helpers `36.h`
+  labels (ported from `ccblaisdell/zmk-config`); the reachy thumbs sit at
+  C5,R2 (left) and C5,R5 (right). Keymap SVGs are rendered by keymap-drawer
   (`.github/workflows/draw-keymaps.yml`) into `keymap-drawer/`. ZMK +
   zmk-helpers pinned in `config/west.yml`; keep the reusable-workflow ref in
   `.github/workflows/zmk-build.yml` in sync with the ZMK SHA.
 
 ## Agent Expectations
 - Call out tradeoffs when changing thumb count, geometry, matrix dimensions, or MCU.
-- Validate both 34-key and 36-key config modes when supported.
 - Surface firmware and power implications early for BLE nRF52840.

@@ -31,10 +31,12 @@ layers:
   - COMMA
   - DOT
   - SLASH
+  - LGUI
   - '&smart_shft'
   - {t: ESC, h: sym}
   - {t: ENTER, h: nav}
   - SPACE
+  - {t: TAB, h: RGUI}
   nav:
   - '1'
   - '2'
@@ -68,7 +70,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   sym:
   - EXCL
@@ -102,9 +106,11 @@ layers:
   - GT
   - QMARK
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
   - BSPC
+  - {t: ▽, type: trans}
   fun:
   - F9
   - F10
@@ -137,13 +143,8 @@ layers:
   - Alt+BSPC
   - Gui+BSPC
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {type: held}
   - {type: held}
   - {t: ▽, type: trans}
-combos:
-- p: [25, 26]
-  k: TAB
-  l: [qwerty]
-- p: [23, 24]
-  k: TAB
-  l: [qwerty]
+  - {t: ▽, type: trans}

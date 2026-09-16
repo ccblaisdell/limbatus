@@ -11,16 +11,15 @@
  * side), i.e. diode-direction = "col2row": columns are strobed outputs, rows
  * are sampled inputs.
  *
- * This matrix is identical for the 34-key and 36-key builds; only the
- * matrix-transform (in each shield's .overlay) differs. The two extra 36-key
- * thumbs live at otherwise-unused matrix intersections (C5,R2 and C5,R5), so a
- * 34-key board simply never scans them.
+ * The matrix-transform (in limbatus.overlay) maps this onto the physical
+ * layout, including the "reachy" thumb per side at C5,R2 (left) and C5,R5
+ * (right).
  *
  * Pin/net mapping is the single source of truth in ergogen/config.yaml
  * (pcbs.limbatus.footprints.xiao_ble) — keep this file in sync with it.
  *
- * NOTE: R5 is on NFC1 (nRF P0.09), an NFC antenna pin by default. Each shield's
- * <shield>.conf sets CONFIG_NFCT_PINS_AS_GPIOS=y so it (and P0.10) act as
+ * NOTE: R5 is on NFC1 (nRF P0.09), an NFC antenna pin by default.
+ * limbatus.conf sets CONFIG_NFCT_PINS_AS_GPIOS=y so it (and P0.10) act as
  * ordinary GPIO. Without that, R5 will not scan.
  */
 

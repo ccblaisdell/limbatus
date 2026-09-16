@@ -1,6 +1,6 @@
 # limbatus — Bill of Materials
 
-34-key (`thumb_keys_per_side: 2`) monoblock wireless build. Quantities below are
+36-key (3 thumb keys per side) monoblock wireless build. Quantities below are
 for **one** keyboard.
 
 > Generated from `ergogen/config.yaml`. The switches, keycaps, battery, and case
@@ -13,17 +13,17 @@ for **one** keyboard.
 | Ref | Qty | Component | Package / footprint | Notes |
 |-----|-----|-----------|---------------------|-------|
 | MCU1 | 1 | Seeed Studio XIAO BLE nRF52840 | through-hole module (`local/xiao_ble`) | Wireless MCU. NFC must be disabled in firmware so `NFC1` works as the R5 row GPIO. Battery power enters via the XIAO's **BAT+/BAT−** pads (`BAT_POS`→`RAW`, `BAT_NEG`→`GND`) so the onboard charger manages the cell — these pads must be connected (see BUILD.md). |
-| D1–D34 | 34 | 1N4148W switch diode | SOD-123, **SMD**, front side (`ceoloide/diode_tht_sod123`) | One per key. Cathode toward the row net. |
-| — (per switch) | 34 | Kailh Choc hotswap socket | Choc v1 hotswap, SMD (`ceoloide/switch_choc_v1_v2`) | Soldered to the PCB; switches drop in. |
+| D1–D36 | 36 | 1N4148W switch diode | SOD-123, **SMD**, front side (`ceoloide/diode_tht_sod123`) | One per key. Cathode toward the row net. |
+| — (per switch) | 36 | Kailh Choc hotswap socket | Choc v1 hotswap, SMD (`ceoloide/switch_choc_v1_v2`) | Soldered to the PCB; switches drop in. |
 | PWR1 | 1 | Alps SSSS811101 slide switch | SMD side-operated (`ceoloide/power_switch_smd_side`) | On/off, in series in the battery + line (`Braw`→`RAW`). At the **west board edge, just south of the USB port** (actuator faces west, breaching the left case wall under the USB opening). Shorter than the hotswap sockets, mounted on the same (front) side. (e.g. Typeractive / LCSC) |
-| BAT1 | 1 | LiPo cell, direct-solder | 2 solder pads (`local/battery_pads_solder`) | ~60 × 20 × 6 mm cell, e.g. a 602060 pouch (~600–700 mAh); footprint must stay ≤ ~82 × 23 mm (width capped ~82 mm by the pinky-top keys). **No JST connector** — leads solder directly to BAT pads (`Braw` = +, `GND` = −). **No JST connector** — leads solder directly to BAT pads (`Braw` = +, `GND` = −). The cell drops into a **PCB pocket** (full-footprint cutout) and rests on the bottom-tray floor, sitting ~1 board thickness lower; pads are on solid copper just west of the pocket (toward the XIAO/switch corner). |
+| BAT1 | 1 | LiPo cell, direct-solder | 2 solder pads (`local/battery_pads_solder`) | ~66 × 20 × 6 mm cell, e.g. a 662060 pouch (~600–700 mAh); footprint must stay ≤ ~82 × 23 mm (width capped ~82 mm by the pinky-top keys). **No JST connector** — leads solder directly to BAT pads (`Braw` = +, `GND` = −). **No JST connector** — leads solder directly to BAT pads (`Braw` = +, `GND` = −). The cell drops into a **PCB pocket** (full-footprint cutout) and rests on the bottom-tray floor, sitting ~1 board thickness lower; pads are on solid copper just west of the pocket (toward the XIAO/switch corner). |
 
 ## Switches & keycaps (hand-fitted, not on netlist)
 
 | Qty | Component | Notes |
 |-----|-----------|-------|
-| 34 | Kailh Choc v1 switches | Drop into the hotswap sockets. |
-| 34 | Choc keycaps (1u) | Spacing is 18 × 17 mm. |
+| 36 | Kailh Choc v1 switches | Drop into the hotswap sockets. |
+| 36 | Choc keycaps (1u) | Spacing is 18 × 17 mm. |
 
 ## Case hardware (mechanical)
 
@@ -35,7 +35,7 @@ for **one** keyboard.
 
 ## Notes
 
-- **Hotswap:** switches are not soldered — only the 34 Choc hotswap sockets are.
+- **Hotswap:** switches are not soldered — only the 36 Choc hotswap sockets are.
 - **PCBA option:** if having JLCPCB assemble the SMD parts (sockets, diodes,
   power switch), generate a position/CPL file from KiBot — not currently emitted.
 - **Diodes are SMD** (SOD-123) on the **front**; confirm orientation before reflow/hand-soldering.

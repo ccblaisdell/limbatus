@@ -1,8 +1,8 @@
 # limbatus — Build Guide
 
-Hand-assembly guide for a **34-key** (`thumb_keys_per_side: 2`) monoblock wireless
-build. This walks through soldering and assembly in the recommended order. Pair it
-with [`BOM.md`](BOM.md) for the parts list.
+Hand-assembly guide for a **36-key** monoblock wireless build. This walks
+through soldering and assembly in the recommended order. Pair it with
+[`BOM.md`](BOM.md) for the parts list.
 
 > **Everything here is hand-soldered.** No reflow/PCBA step is assumed. The board
 > mixes a few SMD parts (diodes, hotswap sockets, power switch) with one
@@ -40,14 +40,14 @@ with [`BOM.md`](BOM.md) for the parts list.
 
 ## 1. Diodes (SMD)
 
-> _TODO: expand._ 34× 1N4148W (SOD-123) on the **front** side. Cathode (the bar on
+> _TODO: expand._ 36× 1N4148W (SOD-123) on the **front** side. Cathode (the bar on
 > the package and the silkscreen) faces the **row** net — confirm orientation
 > before soldering; they're directional. Technique: tin one pad, place the diode
 > with tweezers while reheating, then solder the second end.
 
 ## 2. Hotswap sockets (SMD)
 
-> _TODO: expand._ 34× Kailh Choc v1 hotswap sockets. Switches are **not** soldered
+> _TODO: expand._ 36× Kailh Choc v1 hotswap sockets. Switches are **not** soldered
 > — only the sockets are. Tin one pad, seat the socket flat, solder, then do the
 > second pad. Make sure each socket sits flush so switches seat fully.
 
